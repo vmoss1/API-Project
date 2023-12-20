@@ -46,7 +46,28 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
+      defaultScope: {
+        attributes: {
+          exclude: ["hashedPassword", "email", "createdAt", "updatedAt"],
+        }, // default query when searching for Users, the hashedPassword, updatedAt, and, depending on your application, email and createdAt fields should not be returned
+      }, // protects sensitive information from being leaked
     }
   );
   return User;
 };
+
+//! backend login flow -
+//  API login route will be hit with a request body holding a valid credential
+// API login handler will look for a User with the input credential
+// hashedPassword for that found User will be compared with the input password
+// if match - API login route should send back a JWT in an HTTP-only cookie and a response body.
+// The JWT and the body will hold the user's id, username, and email.
+
+//! backend sign-up flow
+// API signup route will be hit with a request body holding a username, email, and password
+// API signup handler will create a User with the username, an email, and a hashedPassword created from the input password
+// If successful API signup route should send back a JWT in an HTTP-only cookie and a response body.
+
+//! backend logout flow
+// API logout route will be hit with request
+// API logout handler will remove the JWT cookie set by the login or signup API routes

@@ -14,7 +14,7 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    const { User } = require("../models");
+
     options.tableName = "Users";
 
     await queryInterface.addColumn("Users", "firstName", {
@@ -25,6 +25,7 @@ module.exports = {
       type: Sequelize.STRING,
       // allowNull: false,
     });
+    options;
   },
 
   async down(queryInterface, Sequelize) {

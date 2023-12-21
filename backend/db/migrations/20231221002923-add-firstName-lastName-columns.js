@@ -17,15 +17,14 @@ module.exports = {
 
     options.tableName = "Users";
 
-    await queryInterface.addColumn("options", "firstName", {
+    await queryInterface.addColumn(options, "firstName", {
       type: Sequelize.STRING,
       // allowNull: false,
     });
-    await queryInterface.addColumn("options", "lastName", {
+    await queryInterface.addColumn(options, "lastName", {
       type: Sequelize.STRING,
       // allowNull: false,
     });
-    options;
   },
 
   async down(queryInterface, Sequelize) {
@@ -36,7 +35,7 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
     options.tableName = "Users";
-    await queryInterface.removeColumn("options", "firstName");
-    await queryInterface.removeColumn("options", "lastName");
+    await queryInterface.removeColumn(options, "firstName");
+    await queryInterface.removeColumn(options, "lastName");
   },
 };

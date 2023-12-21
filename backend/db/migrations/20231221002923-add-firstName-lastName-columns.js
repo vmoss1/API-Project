@@ -15,6 +15,7 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
     const { User } = require("../models");
+    options.tableName = "Users";
 
     await queryInterface.addColumn("Users", "firstName", {
       type: Sequelize.STRING,

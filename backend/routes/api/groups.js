@@ -158,8 +158,47 @@ router.post('/:groupId/images' , requireAuth , async (req , res) => {
     })
 })
 
+router.put('/:groupId' , requireAuth , async (req , res ) => {
 
+    const { groupId } = req.params;
 
+    const currentGroup = await Group.unscoped().findByPk(groupId)
+
+     const {name , about , type , private , city , state } = req.body
+
+     if (!currentGroup){
+        res.status(404).json({"message": "Group couldn't be found"})
+    }
+
+     if (name) currentGroup.name = name
+     if (about) currentGroup.about = about
+     if (type) currentGroup.type = type
+     if (private) currentGroup.private = private
+     if (city) currentGroup.city = city
+     if (state) currentGroup.state = state
+
+     await currentGroup.save()
+
+     res.json(currentGroup)
+})
+
+router.delete('/:groupId' , requireAuth , async (req , res ) => {
+
+    const { groupId } = req.params
+
+    const deleteGroup = await Group.findByPk(groupId)
+
+    if (!deleteGroup){
+        res.status(404).json({"message": "Group couldn't be found"})
+    }
+
+    await deleteGroup.destroy(
+
+     res.json({
+        "message": "Successfully deleted"
+      })
+    )
+})
 
 
 module.exports = router;

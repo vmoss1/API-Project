@@ -1,6 +1,6 @@
 'use strict';
 
-const {Membership} = require('../models')
+const { Membership } = require('../models')
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
@@ -53,11 +53,7 @@ module.exports = {
       groupId: 2,
       status: 'pending'
      },
-     {
-      userId: 4,
-      groupId: 2,
-      status: 'co-host'
-     },
+   
 
 
 
@@ -71,18 +67,14 @@ module.exports = {
       groupId: 3,
       status: 'member'
      },
-     {
-      userId: 4,
-      groupId: 3,
-      status: 'member'
-     },
+   
      {
       userId: 2,
       groupId: 3,
       status: 'member'
      },
 
-   ] , {validate: true
+   ] ,  {validate: true
   })
    } catch (err) {
     console.error(err)

@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {type: DataTypes.STRING(60) , allowNull: false, 
     validate: {
       // isAlpha: true,
+      notEmpty: true,
       countLengthOfName(val){
         if (val.length > 60){
           throw new Error('Name must be 60 characters or less')
@@ -45,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     }},
     about: {type: DataTypes.STRING , allowNull: false , validate: {
       // isAlpha: true,
+      notEmpty: true,
       countLength(val){
         if (val.length < 50){
           throw new Error('About must be 50 characters or more')

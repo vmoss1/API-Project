@@ -100,14 +100,18 @@ router.get('/:groupId' , async (req , res) => {
   
     const { groupId } = req.params
 
-    const groupedById = await Group.findByPk(groupId , {
+    const groupedById = await Group.unscoped().findByPk(groupId , {
         include: [{
             model: Groupimage ,
             attributes: ['id' , 'url' , 'preview']
         } ,
         {
+            model: Membership
+        },
+        {
         model: User ,
-        as: 'Organizer', attributes: ['id' , 'firstName' , 'lastName']
+        as: 'Organizer',
+        attributes: ['id' , 'firstName' , 'lastName']
         } , 
         { model: Venue}
          ]
@@ -115,9 +119,24 @@ router.get('/:groupId' , async (req , res) => {
     if (!groupId){
         return res.status(404).json({"message": "Group couldn't be found"})
     }
+    
+    const arrayFlip = Array.isArray(groupedById) ? groupedById : [groupedById]; // check to see if an array if not flip since findbyPK is not an array
 
-    res.json(groupedById)
+    let numMembers;
 
+ 
+let groupList = [];
+// console.log(groupedById)
+arrayFlip.forEach(group => {
+    groupList.push(group.toJSON())
+})
+
+groupList.forEach(group => {
+  group.numMembers = group.Memberships.length; 
+  delete group.Memberships 
+})
+
+    res.json(groupList)
 
 })
 

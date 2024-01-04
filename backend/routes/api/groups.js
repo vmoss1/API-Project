@@ -1,17 +1,12 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { Group , Membership , Groupimage , User , Venue} = require("../../db/models");
-const { check } = require("express-validator");
-const { handleValidationErrors } = require("../../utils/validation");
-const { CustomCondition } = require("express-validator/src/context-items");
+const {  requireAuth } = require("../../utils/auth");
+const { Group , Membership , Groupimage , User , Venue , Attendance , Eventimage , Event} = require("../../db/models");
 
 const router = express.Router();
 
+//Returns all the groups.
+//Require Authentication: false
 router.get('/' , async (req , res ) => {
-
-    // const numMembers = Membership.length
-    // console.log(numMembers)
 
     const allGroups = await Group.unscoped().findAll({
         include: [
@@ -28,6 +23,7 @@ router.get('/' , async (req , res ) => {
     let previewImage;
      
     let groupList = []; // toJSON is not an array function used to iterate in order to manipulate
+
     allGroups.forEach(group => {
         groupList.push(group.toJSON())
     })
@@ -44,19 +40,19 @@ router.get('/' , async (req , res ) => {
           }
         }
       }
-      delete group.Memberships 
+      delete group.Memberships // removing the unwanted models from the response body
       delete group.Groupimages
     })
     res.json({'Groups': groupList})
 })
 
+// Get all Groups joined or organized by the Current User
+// Require Authentication: true
 router.get('/current' , requireAuth , async (req , res ) => {
-
-    const { user } = req
   
 const groupByCurrent = await Group.unscoped().findAll({
     where: {
-        organizerId: user.id
+        organizerId: req.user.id
     },
     include: [
     {
@@ -72,6 +68,7 @@ let numMembers;
 let previewImage;
  
 let groupList = [];
+
 groupByCurrent.forEach(group => {
     groupList.push(group.toJSON())
 })
@@ -96,6 +93,8 @@ groupList.forEach(group => {
 
 })
 
+// Returns the details of a group specified by its id.
+// Require Authentication: false
 router.get('/:groupId' , async (req , res) => {
   
     const { groupId } = req.params
@@ -140,6 +139,8 @@ groupList.forEach(group => {
 
 })
 
+// Creates and returns a new group.
+// Require Authentication: true
 router.post('/', requireAuth , async  (req , res ) => {
    
     const { name , about , type , private , city , state } = req.body
@@ -158,6 +159,9 @@ router.post('/', requireAuth , async  (req , res ) => {
 
 })
 
+// Create and return a new image for a group specified by id.
+// Require proper authorization: Current User must be the organizer for the group
+
 router.post('/:groupId/images' , requireAuth , async (req , res) => {
 
     const { url , preview } = req.body
@@ -169,7 +173,11 @@ router.post('/:groupId/images' , requireAuth , async (req , res) => {
     if (!currentGroup){
         res.status(404).json({"message": "Group couldn't be found"})
     }
-
+  
+   if (currentGroup.organizerId !== req.user.id){
+    return res.status(403).json({ message: "You are not authorized for this action" });
+   }
+    
     res.json({
         id: groupId,
         url,
@@ -177,17 +185,23 @@ router.post('/:groupId/images' , requireAuth , async (req , res) => {
     })
 })
 
+// Updates and returns an existing group.
+// Require proper authorization: Group must belong to the current user
 router.put('/:groupId' , requireAuth , async (req , res ) => {
 
     const { groupId } = req.params;
 
     const currentGroup = await Group.unscoped().findByPk(groupId)
 
-     const {name , about , type , private , city , state } = req.body
+     const { name , about , type , private , city , state } = req.body
 
      if (!currentGroup){
         res.status(404).json({"message": "Group couldn't be found"})
     }
+    // ensures that the current user is apart of the group by id
+    if (currentGroup.organizerId !== req.user.id){
+        res.status(404).json({"message": "You are not authorized"})
+    } 
 
      if (name) currentGroup.name = name
      if (about) currentGroup.about = about
@@ -201,6 +215,8 @@ router.put('/:groupId' , requireAuth , async (req , res ) => {
      res.json(currentGroup)
 })
 
+// Deletes an existing group.
+// Require proper authorization: Group must belong to the current user
 router.delete('/:groupId' , requireAuth , async (req , res ) => {
 
     const { groupId } = req.params
@@ -211,12 +227,136 @@ router.delete('/:groupId' , requireAuth , async (req , res ) => {
         res.status(404).json({"message": "Group couldn't be found"})
     }
 
-    await deleteGroup.destroy(
+    if (deleteGroup.organizerId !== req.user.id){
+        res.status(404).json({"message": "You are not authorized"})
+    }
+
+    await deleteGroup.destroy()
 
      res.json({
         "message": "Successfully deleted"
       })
-    )
+    
+})
+
+// Returns all venues for a group specified by its id
+// Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
+router.get('/:groupId/venues' , requireAuth , async (req , res ) => {
+
+    const { groupId } = req.params
+
+    const allVenues = await Group.findByPk(groupId)
+
+    if (!allVenues) {
+        res.status(404).json({"message": "Group couldn't be found"})
+    }
+
+    const checkHost = await Membership.findOne({
+        where: {
+            userId: req.user.id, 
+            groupId, 
+            status: 'co-host' }
+    });
+
+    if (!(allVenues.organizerId === req.user.id || checkHost)){
+        return res.status(403).json({ message: "You are not authorized for this action" });
+       }
+
+    res.json({Venues: [allVenues] })
+})
+
+// Creates and returns a new venue for a group specified by its id
+// Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
+router.post('/:groupId/venues' , requireAuth , async ( req , res ) => {
+
+    const { address , city , state , lat ,lng } = req.body
+
+    const { groupId } = req.body
+
+    const newVenue = await Venue.create({
+        organizerId: req.user.id,
+        address,
+        city,
+        state,
+        lat,
+        lng,
+    })
+
+    if (!newVenue){
+        res.status(404).json({"message": "Group couldn't be found"})
+    }
+
+    const checkHost = await Membership.findOne({
+        where: {
+            userId:  req.user.id, 
+            groupId, 
+            status: 'co-host' }
+    });
+
+    if (!(newVenue.organizerId ===  req.user.id || checkHost)){
+        return res.status(403).json({ message: "You are not authorized for this action" });
+       }
+
+    res.json(newVenue)
+})
+
+// Get all Events of a Group specified by its id
+// Require Authentication: false
+router.get('/:groupId/events' , async (req , res ) => {
+
+    const { groupId } = req.params
+
+    const eventByGroup = await Event.scope('defaultScope', 'ex').findAll({
+        where: {
+          groupId
+        },
+        include: [
+            {   
+                model: Attendance
+              },
+              {
+                model: Eventimage
+              },
+            {
+                model: Group,
+                attributes: ['id' , 'name' , 'city' , 'state']
+            },
+            {
+              model: Venue,
+              attributes: ['id' , 'city' , 'state']
+            },
+        ]
+    })
+
+    if (!eventByGroup){
+       return res.status(404).json({"message": "Group couldn't be found"})
+    }
+ 
+   let numAttending;
+   let previewImage;
+
+   let eventList = [];
+
+   eventByGroup.forEach(event => {
+      eventList.push(event.toJSON())
+   })
+
+   eventList.forEach(event => {
+
+      event.numAttending = event.Attendances.length
+
+      if (event.Eventimages && event.Eventimages.length > 0) {
+          for (let image of event.Eventimages) {
+              if (image.url){
+                  event.previewImage = image.url;
+                  break
+              }
+          }
+      }
+      delete event.Attendances
+      delete event.Eventimages
+   })
+   res.json({Events: eventList})
 })
 
 

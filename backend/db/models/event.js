@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }},
-    price: {type: DataTypes.INTEGER , allowNull: false , validate: {
+    price: {type: DataTypes.DECIMAL, allowNull: false , validate: {
       checkPrice(val){
         if (val <= 0){
           throw new Error('Price is invalid')

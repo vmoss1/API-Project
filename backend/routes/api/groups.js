@@ -177,11 +177,16 @@ router.post('/:groupId/images' , requireAuth , async (req , res) => {
    if (currentGroup.organizerId !== req.user.id){
     return res.status(403).json({ message: "You are not authorized for this action" });
    }
+
+   const newImage = await Groupimage.create({
+    url,
+    preview
+   })
     
     res.json({
-        id: groupId,
-        url,
-        preview
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
     })
 })
 
@@ -302,7 +307,7 @@ router.post('/:groupId/venues' , requireAuth , async ( req , res ) => {
 
 // Get all Events of a Group specified by its id
 // Require Authentication: false
-router.get('/:groupId/events' , async (req , res ) => {
+router.get('/:groupId/events' ,  async (req , res ) => {
 
     const { groupId } = req.params
 
@@ -357,6 +362,62 @@ router.get('/:groupId/events' , async (req , res ) => {
       delete event.Eventimages
    })
    res.json({Events: eventList})
+})
+
+// Creates and returns a new event for a group specified by its id
+// Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
+router.post('/:groupId/events' , requireAuth , async (req , res) => {
+
+      const { groupId } = req.params
+
+      const {venueId , name , type , capacity , price , description , startDate , endDate } = req.body
+
+      const currentGroup = await Group.scope('defaultScope').findByPk(groupId)
+
+      if (!currentGroup){
+        return res.status(404).json({
+            "message": "Group couldn't be found"
+          })
+      }
+
+      const checkHost = await Membership.findOne({
+        where: {
+            userId: req.user.id, 
+            groupId, 
+            status: 'co-host' }
+    });
+
+    if (!(currentGroup.organizerId ===  req.user.id || checkHost)){
+        return res.status(403).json({ message: "You are not authorized for this action" });
+       }
+
+       const newEvent = await Event.create({
+          groupId,
+          venueId,
+          name,
+          type,
+          capacity,
+          price,
+          description,
+          startDate,
+          endDate
+       })
+   
+      await newEvent.save()
+
+      res.json({
+        id: newEvent.id,
+        groupId: newEvent.groupId,
+        venueId: newEvent.venueId,
+        name: newEvent.name,
+        type: newEvent.type,
+        capacity: newEvent.capacity,
+        price: newEvent.price,
+        description: newEvent.description,
+        startDate: newEvent.startDate,
+        endDate: newEvent.endDate
+      })
+
 })
 
 

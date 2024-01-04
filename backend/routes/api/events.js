@@ -110,6 +110,146 @@ router.get('/:eventId' , async (req , res ) => {
   res.json(eventList)
 })
 
+// Add an Image to an Event based on the Event's id
+// Require proper authorization: Current User must be an attendee, host, or co-host of the event
+router.post('/:eventId/images' , requireAuth , async (req , res) => {
+   
+    const { eventId } = req.params
+
+    const { url , preview } = req.body
+
+    const currentEvent = await Event.findByPk(eventId, {
+        include: { 
+            model: Group, 
+            attributes: ['id', 'organizerId'] }
+    });
+    
+    if (!currentEvent){
+        res.status(404).json({"message": "Event couldn't be found"})
+    }
+
+    const groupId = currentEvent.Group.id
+
+    const checkHost = await Membership.findOne({
+        where: {
+            userId: req.user.id, 
+            groupId, 
+            status: 'co-host' }
+    });
+
+    if (!(currentEvent.Group.organizerId === req.user.id || checkHost)){
+        return res.status(403).json({ message: "You are not authorized for this action" });
+       }
+
+       const newImage = await Eventimage.create({
+           url,
+           preview
+       })
+
+       res.json({
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+    })
+})
+
+// Edit and returns an event specified by its id
+// Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
+router.put('/:eventId' , requireAuth , async (req , res ) => {
+
+    const { eventId } = req.params
+
+    const { venueId , name , type , capacity , price , description , startDate , endDate} = req.body
+
+    const currentEvent = await Event.findByPk(eventId , {
+        include: { 
+            model: Group, 
+            attributes: ['id', 'organizerId'] }
+    });
+
+    if (!currentEvent){
+        res.status(404).json({"message": "Event couldn't be found"})
+    }
+
+    const groupId = currentEvent.Group.id
+
+    const checkHost = await Membership.findOne({
+        where: {
+            userId: req.user.id, 
+            groupId, 
+            status: 'co-host' }
+    });
+
+    if (!(currentEvent.Group.organizerId === req.user.id || checkHost)){
+        return res.status(403).json({ message: "You are not authorized for this action" });
+       }
+
+       const arrayFlip = Array.isArray(currentEvent) ? currentEvent : [currentEvent]; // check to see if an array if not flip since findbyPK is not an array
+
+       let eventList = [];
+
+       arrayFlip.forEach(event => {
+        eventList.push(event.toJSON())
+       })
+
+       eventList.forEach(event => {
+        delete event.Group
+      })
+
+     if (venueId) currentEvent.venueId = venueId
+     if (name) currentEvent.name = name
+     if (type) currentEvent.type = type
+     if (capacity) currentEvent.capacity = capacity
+     if (price) currentEvent.price = price
+     if (description) currentEvent.description = description
+     if (startDate) currentEvent.startDate = startDate
+     if (endDate) currentEvent.endDate = endDate
+
+
+     await currentEvent.save(currentEvent)
+
+     res.json(eventList)
+})
+
+// Delete an event specified by its id
+// Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
+router.delete('/:eventId' , requireAuth, async (req , res ) => {
+
+   const { eventId }  = req.params
+
+   const currentEvent = await Event.findByPk(eventId , {
+    include: { 
+        model: Group, 
+        attributes: ['id', 'organizerId'] }
+});
+
+   if (!currentEvent){
+    return res.status(404).json({"message": "Event couldn't be found"})
+    
+   }
+
+   const groupId = currentEvent.Group.id
+
+   const checkHost = await Membership.findOne({
+       where: {
+           userId: req.user.id, 
+           groupId, 
+           status: 'co-host' }
+   });
+
+   if (!(currentEvent.Group.organizerId === req.user.id || checkHost)){
+       return res.status(403).json({ message: "You are not authorized for this action" });
+      }
+
+     await currentEvent.destroy()
+
+     res.json({
+        "message": "Successfully deleted"
+      })
+
+})
+
+
 
 
 

@@ -289,7 +289,7 @@ router.post('/:groupId/venues' , requireAuth , async ( req , res ) => {
     })
 
     if (!newVenue){
-        res.status(404).json({"message": "Group couldn't be found"})
+        res.status(404).json({"message": "Venue couldn't be found"})
     }
 
     const checkHost = await Membership.findOne({
@@ -611,6 +611,12 @@ router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res)
     const { groupId , memberId  } = req.params
 
     const currentGroup  = await Group.findByPk(groupId)
+
+    const currentUser = await User.findByPk(req.user.id)
+
+    if (!currentUser){
+        res.status(404).json({"message": "User couldn't be found"})
+    }
 
     const currentMembership = await Membership.findOne({
         where: {

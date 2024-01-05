@@ -19,8 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Membership.init({
-    userId: DataTypes.INTEGER,
-    groupId: DataTypes.INTEGER,
+    userId: {type: DataTypes.INTEGER , references: {
+      model: "User"
+    }},
+    groupId: {type: DataTypes.INTEGER , references: {
+      model: 'Group'
+    }},
     status: {type: DataTypes.ENUM('organizer' , 'co-host' , 'member' , 'pending'), 
   validate: {
     isIn: [['organizer' , 'co-host' , 'member' , 'pending']]

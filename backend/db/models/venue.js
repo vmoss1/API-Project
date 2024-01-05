@@ -17,14 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       })
   
       Venue.belongsTo(models.Group , {
-        foreignKey: 'groupId',
-        as: 'Venue',
-        onDelete: "CASCADE"
+        foreignKey: 'groupId'
       })
     }
   }
   Venue.init({
-    groupId: {type: DataTypes.INTEGER , allowNull: false},
+    groupId: {type: DataTypes.INTEGER , allowNull: false , references: {
+      model: 'Group'
+    }},
     address:{type:  DataTypes.STRING , allowNull: false , validate: {
       checkNull(val){
         if (!val){

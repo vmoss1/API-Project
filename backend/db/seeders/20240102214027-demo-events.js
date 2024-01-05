@@ -72,8 +72,8 @@ module.exports = {
      */
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: {
-        [Op.in]: ['Kayakers Prep and Party' , 'Shrimper Safety Briefing' , 'Camping Equipment Checklist' ]
+      venueId: {
+        [Op.in]: ['1' , '2' , '3' ]
       }
     })
   }

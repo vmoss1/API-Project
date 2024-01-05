@@ -529,7 +529,7 @@ router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
 // Current User must already be the organizer
 router.put('/:groupId/membership' , requireAuth , async (req , res) => {
     
-    const { groupId } = req.params
+    const { groupId  ,  memberId } = req.params
 
     const currentGroup = await Group.findByPk(groupId)
     
@@ -539,8 +539,6 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
             groupId
         }
     })
-
-    const { memberId , status } = req.body
 
     if (!currentGroup){
         return res.status(404).json({"message": "Group couldn't be found"})

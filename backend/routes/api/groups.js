@@ -529,16 +529,31 @@ router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
 // Current User must already be the organizer
 router.put('/:groupId/membership' , requireAuth , async (req , res) => {
     
-    const { groupId  ,  memberId } = req.params
+    const { groupId  } = req.params
 
-    const currentGroup = await Group.findByPk(groupId)
+    const { status , memberId } = req.body
+
+    const currentGroup = await Group.findByPk(groupId) // current group
+    const currentUser = await User.findByPk(req.user.id) // current user 
+
+    if (!currentUser){
+        return res.status(404).json({
+            "message": "User couldn't be found"
+          })
+    }
     
-    const currentMember = await Membership.findOne({
+    const currentMember = await Membership.findOne({  // member needing to be changed
         where: {
             userId: memberId,
-            groupId
+            groupId: groupId
         }
     })
+
+    if (!currentMember){
+       return res.status(404).json({
+            "message": "Membership between the user and the group does not exist"
+          })
+    }
 
     if (!currentGroup){
         return res.status(404).json({"message": "Group couldn't be found"})
@@ -550,6 +565,42 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
             groupId, 
             status: 'co-host' }
     });
+
+    if (status === 'pending'){
+        res.status(400).json({
+            "message": "Bad Request",  
+            "errors": {
+              "status": "Cannot change a membership status to pending"
+            }
+          })
+    }
+    if ((currentGroup.organizerId === req.user.id || checkHost) && status === 'member' ){
+       if (memberId) currentMember.memberId = memberId
+       if (status) currentMember.status = status
+       await currentMember.save()
+       return res.json({
+         id: currentGroup.id,
+         groupId,
+         memberId,
+         status,
+       })
+    } else if (!(currentGroup.organizerId === req.user.id || checkHost) && status === 'member' ) {
+        res.status(404).json({"message": "You are not authorized"})
+    }
+
+    if (currentGroup.organizerId === req.user.id && status === 'co-host'){
+        if (memberId) currentMember.memberId = memberId
+        if (status) currentMember.status = status
+        await currentMember.save()
+        return res.json({
+          id: currentGroup.id,
+          groupId,
+          memberId,
+          status,
+        })
+    } else if (!(currentGroup.organizerId === req.user.id) && status === 'co-host') {
+        res.status(404).json({"message": "You are not authorized"})
+    }
 })
 
 // Delete a membership to a group specified by id.

@@ -442,13 +442,13 @@ router.get('/:groupId/members' , async (req , res ) => {
             status: 'co-host' }
     });
 
+    let memStatus; 
     if (!(currentGroup.organizerId ===  req.user.id || checkHost)){
         memStatus =  ['co-host' , 'member']
     } else {
         memStatus = ['co-host' , 'member' , 'pending']
     }
     
-    let memStatus; 
        const currentMembers = await User.findAll({
         include: {
             model: Membership,
@@ -535,7 +535,7 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
     
     const currentMember = await Membership.findOne({
         where: {
-            userId: req.body.memberId,
+            userId: memberId,
             groupId
         }
     })

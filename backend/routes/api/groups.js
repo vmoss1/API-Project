@@ -1,6 +1,7 @@
 const express = require("express");
 const {  requireAuth } = require("../../utils/auth");
 const { Group , Membership , Groupimage , User , Venue , Attendance , Eventimage , Event} = require("../../db/models");
+const membership = require("../../db/models/membership");
 
 const router = express.Router();
 
@@ -417,6 +418,172 @@ router.post('/:groupId/events' , requireAuth , async (req , res) => {
         startDate: newEvent.startDate,
         endDate: newEvent.endDate
       })
+
+})
+
+// Returns the members of a group specified by its id.
+// Require Authentication: false
+// Successful Response: If you ARE the organizer or a co-host of the group. Shows all members and their statuses.
+// Successful Response: If you ARE NOT the organizer of the group. Shows only members that don't have a status of "pending".
+router.get('/:groupId/members' , async (req , res ) => {
+ 
+    const { groupId } = req.params
+
+    const currentGroup = await Group.findByPk(groupId)
+
+    if (!currentGroup){
+        res.status(404).json({"message": "Group couldn't be found"})
+    }
+
+    const checkHost = await Membership.findOne({
+        where: {
+            userId: req.user.id, 
+            groupId, 
+            status: 'co-host' }
+    });
+
+    if (!(currentGroup.organizerId ===  req.user.id || checkHost)){
+        memStatus =  ['co-host' , 'member']
+    } else {
+        memStatus = ['co-host' , 'member' , 'pending']
+    }
+    
+    let memStatus; 
+       const currentMembers = await User.findAll({
+        include: {
+            model: Membership,
+            attributes: ['status'],
+            where: {
+                groupId,
+                status: memStatus
+            }
+        }
+    })
+
+    let memList = [];
+
+    currentMembers.forEach(mem => {
+        memList.push(mem.toJSON())
+    })
+
+    memList.forEach(mem => {
+       
+       mem.Membership = mem.Memberships
+
+        delete mem.Memberships
+    })
+
+       res.json({Members: memList})
+})
+
+// Request a new membership for a group specified by id.
+// Require Authentication: true
+router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
+   
+    const { groupId } = req.params
+
+    const { userId , status } = req.body
+
+    const currentGroup = await Group.findByPk(groupId)
+
+    if (!currentGroup){
+        res.status(404).json({"message": "Group couldn't be found"})
+    }
+
+    const member = await Membership.findOne({
+        where: {
+            groupId,
+            userId: req.user.id
+        }
+    })
+  
+  if (member.status === 'member' || member.status === 'co-host'){
+     return res.status(400).json({
+        "message": "User is already a member of the group"
+     });
+  } else  {
+     res.status(400).json({
+        "message": "Membership has already been requested"
+     });
+  }
+
+    const newMember = await Membership.create({
+        userId: req.user.id,
+        groupId,
+        status: 'pending'
+    })
+
+    await newMember.save()
+
+    res.json({
+        memberId: userId,
+        status: newMember.status
+    })
+})
+
+// Change the status of a membership for a group specified by id.
+// Require Authentication: true
+// To change the status from "pending" to "member"
+// Current User must already be the organizer or have a membership to the group
+// change the status from "member" to "co-host
+// Current User must already be the organizer
+router.put('/:groupId/membership' , requireAuth , async (req , res) => {
+    
+    const { groupId } = req.params
+
+    const currentGroup = await Group.findByPk(groupId)
+    
+    const currentMember = await Membership.findOne({
+        where: {
+            userId: req.body.memberId,
+            groupId
+        }
+    })
+
+    const { memberId , status } = req.body
+
+    if (!currentGroup){
+        return res.status(404).json({"message": "Group couldn't be found"})
+    }
+
+    const checkHost = await Membership.findOne({
+        where: {
+            userId: req.user.id, 
+            groupId, 
+            status: 'co-host' }
+    });
+})
+
+// Delete a membership to a group specified by id.
+// Require Authentication: true
+// Require proper authorization: Current User must be the host of the group, or the user whose membership is being deleted
+router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res) => {
+
+    const { groupId , memberId  } = req.params
+
+    const currentGroup  = await Group.findByPk(groupId)
+
+    const currentMembership = await Membership.findOne({
+        where: {
+            userId: memberId,
+            groupId
+        }
+    })
+
+   if (!currentMembership){
+    res.status(404).json({"message": "Membership does not exist for this User"})
+   }
+
+   if (!currentGroup) {   
+    res.status(404).json({"message": "Group couldn't be found"})
+   }
+
+   if ( currentGroup.organizerId === req.user.id || currentMembership.userId === req.user.id){
+    currentMembership.destroy()
+    return res.json({ "message": "Successfully deleted membership from group"})
+   } else {
+    return res.json({"message": "You do not have permission to perform this"})
+   }
 
 })
 

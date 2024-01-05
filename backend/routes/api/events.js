@@ -249,8 +249,4 @@ router.delete('/:eventId' , requireAuth, async (req , res ) => {
 
 })
 
-
-
-
-
 module.exports = router;

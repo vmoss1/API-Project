@@ -216,7 +216,7 @@ router.put('/:groupId' , requireAuth , async (req , res ) => {
     }
     // ensures that the current user is apart of the group by id
     if (currentGroup.organizerId !== req.user.id){
-       return res.status(404).json({"message": "You are not authorized"})
+       return res.status(403).json({"message": "You are not authorized for this action"})
     } 
 
      if (name) currentGroup.name = name
@@ -255,7 +255,7 @@ router.delete('/:groupId' , requireAuth , async (req , res ) => {
     }
 
     if (deleteGroup.organizerId !== req.user.id){
-      return  res.status(404).json({"message": "You are not authorized"})
+      return  res.status(403).json({"message": "You are not authorized for this action"})
     }
 
     await deleteGroup.destroy()
@@ -654,7 +654,7 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
          status,
        })
     } else if (!(currentGroup.organizerId === req.user.id || checkHost) && status === 'member' ) {
-       return res.status(404).json({"message": "You are not authorized"})
+       return res.status(403).json({"message": "You are not authorized for this action"})
     }
 
     if (currentGroup.organizerId === req.user.id && status === 'co-host'){
@@ -668,7 +668,7 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
           status,
         })
     } else if (!(currentGroup.organizerId === req.user.id) && status === 'co-host') {
-      return  res.status(404).json({"message": "You are not authorized"})
+      return  res.status(403).json({"message": "You are not authorized for this action"})
     }
 })
 
@@ -706,7 +706,7 @@ router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res)
     currentMembership.destroy()
     return res.json({ "message": "Successfully deleted membership from group"})
    } else {
-    return res.json({"message": "You do not have permission to perform this"})
+    return res.json({"message": "You are not authorized for this action"})
    }
 
 })

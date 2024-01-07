@@ -11,10 +11,14 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
 
     const eventImage = await Eventimage.findByPk(imageId)
 
+    if (!eventImage){
+      return res.status(404).json({"message": "Event Image could not found"})
+    }
+
     const member = await Membership.findByPk(req.user.id)
 
     if (!member || member.status === 'pending'){
-      res.status(403).json({"message": "Event not found"})
+     return res.status(403).json({"message": "You are not authorized for this action"})
     }
 
     const event = await Event.findByPk(eventImage.eventId , {
@@ -24,7 +28,7 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
     })
 
     if (!event){
-      res.status(404).json({"message": "Event not found"})
+     return res.status(404).json({"message": "Event not found"})
     }
 
     // const currentUser = await User.findByPk(req.user.id)

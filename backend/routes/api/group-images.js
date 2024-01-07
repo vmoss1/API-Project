@@ -13,18 +13,25 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
       const { imageId } = req.params
 
       const groupImage = await Groupimage.findByPk(imageId)
+
+      if (!groupImage){
+        return res.status(404).json({"message": "Group Image couldn't be found"})
+       }
+
+      // console.log(groupImage)
  
-      const group = await Group.findByPk(imageId)
+      const group = await Group.findByPk(groupImage.groupId)
+
+      if (!group){
+        return res.status(404).json({"message": "Group not found"})
+      }
 
       const member = await Membership.findByPk(req.user.id)
 
       if (!member || member.status === 'pending'){
-        res.status(403).json({"message": "Event not found"})
+        return res.status(403).json({"message": "You are not authorized for this action"})
       }
       
-      if (!groupImage){
-       return res.status(404).json({"message": "Group Image couldn't be found"})
-      }
 
     const checkHost = await Membership.findOne({
         where: {

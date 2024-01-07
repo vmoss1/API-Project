@@ -32,7 +32,7 @@ router.put('/:venueId' , requireAuth , async ( req, res ) => {
             })
 
     if (!(checkHost || currentGroup.organizerId === req.user.id)){
-       return res.status(404).json({"message": "You are not authorized"})
+       return res.status(403).json({"message": "You are not authorized for this action"})
     }
 
     if (address !== undefined) currentVenue.address = address

@@ -17,11 +17,13 @@ router.get('/', async (req , res ) => {
     pagination.limit = size;
     pagination.offset = size * (page - 1);
 
-    if (size <= 0) {
+    if (size <= 0 || size > 20|| !size) {
         size = 20; // default
       }
 
-    page = page || 1; // default 1
+    if (page <= 0 || page > 10 || !page){
+      page = 1
+    }
 
     if (page < 1 || size < 1) {
      delete pagination.limit;
@@ -44,11 +46,10 @@ router.get('/', async (req , res ) => {
               model: Venue,
               attributes:  ['id' , 'city' , 'state']
             },
-        ]
+        ],
+        offset: (page - 1) * size, // Calculate offset based on page and size
+        limit: parseInt(size), // Set the limit to the specified size
      })
-
-     let numAttending;
-     let previewImage;
 
      let eventList = [];
 
@@ -73,7 +74,7 @@ router.get('/', async (req , res ) => {
         delete event.Attendances
         delete event.Eventimages
      })
-    return res.json({Events: eventList})
+    return res.json({ Events: eventList })
 })
 
 // Get details of an Event specified by its id
@@ -151,6 +152,12 @@ router.post('/:eventId/images' , requireAuth , async (req , res) => {
 
     const groupId = currentEvent.Group.id
 
+    const currentAttender = await Attendance.findOne({
+      where: {
+        userId: req.user.id
+      }
+    })
+
     // console.log(currentEvent.Group.organizerId)
 
     const checkHost = await Membership.findOne({
@@ -160,8 +167,8 @@ router.post('/:eventId/images' , requireAuth , async (req , res) => {
             status: 'co-host' }
     });
 
-    if (!(currentEvent.Group.organizerId === req.user.id || checkHost)){
-        return res.status(403).json({ message: "You are not authorized for this action" });
+    if (!(currentEvent.Group.organizerId === req.user.id || checkHost || currentAttender)){
+        return res.status(403).json({ message: "Forbidden" });
        }
 
        const newImage = await Eventimage.create({
@@ -213,7 +220,7 @@ router.put('/:eventId' , requireAuth , async (req , res ) => {
     });
 
     if (!(currentGroup.organizerId === req.user.id || checkHost)){
-        return res.status(403).json({ message: "You are not authorized for this action" });
+        return res.status(403).json({ message: "Forbidden" });
        }
 
        const arrayFlip = Array.isArray(currentEvent) ? currentEvent : [currentEvent]; // check to see if an array if not flip since findbyPK is not an array
@@ -239,7 +246,9 @@ router.put('/:eventId' , requireAuth , async (req , res ) => {
 
     await currentEvent.save(currentEvent)
 
-     return res.json(eventList)
+    const editedEvent = await Event.findByPk(eventId)
+
+     return res.json(editedEvent)
 })
 
 // Delete an event specified by its id
@@ -269,7 +278,7 @@ router.delete('/:eventId' , requireAuth, async (req , res ) => {
    });
 
    if (!(currentEvent.Group.organizerId === req.user.id || checkHost)){
-       return res.status(403).json({ message: "You are not authorized for this action" });
+       return res.status(403).json({ message: "Forbidden" });
       }
 
      await currentEvent.destroy()
@@ -312,7 +321,11 @@ let currentAttendees = await Attendance.findAll({
      }
 })
 
-  currentAttendees = currentAttendees.map(attendee => ({ // manually formatting the response
+// console.log(currentAttendees)
+
+  currentAttendees = currentAttendees.map(attendee => (
+    { 
+    // manually formatting the response
     id: attendee.User.id,
     firstName: attendee.User.firstName,
     lastName: attendee.User.lastName,
@@ -322,9 +335,13 @@ let currentAttendees = await Attendance.findAll({
 }));
 
 if (!(currentEvent.Group.organizerId === req.user.id || checkHost)){
-    
+    let filtered = currentAttendees.filter((attendee) => {
+     return  attendee.Attendance.status !== 'pending'
+    })
+    return res.json({Attendees: filtered})
+} else {
+  return res.json({Attendees: currentAttendees})
 }
- return  res.json({Attendees: currentAttendees})
 })
 
 // Request attendance for an event specified by id.
@@ -341,7 +358,7 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
 
     if (!member || member.status === 'pending'){
       return res.status(403).json({
-        "message": "You are not authorized for this action"
+        "message": "Forbidden"
       })
     }
   
@@ -396,25 +413,25 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
 
     const currentEvent = await Event.findByPk(eventId)
 
+    if (!currentEvent){
+      return res.status(404).json({
+           "message": "Event couldn't be found"
+         })
+      }
+
+      const currentUser = await User.findByPk(userId)
+  
+      if(!currentUser){
+         return res.status(404).json({
+              "message": "User couldn't be found"
+            })
+      }
+
     const currentGroup = await Group.findByPk(currentEvent.groupId)
-
-    const currentUser = await User.findByPk(userId)
-
-    if(!currentUser){
-       return res.status(404).json({
-            "message": "User couldn't be found"
-          })
-    }
-
-   if (!currentEvent){
-   return res.status(404).json({
-        "message": "Event couldn't be found"
-      })
-   }
 
    const checkHost = await Membership.findOne({
     where: {
-        groupId: currentEvent.id,
+        groupId: currentEvent.groupId,
         userId: req.user.id,
         status: 'co-host'
     }
@@ -426,7 +443,7 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
         eventId 
     }
    })
-   console.log(currentAttendance.id)
+  //  console.log(currentAttendance.id)
 
    if (!currentAttendance){
    return res.status(404).json({
@@ -444,19 +461,19 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
    }
 
    if (checkHost || currentGroup.organizerId === req.user.id){
-       if (userId) currentAttendance.userId = userId
-       if (status) currentAttendance.status = status 
+     
+     currentAttendance.status = status
 
       await currentAttendance.save()
 
      return res.json({
-        id: req.user.id,
-        eventId: currentAttendance.eventId,
-        userId: currentAttendance.userId,
-        status: currentAttendance.status
+        id: currentAttendance.id,
+        eventId,
+        userId,
+        status
      })
    } else {
-       return res.status(403).json({"message": 'You are not authorized for this action'})
+       return res.status(403).json({"message": 'Forbidden'})
    }
  })
 
@@ -468,11 +485,23 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
    
     const { eventId  , userId } = req.params
 
-    const currentUser = await User.findByPk(userId)
-
     const currentEvent = await Event.findByPk(eventId)
 
+    if (!currentEvent){
+      return  res.status(404).json({"message": "Event couldn't be found"})
+    }
+
+    const currentUser = await User.findByPk(userId)
+
+    if (!currentUser){
+      return res.status(404).json({"message": "User couldn't be found"})
+   }
+
     const currentGroup = await Group.findByPk(currentEvent.groupId)
+   
+    if (!currentGroup){
+      return  res.status(404).json({"message": "Group couldn't be found"})
+    }
 
     const currentAttendance = await Attendance.findOne({
         where: {
@@ -481,19 +510,17 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
         }
     })
 
-    if (!currentUser){
-       return res.status(404).json({"message": "User couldn't be found"})
-    }
-
-    if (!currentEvent){
-      return  res.status(404).json({"message": "Event couldn't be found"})
-    }
+    const currentAttender = await Attendance.findOne({
+      where: {
+        userId: req.user.id
+      }
+    })
 
     if (!currentAttendance){
        return res.status(404).json({"message": "Attendance does not exist for this User"})
     }
 
-    if (currentGroup.organizerId === req.user.id || userId === res.user.id){
+    if (currentGroup.organizerId === req.user.id || userId === req.user.id || currentAttender){
 
         await currentAttendance.destroy()
 
@@ -501,7 +528,7 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
             "message": "Successfully deleted attendance from event"
           })
     } else {
-       return res.status(403).json({"message": 'You are not authorized for this action'})
+       return res.status(403).json({"message": 'Forbidden'})
     }
 
  })

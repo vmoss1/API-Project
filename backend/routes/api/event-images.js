@@ -15,44 +15,37 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
       return res.status(404).json({"message": "Event Image could not found"})
     }
 
-    const member = await Membership.findByPk(req.user.id)
+    const event = await Event.findByPk(eventImage.eventId)
 
-    if (!member || member.status === 'pending'){
-     return res.status(403).json({"message": "You are not authorized for this action"})
-    }
-
-    const event = await Event.findByPk(eventImage.eventId , {
-      include: {
-        model: Group
-      }
-    })
+    const group = await Group.findByPk(event.groupId)
 
     if (!event){
      return res.status(404).json({"message": "Event not found"})
     }
 
-    // const currentUser = await User.findByPk(req.user.id)
+    if (!group){
+      return res.status(404).json({"message": "Group not found"})
+    }
 
-    // const group = await Group.findByPk(imageId)
+    const member = await Membership.findOne({
+       where: { 
+        userId: req.user.id, 
+        groupId: group.id
+      }
+     });
 
-    // console.log(groupImage)
-  
+    if (!member || member.status === 'pending'){
+     return res.status(403).json({"message": "Forbidden"})
+    }
 
-  const checkHost = await Membership.findOne({
-      where: {
-          userId: req.user.id, 
-          status: 'co-host' }
-  });
-  // console.log(req.user.id)
-
-    if ((event.Group.organizerId === req.user.id || checkHost)){
-       eventImage.destroy()
+    if ((group.organizerId === req.user.id || member.status === 'co-host')) {
+      await eventImage.destroy()
 
        return res.json({
           "message": "Successfully deleted"
        })
     } else {
-      return res.status(403).json({ message: "You are not authorized for this action" });
+      return res.status(403).json({ message: "Forbidden" });
     }
 
 })

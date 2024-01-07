@@ -17,8 +17,6 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
       if (!groupImage){
         return res.status(404).json({"message": "Group Image couldn't be found"})
        }
-
-      // console.log(groupImage)
  
       const group = await Group.findByPk(groupImage.groupId)
 
@@ -26,28 +24,28 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
         return res.status(404).json({"message": "Group not found"})
       }
 
-      const member = await Membership.findByPk(req.user.id)
+      const member = await Membership.findOne({
+        where: { 
+         userId: req.user.id, 
+         groupId: group.id
+       }
+      });
 
       if (!member || member.status === 'pending'){
-        return res.status(403).json({"message": "You are not authorized for this action"})
+        return res.status(403).json({"message": "Forbidden"})
       }
       
+    // console.log(req.user.id)
 
-    const checkHost = await Membership.findOne({
-        where: {
-            userId: req.user.id, 
-            status: 'co-host' }
-    });
-    console.log(req.user.id)
+    if ((group.organizerId === req.user.id || member.status === 'co-host')) {
 
-      if ((group.organizerId === req.user.id || checkHost)){
-         groupImage.destroy()
+      await groupImage.destroy()
 
-         return res.json({
+        return res.json({
             "message": "Successfully deleted"
          })
       } else {
-        return res.status(403).json({ message: "You are not authorized for this action" });
+        return res.status(403).json({ message: "Forbidden" });
       }
 
 })

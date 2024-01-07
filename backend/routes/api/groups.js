@@ -6,9 +6,10 @@ const venue = require("../../db/models/venue");
 
 const router = express.Router();
 
+
 //Returns all the groups.
 //Require Authentication: false
-router.get('/' , async (req , res ) => {
+router.get('/'  , async (req , res ) => {
 // had to remove allowNull false from migration and model files in order to allow the Error response to work correctly
     const allGroups = await Group.unscoped().findAll({
         include: [
@@ -52,7 +53,7 @@ router.get('/' , async (req , res ) => {
 
 // Get all Groups joined or organized by the Current User
 // Require Authentication: true
-router.get('/current' , requireAuth , async (req , res ) => {
+router.get('/current' , requireAuth, async (req , res ) => {
   
 const groupByCurrent = await Group.unscoped().findAll({
     where: {
@@ -80,6 +81,8 @@ groupByCurrent.forEach(group => {
 groupList.forEach(group => {
 
   group.numMembers = group.Memberships.length; 
+
+
   
   if (group.Groupimages && group.Groupimages.length > 0) {
     for (let image of group.Groupimages) {
@@ -91,6 +94,8 @@ groupList.forEach(group => {
   } else {
       group.previewImage = 'No preview' // added so there is still a response in the body
 }
+
+  
     
   delete group.Memberships 
   delete group.Groupimages
@@ -139,7 +144,10 @@ arrayFlip.forEach(group => {
 
 groupList.forEach(group => {
   group.numMembers = group.Memberships.length; 
+
+
   delete group.Memberships 
+ 
 })
 
    return res.json(groupList)
@@ -164,7 +172,7 @@ router.post('/', requireAuth , async  (req , res ) => {
 
     await newGroup.save()
 
-  return  res.status(201).json(newGroup)
+  return res.status(201).json(newGroup)
 
 })
 
@@ -183,7 +191,7 @@ router.post('/:groupId/images' , requireAuth , async (req , res) => {
     }
   
    if (currentGroup.organizerId !== req.user.id){
-    return res.status(403).json({ message: "You are not authorized for this action" });
+    return res.status(403).json({ "message": "Forbidden" });
    }
 
    const newImage = await Groupimage.create({
@@ -216,7 +224,7 @@ router.put('/:groupId' , requireAuth , async (req , res ) => {
     }
     // ensures that the current user is apart of the group by id
     if (currentGroup.organizerId !== req.user.id){
-       return res.status(404).json({"message": "You are not authorized"})
+       return res.status(403).json({"message": "Forbidden"})
     } 
 
      if (name) currentGroup.name = name
@@ -255,7 +263,7 @@ router.delete('/:groupId' , requireAuth , async (req , res ) => {
     }
 
     if (deleteGroup.organizerId !== req.user.id){
-      return  res.status(404).json({"message": "You are not authorized"})
+      return  res.status(403).json({"message": "Forbidden"})
     }
 
     await deleteGroup.destroy()
@@ -292,7 +300,7 @@ router.get('/:groupId/venues' , requireAuth , async (req , res ) => {
     });
 
     if (!(currentGroup.organizerId === req.user.id || checkHost)){
-        return res.status(403).json({ message: "You are not authorized for this action" });
+        return res.status(403).json({ message: "Forbidden" });
        }
 
     return res.json({Venues: allVenues })
@@ -329,7 +337,7 @@ router.post('/:groupId/venues' , requireAuth , async ( req , res ) => {
     });
 
     if (!(currentGroup.organizerId ===  req.user.id || checkHost)){
-        return res.status(403).json({ message: "You are not authorized for this action" });
+        return res.status(403).json({ message: "Forbidden" });
        }
        
 
@@ -434,7 +442,7 @@ router.post('/:groupId/events' , requireAuth , async (req , res) => {
     });
 
     if (!(currentGroup.organizerId ===  req.user.id || checkHost)){
-        return res.status(403).json({ message: "You are not authorized for this action" });
+        return res.status(403).json({ message: "Forbidden" });
        }
 
       const currentVenue = await Venue.findOne({
@@ -654,7 +662,7 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
          status,
        })
     } else if (!(currentGroup.organizerId === req.user.id || checkHost) && status === 'member' ) {
-       return res.status(404).json({"message": "You are not authorized"})
+       return res.status(403).json({"message": "Forbidden"})
     }
 
     if (currentGroup.organizerId === req.user.id && status === 'co-host'){
@@ -668,7 +676,7 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
           status,
         })
     } else if (!(currentGroup.organizerId === req.user.id) && status === 'co-host') {
-      return  res.status(404).json({"message": "You are not authorized"})
+      return  res.status(403).json({"message": "Forbidden"})
     }
 })
 
@@ -681,10 +689,14 @@ router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res)
 
     const currentGroup  = await Group.findByPk(groupId)
 
-    const currentUser = await User.findByPk(req.user.id)
+    if (!currentGroup) {   
+        return res.status(404).json({"message": "Group couldn't be found"})
+        }
+
+    const currentUser = await User.findByPk(memberId)
 
     if (!currentUser){
-      return  res.status(404).json({"message": "User couldn't be found"})
+      return  res.status(404).json({"message": "Member couldn't be found"})
     }
 
     const currentMembership = await Membership.findOne({
@@ -698,15 +710,12 @@ router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res)
   return res.status(404).json({"message": "Membership does not exist for this User"})
    }
 
-   if (!currentGroup) {   
-   return res.status(404).json({"message": "Group couldn't be found"})
-   }
 
    if ( currentGroup.organizerId === req.user.id || currentMembership.userId === req.user.id){
-    currentMembership.destroy()
+   await currentMembership.destroy()
     return res.json({ "message": "Successfully deleted membership from group"})
    } else {
-    return res.json({"message": "You do not have permission to perform this"})
+    return res.status(403).json({"message": "Forbidden"})
    }
 
 })

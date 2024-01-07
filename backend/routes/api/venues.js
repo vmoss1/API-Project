@@ -6,20 +6,23 @@ const router = express.Router();
 
 // Edit a new venue specified by its id
 // Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
-
 router.put('/:venueId' , requireAuth , async ( req, res ) => {
 
     const { venueId } = req.params
   
     const { address , city , state , lat ,lng } = req.body
 
-    const currentVenue = await Venue.scope('defaultScope').findByPk(venueId)
+    const currentVenue = await Venue.findByPk(venueId)
+
+    // console.log(currentVenue)
 
     if (!currentVenue){
-        res.status(404).json({"message": "Venue couldn't be found"})
+       return res.status(404).json({"message": "Venue couldn't be found"})
     }
 
     const currentGroup = await Group.findByPk(currentVenue.groupId)
+
+    // console.log(currentGroup.id)
 
     const checkHost = await Membership.findOne({
          where: { 
@@ -29,18 +32,26 @@ router.put('/:venueId' , requireAuth , async ( req, res ) => {
             })
 
     if (!(checkHost || currentGroup.organizerId === req.user.id)){
-        res.status(404).json({"message": "You are not authorized"})
+       return res.status(404).json({"message": "You are not authorized"})
     }
 
-    if (address) currentVenue.address = address
-    if (city) currentVenue.city = city
-    if (state) currentVenue.state = state
-    if (lat) currentVenue.lat = lat
-    if (lng) currentVenue.lng = lng
+    if (address !== undefined) currentVenue.address = address
+    if (city !== undefined) currentVenue.city = city
+    if (state !== undefined) currentVenue.state = state
+    if (lat !== undefined) currentVenue.lat = lat
+    if (lng !== undefined) currentVenue.lng = lng
 
     await currentVenue.save()
 
-    res.json(currentVenue)
+   return res.json({
+        id: currentVenue.id,
+        groupId: currentVenue.groupId,
+        address: currentVenue.address,
+        city: currentVenue.city,
+        state: currentVenue.state,
+        lat: currentVenue.lat,
+        lng: currentVenue.lng
+    })
 
 })
 

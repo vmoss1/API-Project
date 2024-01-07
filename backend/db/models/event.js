@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
     }},
     capacity: {type: DataTypes.INTEGER , allowNull: false, validate: {
       checkInteger(val){
-        if ( typeof val !== 'number') {
+        if ( typeof val !== 'number' || val < 1) {
           throw new Error('Capacity must be an integer')
         }
       }
@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
     price: {type: DataTypes.DECIMAL, allowNull: false , validate: {
       isFloat: true,
       checkPrice(val){
-        if (val <= 0){
+        if (val <= 0 || typeof val !== 'number'){
           throw new Error('Price is invalid')
         }
       }

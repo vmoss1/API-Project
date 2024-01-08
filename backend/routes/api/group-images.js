@@ -10,7 +10,9 @@ const router = express.Router();
 // Require proper authorization: Current user must be the organizer or "co-host" of the Group
 router.delete('/:imageId' , requireAuth , async (req , res ) => {
    
-      const { imageId } = req.params
+      let { imageId } = req.params
+
+       imageId = +imageId
 
       const groupImage = await Groupimage.findByPk(imageId)
 
@@ -19,6 +21,8 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
        }
  
       const group = await Group.findByPk(groupImage.groupId)
+
+      console.log("CHECKING" , groupImage.groupId)
 
       if (!group){
         return res.status(404).json({"message": "Group not found"})
@@ -30,6 +34,9 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
          groupId: group.id
        }
       });
+
+      console.log("CHECKING" , member)
+      console.log(req.user.id)
 
       if (!member || member.status === 'pending'){
         return res.status(403).json({"message": "Forbidden"})
@@ -45,7 +52,7 @@ router.delete('/:imageId' , requireAuth , async (req , res ) => {
             "message": "Successfully deleted"
          })
       } else {
-        return res.status(403).json({ message: "Forbidden" });
+        return res.status(403).json({ "message": "Forbidden" });
       }
 
 })

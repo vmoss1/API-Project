@@ -109,7 +109,9 @@ return  res.json({Groups: groupList})
 // Require Authentication: false
 router.get('/:groupId' , async (req , res) => {
   
-    const { groupId } = req.params
+    let { groupId } = req.params
+
+  groupId = +groupId
 
     const groupedById = await Group.unscoped().findByPk(groupId , {
         include: [{
@@ -182,7 +184,9 @@ router.post('/:groupId/images' , requireAuth , async (req , res) => {
 
     const { url , preview } = req.body
 
-    const { groupId } = req.params;
+    let { groupId } = req.params;
+
+    groupId = +groupId
 
     const currentGroup = await Group.findByPk(groupId)
 
@@ -213,7 +217,9 @@ router.post('/:groupId/images' , requireAuth , async (req , res) => {
 // Require proper authorization: Group must belong to the current user
 router.put('/:groupId' , requireAuth , async (req , res ) => {
 
-    const { groupId } = req.params;
+    let { groupId } = req.params;
+
+    groupId = +groupId
 
     const currentGroup = await Group.unscoped().findByPk(groupId)
 
@@ -254,7 +260,9 @@ router.put('/:groupId' , requireAuth , async (req , res ) => {
 // Require proper authorization: Group must belong to the current user
 router.delete('/:groupId' , requireAuth , async (req , res ) => {
 
-    const { groupId } = req.params
+    let { groupId } = req.params;
+
+    groupId = +groupId
 
     const deleteGroup = await Group.findByPk(groupId)
 
@@ -278,7 +286,9 @@ router.delete('/:groupId' , requireAuth , async (req , res ) => {
 // Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
 router.get('/:groupId/venues' , requireAuth , async (req , res ) => {
 
-    const { groupId } = req.params
+    let { groupId } = req.params;
+
+    groupId = +groupId
 
     const currentGroup = await Group.findByPk(groupId)
 
@@ -312,7 +322,9 @@ router.post('/:groupId/venues' , requireAuth , async ( req , res ) => {
 
     const { address , city , state , lat ,lng } = req.body
 
-    const { groupId } = req.params
+    let { groupId } = req.params;
+
+    groupId = +groupId
 
     const currentGroup = await Group.findByPk(groupId)
 
@@ -359,7 +371,9 @@ router.post('/:groupId/venues' , requireAuth , async ( req , res ) => {
 // Require Authentication: false
 router.get('/:groupId/events' ,  async (req , res ) => {
 
-    const { groupId } = req.params
+    let { groupId } = req.params;
+
+    groupId = +groupId
 
     const currentGroup = await Group.findByPk(groupId)
 
@@ -422,7 +436,9 @@ router.get('/:groupId/events' ,  async (req , res ) => {
 // Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
 router.post('/:groupId/events' , requireAuth , async (req , res) => {
 
-      const { groupId } = req.params
+    let { groupId } = req.params;
+
+    groupId = +groupId
 
       const {venueId , name , type , capacity , price , description , startDate , endDate } = req.body
 
@@ -499,7 +515,9 @@ router.post('/:groupId/events' , requireAuth , async (req , res) => {
 // Successful Response: If you ARE NOT the organizer of the group. Shows only members that don't have a status of "pending".
 router.get('/:groupId/members' , async (req , res ) => {
  
-    const { groupId } = req.params
+    let { groupId } = req.params;
+
+    groupId = +groupId
 
     const currentGroup = await Group.findByPk(groupId)
 
@@ -552,7 +570,9 @@ router.get('/:groupId/members' , async (req , res ) => {
 // Require Authentication: true
 router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
    
-    const { groupId } = req.params
+    let { groupId } = req.params
+
+    groupId = +groupId
 
     const currentGroup = await Group.findByPk(groupId)
 
@@ -578,7 +598,11 @@ router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
 
     await newMember.save()
 
-    const newestMember = await Membership.findByPk(req.user.id)
+    const newestMember = await Membership.findOne({
+        where: {
+            userId: req.user.id
+        }
+    })
 
    return res.json({
         memberId: newestMember.userId,
@@ -606,11 +630,18 @@ router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
 // Current User must already be the organizer
 router.put('/:groupId/membership' , requireAuth , async (req , res) => {
     
-    const { groupId  } = req.params
+    let { groupId  } = req.params
+
+    groupId = +groupId
 
     const { status , memberId } = req.body
 
     const currentGroup = await Group.findByPk(groupId) // current group
+
+    if (!currentGroup){
+        return res.status(404).json({"message": "Group couldn't be found"})
+    }
+
     const currentUser = await User.findByPk(req.user.id) // current user 
 
     if (!currentUser){
@@ -626,14 +657,12 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
         }
     })
 
+    // console.log("CHECKING" , groupId)
+
     if (!currentMember){
        return res.status(404).json({
             "message": "Membership between the user and the group does not exist"
           })
-    }
-
-    if (!currentGroup){
-        return res.status(404).json({"message": "Group couldn't be found"})
     }
 
     const checkHost = await Membership.findOne({
@@ -651,33 +680,79 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
             }
           })
     }
-    if ((currentGroup.organizerId === req.user.id || checkHost) && status === 'member' ){
-       if (memberId) currentMember.memberId = memberId
-       if (status) currentMember.status = status
-       await currentMember.save()
-       return res.json({
-         id: currentGroup.id,
-         groupId,
-         memberId,
-         status,
-       })
-    } else if (!(currentGroup.organizerId === req.user.id || checkHost) && status === 'member' ) {
-       return res.status(403).json({"message": "Forbidden"})
-    }
 
-    if (currentGroup.organizerId === req.user.id && status === 'co-host'){
+    const isOrganizer = currentGroup.organizerId === req.user.id
+    const isMemberAndCohost = checkHost
+    const isChangingFromPendingToMember = status === 'member'
+    const isChangingFromMemberToCoHost = status === 'co-host'
+
+    if (isOrganizer && isChangingFromMemberToCoHost){
         if (memberId) currentMember.memberId = memberId
         if (status) currentMember.status = status
         await currentMember.save()
-        return res.json({
-          id: currentGroup.id,
-          groupId,
-          memberId,
-          status,
-        })
-    } else if (!(currentGroup.organizerId === req.user.id) && status === 'co-host') {
-      return  res.status(403).json({"message": "Forbidden"})
+        let updatedMember = await Membership.findOne({
+            where: {
+                userId: memberId,
+                groupId: groupId
+            }
+          })
+        //   console.log("UPDATED 1" , updatedMember)
+          return res.json({
+            id: memberId,
+            groupId,
+            memberId,
+            status,
+          })
+    } else if ((isOrganizer || isMemberAndCohost) && isChangingFromPendingToMember){
+        if (memberId) currentMember.memberId = memberId
+        if (status) currentMember.status = status
+        await currentMember.save()
+      let updatedMember = await Membership.findOne({
+        where: {
+            userId: memberId,
+            groupId: groupId
+        }
+      })
+
+    //   console.log("UPDATED 2" , updatedMember)
+
+      return res.json({
+             id: memberId,
+             groupId,
+             memberId,
+             status,
+           })
+    } else {
+       return res.status(403).json({"message": "Forbidden"})
     }
+
+    // if ((currentGroup.organizerId === req.user.id || checkHost) && status === 'member' ){
+    //    if (memberId) currentMember.memberId = memberId
+    //    if (status) currentMember.status = status
+    //    await currentMember.save()
+    //    return res.json({
+    //      id: currentGroup.id,
+    //      groupId,
+    //      memberId,
+    //      status,
+    //    })
+    // } else if (!(currentGroup.organizerId === req.user.id || checkHost) && status === 'member' ) {
+    //    return res.status(403).json({"message": "Forbidden"})
+    // }
+
+    // if (currentGroup.organizerId === req.user.id || status === 'co-host'){
+    //     if (memberId) currentMember.memberId = memberId
+    //     if (status) currentMember.status = status
+    //     await currentMember.save()
+    //     return res.json({
+    //       id: currentGroup.id,
+    //       groupId,
+    //       memberId,
+    //       status,
+    //     })
+    // } else if (!(currentGroup.organizerId === req.user.id) && status === 'co-host') {
+    //   return  res.status(403).json({"message": "Forbidden"})
+    // }
 })
 
 // Delete a membership to a group specified by id.
@@ -685,7 +760,11 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
 // Require proper authorization: Current User must be the host of the group, or the user whose membership is being deleted
 router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res) => {
 
-    const { groupId , memberId  } = req.params
+    let { groupId , memberId  } = req.params
+
+    groupId = +groupId
+    memberId = +memberId
+
 
     const currentGroup  = await Group.findByPk(groupId)
 

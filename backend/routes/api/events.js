@@ -12,6 +12,9 @@ router.get('/', async (req , res ) => {
 
     let  { page , size } = req.query
 
+    page = +page //+ turns string into a number
+    size = +size 
+
     const pagination = {};
 
     pagination.limit = size;
@@ -82,7 +85,9 @@ router.get('/', async (req , res ) => {
 
 router.get('/:eventId' , async (req , res ) => {
 
-   const { eventId } = req.params
+   let { eventId } = req.params
+
+   eventId = +eventId
 
    const findEvent = await Event.scope('defaultScope').findByPk(eventId ,{
    
@@ -136,7 +141,9 @@ router.get('/:eventId' , async (req , res ) => {
 // Require proper authorization: Current User must be an attendee, host, or co-host of the event
 router.post('/:eventId/images' , requireAuth , async (req , res) => {
    
-    const { eventId } = req.params
+    let { eventId } = req.params
+
+   eventId = +eventId
 
     const { url , preview } = req.body
 
@@ -154,11 +161,14 @@ router.post('/:eventId/images' , requireAuth , async (req , res) => {
 
     const currentAttender = await Attendance.findOne({
       where: {
-        userId: req.user.id
+        userId: req.user.id,
+        eventId: currentEvent.id,
+        status: 'attending'
       }
     })
 
-    // console.log(currentEvent.Group.organizerId)
+    // console.log(currentEvent.id)
+    // console.log(currentAttender.eventId)
 
     const checkHost = await Membership.findOne({
         where: {
@@ -190,7 +200,9 @@ router.post('/:eventId/images' , requireAuth , async (req , res) => {
 // Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
 router.put('/:eventId' , requireAuth , async (req , res ) => {
 
-    const { eventId } = req.params
+    let { eventId } = req.params
+
+    eventId = +eventId
 
     const { venueId , name , type , capacity , price , description , startDate , endDate} = req.body
 
@@ -255,7 +267,9 @@ router.put('/:eventId' , requireAuth , async (req , res ) => {
 // Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
 router.delete('/:eventId' , requireAuth, async (req , res ) => {
 
-   const { eventId }  = req.params
+  let { eventId } = req.params
+
+  eventId = +eventId
 
    const currentEvent = await Event.findByPk(eventId , {
     include: { 
@@ -292,7 +306,9 @@ router.delete('/:eventId' , requireAuth, async (req , res ) => {
 // Returns the attendees of an event specified by its id.
 // Require Authentication: false
 router.get('/:eventId/attendees' , async ( req , res ) => {
-   const { eventId } = req.params
+  let { eventId } = req.params
+
+  eventId = +eventId
    
    const currentEvent = await Event.findByPk(eventId , {
     include: {
@@ -350,7 +366,9 @@ if (!(currentEvent.Group.organizerId === req.user.id || checkHost)){
 
 router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
      
-    const { eventId } = req.params
+  let { eventId } = req.params
+
+  eventId = +eventId
 
     const currentEvent = await Event.findByPk(eventId)
 
@@ -385,9 +403,16 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
 
    await newAttenders.save()
 
+   let updatedAttender = await Attendance.findOne({
+    where: {
+      eventId,
+      userId: req.user.id
+    }
+   })
+
    return res.json({
-      userId: newAttenders.userId,
-      status: newAttenders.status
+      userId: updatedAttender.userId,
+      status: updatedAttender.status
    })
    }
       if (attendance.status === 'pending'){
@@ -407,7 +432,9 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
 // Require proper authorization: Current User must already be the organizer or have a membership to the group with the status of "co-host"
  router.put('/:eventId/attendance' , requireAuth , async (req , res ) => {
     
-    const { eventId } = req.params
+  let { eventId } = req.params
+
+  eventId = +eventId
 
     const { userId , status } = req.body
 
@@ -465,6 +492,7 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
      currentAttendance.status = status
 
       await currentAttendance.save()
+      
 
      return res.json({
         id: currentAttendance.id,
@@ -483,7 +511,10 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
 
  router.delete('/:eventId/attendance/:userId' , requireAuth , async (req , res ) => {
    
-    const { eventId  , userId } = req.params
+    let { eventId  , userId } = req.params
+
+    eventId =  +eventId
+    userId = +userId
 
     const currentEvent = await Event.findByPk(eventId)
 
@@ -512,21 +543,26 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
 
     const currentAttender = await Attendance.findOne({
       where: {
-        userId: req.user.id
+        userId: req.user.id,
+        eventId: currentEvent.id
       }
     })
+
+    // console.log("CHECKING" , currentAttender.userId , userId , req.user.id)
+
 
     if (!currentAttendance){
        return res.status(404).json({"message": "Attendance does not exist for this User"})
     }
 
-    if (currentGroup.organizerId === req.user.id || userId === req.user.id || currentAttender){
+    if (currentGroup.organizerId === req.user.id || (currentAttender && +userId === req.user.id) ){ // may have to remove attender check
 
         await currentAttendance.destroy()
 
         return res.json({
             "message": "Successfully deleted attendance from event"
           })
+
     } else {
        return res.status(403).json({"message": 'Forbidden'})
     }

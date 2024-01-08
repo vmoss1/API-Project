@@ -1,6 +1,7 @@
 const express = require("express");
 const {  requireAuth } = require("../../utils/auth");
 const {  Membership , Venue , Group} = require("../../db/models");
+const venue = require("../../db/models/venue");
 
 const router = express.Router();
 
@@ -8,7 +9,9 @@ const router = express.Router();
 // Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
 router.put('/:venueId' , requireAuth , async ( req, res ) => {
 
-    const { venueId } = req.params
+   let { venueId } = req.params
+
+   venueId = +venueId
   
     const { address , city , state , lat ,lng } = req.body
 

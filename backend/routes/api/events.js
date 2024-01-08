@@ -2,7 +2,8 @@ const express = require("express");
 const {  requireAuth } = require("../../utils/auth");
 const { Group , Membership , Groupimage , User , Venue , Attendance , Eventimage , Event} = require("../../db/models");
 const event = require("../../db/models/event");
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
+const groupimage = require("../../db/models/groupimage");
 
 const router = express.Router();
 
@@ -159,11 +160,10 @@ router.post('/:eventId/images' , requireAuth , async (req , res) => {
 
     const groupId = currentEvent.Group.id
 
-    const currentAttender = await Attendance.findOne({
+    const currentAttender = await Membership.findOne({
       where: {
         userId: req.user.id,
-        eventId: currentEvent.id,
-        status: 'attending'
+        groupId: groupId,
       }
     })
 
@@ -177,7 +177,7 @@ router.post('/:eventId/images' , requireAuth , async (req , res) => {
             status: 'co-host' }
     });
 
-    if (!(currentEvent.Group.organizerId === req.user.id || checkHost || currentAttender)){
+    if (!(currentEvent.Group.organizerId === req.user.id || checkHost || currentEvent.groupId !== req.user.id)){
         return res.status(403).json({ message: "Forbidden" });
        }
 
@@ -551,8 +551,10 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
     // console.log("CHECKING" , selfAttendee.userId , userId , req.user.id)
 
     const isOrganizer = currentGroup.organizerId === req.user.id
+
+    // console.log(isOrganizer)
   
-    if (!targetAttendee){
+    if (!targetAttendee || !selfAttendee){
        return res.status(404).json({"message": "Attendance does not exist for this User"})
     }
 

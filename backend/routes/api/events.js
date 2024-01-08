@@ -495,7 +495,7 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
       
 
      return res.json({
-        id: currentAttendance.id,
+      id: userId,
         eventId,
         userId,
         status
@@ -507,7 +507,7 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
 
  // Delete an attendance to an event specified by id.
  // Require Authentication: true
- // Require proper authorization: Current User must be the host of the group, or the user whose attendance is being deleted
+ // Require proper authorization: Current User must be the organizer of the group, or the user whose attendance is being deleted
 
  router.delete('/:eventId/attendance/:userId' , requireAuth , async (req , res ) => {
    
@@ -534,34 +534,43 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
       return  res.status(404).json({"message": "Group couldn't be found"})
     }
 
-    const currentAttendance = await Attendance.findOne({
+    const targetAttendee = await Attendance.findOne({
         where: {
             eventId,
             userId
         }
     })
 
-    const currentAttender = await Attendance.findOne({
+    const selfAttendee = await Attendance.findOne({
       where: {
         userId: req.user.id,
         eventId: currentEvent.id
       }
     })
 
-    // console.log("CHECKING" , currentAttender.userId , userId , req.user.id)
+    // console.log("CHECKING" , selfAttendee.userId , userId , req.user.id)
 
-
-    if (!currentAttendance){
+    const isOrganizer = currentGroup.organizerId === req.user.id
+  
+    if (!targetAttendee){
        return res.status(404).json({"message": "Attendance does not exist for this User"})
     }
 
-    if (currentGroup.organizerId === req.user.id || (currentAttender && +userId === req.user.id) ){ // may have to remove attender check
+    if (isOrganizer){ // may have to remove attender check
 
-        await currentAttendance.destroy()
+        await targetAttendee.destroy()
 
         return res.json({
             "message": "Successfully deleted attendance from event"
           })
+
+    } else if (selfAttendee){
+       
+      await selfAttendee.destroy()
+
+      return res.json({
+        "message": "Successfully deleted attendance from event"
+      })
 
     } else {
        return res.status(403).json({"message": 'Forbidden'})

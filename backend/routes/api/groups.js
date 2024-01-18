@@ -8,8 +8,9 @@ const router = express.Router();
 
 //Returns all the groups.
 //Require Authentication: false
-router.get('/' , async (req , res ) => {
+router.get('/' , async (req , res , next ) => {
      
+    try {
     const allGroups = await Group.unscoped().findAll({
         include: [
         {
@@ -46,11 +47,16 @@ router.get('/' , async (req , res ) => {
     })
 
     return res.json({'Groups': groupList})
+} catch (err) {
+    next(err)
+}
 })
 
 // Get all Groups joined or organized by the Current User
 // Require Authentication: true
-router.get('/current' , requireAuth, async (req , res ) => {
+router.get('/current' , requireAuth, async (req , res , next ) => {
+
+    try {
   
 const groupByCurrent = await Group.unscoped().findAll({
     where: {
@@ -91,12 +97,17 @@ groupList.forEach(group => {
 })
 
 return  res.json({Groups: groupList})
+    } catch (err) {
+        next(err)
+    }
 
 })
 
 // Returns the details of a group specified by its id.
 // Require Authentication: false
-router.get('/:groupId' , async (req , res) => {
+router.get('/:groupId' , async (req , res , next) => {
+
+    try {
   
     let { groupId } = req.params
 
@@ -147,12 +158,17 @@ router.get('/:groupId' , async (req , res) => {
   });
 
    return res.json(groupsObject)
+} catch (err) {
+    next(err)
+}
 
 })
 
 // Creates and returns a new group.
 // Require Authentication: true
-router.post('/', requireAuth , async  (req , res ) => {
+router.post('/', requireAuth , async  (req , res , next ) => {
+
+    try {
    
     const { name , about , type , private , city , state } = req.body
 
@@ -169,12 +185,17 @@ router.post('/', requireAuth , async  (req , res ) => {
     await newGroup.save()
 
   return res.status(201).json(newGroup)
-
+  } catch (err) {
+    next(err)
+  }
+ 
 })
 
 // Create and return a new image for a group specified by id.
 // Require proper authorization: Current User must be the organizer for the group
-router.post('/:groupId/images' , requireAuth , async (req , res) => {
+router.post('/:groupId/images' , requireAuth , async (req , res , next) => {
+
+    try {
 
     const { url , preview } = req.body
 
@@ -205,11 +226,16 @@ router.post('/:groupId/images' , requireAuth , async (req , res) => {
         url: newImage.url,
         preview: newImage.preview
     })
+} catch (err) {
+    next(err)
+}
 })
 
 // Updates and returns an existing group.
 // Require proper authorization: Group must belong to the current user
-router.put('/:groupId' , requireAuth , async (req , res ) => {
+router.put('/:groupId' , requireAuth , async (req , res , next ) => {
+    
+    try {
 
     let { groupId } = req.params;
 
@@ -248,11 +274,16 @@ router.put('/:groupId' , requireAuth , async (req , res ) => {
        createdAt: currentGroup.createdAt,
        updatedAt: currentGroup.updatedAt
      })
+    } catch (err) {
+        next(err)
+    }
 })
 
 // Deletes an existing group.
 // Require proper authorization: Group must belong to the current user
-router.delete('/:groupId' , requireAuth , async (req , res ) => {
+router.delete('/:groupId' , requireAuth , async (req , res , next ) => {
+
+    try {
 
     let { groupId } = req.params;
 
@@ -273,12 +304,16 @@ router.delete('/:groupId' , requireAuth , async (req , res ) => {
     return res.json({
         "message": "Successfully deleted"
       })
-    
+    } catch (err) {
+        next(err)
+    }
 })
 
 // Returns all venues for a group specified by its id
 // Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
-router.get('/:groupId/venues' , requireAuth , async (req , res ) => {
+router.get('/:groupId/venues' , requireAuth , async (req , res , next ) => {
+
+    try {
 
     let { groupId } = req.params;
 
@@ -308,11 +343,16 @@ router.get('/:groupId/venues' , requireAuth , async (req , res ) => {
        }
 
     return res.json({Venues: allVenues })
+    } catch (err) {
+        next(err)
+    }
 })
 
 // Creates and returns a new venue for a group specified by its id
 // Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
-router.post('/:groupId/venues' , requireAuth , async ( req , res ) => {
+router.post('/:groupId/venues' , requireAuth , async ( req , res , next ) => {
+
+    try {
 
     const { address , city , state , lat ,lng } = req.body
 
@@ -358,11 +398,16 @@ router.post('/:groupId/venues' , requireAuth , async ( req , res ) => {
         lat: newVenue.lat,
         lng: newVenue.lng
     })
+} catch (err) {
+    next(err)
+}
 })
 
 // Get all Events of a Group specified by its id
 // Require Authentication: false
-router.get('/:groupId/events' ,  async (req , res ) => {
+router.get('/:groupId/events' ,  async (req , res , next ) => {
+
+    try {
 
     let { groupId } = req.params;
 
@@ -420,14 +465,18 @@ router.get('/:groupId/events' ,  async (req , res ) => {
       delete event.Eventimages
    })
    
-   
-
    return res.json({Events: eventList})
+
+} catch (err) {
+    next(err)
+}
 })
 
 // Creates and returns a new event for a group specified by its id
 // Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
-router.post('/:groupId/events' , requireAuth , async (req , res) => {
+router.post('/:groupId/events' , requireAuth , async (req , res , next) => {
+
+    try {
 
     let { groupId } = req.params;
 
@@ -500,13 +549,19 @@ router.post('/:groupId/events' , requireAuth , async (req , res) => {
         endDate: newEvent.endDate
       })
 
+    } catch (err) {
+        next(err)
+    }
+
 })
 
 // Returns the members of a group specified by its id.
 // Require Authentication: false
 // Successful Response: If you ARE the organizer or a co-host of the group. Shows all members and their statuses.
 // Successful Response: If you ARE NOT the organizer of the group. Shows only members that don't have a status of "pending".
-router.get('/:groupId/members' , async (req , res ) => {
+router.get('/:groupId/members' , async (req , res , next ) => {
+
+    try {
  
     let { groupId } = req.params;
 
@@ -557,11 +612,16 @@ router.get('/:groupId/members' , async (req , res ) => {
     })
 
     return   res.json({Members: memList})
+} catch (err) {
+    next(err)
+}
 })
 
 // Request a new membership for a group specified by id.
 // Require Authentication: true
-router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
+router.post('/:groupId/membership' , requireAuth , async (req , res , next ) => {
+
+    try {
    
     let { groupId } = req.params
 
@@ -612,7 +672,9 @@ router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
         "message": "Membership has already been requested"
      });
   }
-
+} catch (err) {
+    next(err)
+}
 })
 
 // Change the status of a membership for a group specified by id.
@@ -621,7 +683,9 @@ router.post('/:groupId/membership' , requireAuth , async (req , res ) => {
 // Current User must already be the organizer or have a membership to the group
 // change the status from "member" to "co-host
 // Current User must already be the organizer
-router.put('/:groupId/membership' , requireAuth , async (req , res) => {
+router.put('/:groupId/membership' , requireAuth , async (req , res, next) => {
+
+    try {
     
     let { groupId  } = req.params
 
@@ -732,12 +796,17 @@ router.put('/:groupId/membership' , requireAuth , async (req , res) => {
     // } else if (!(currentGroup.organizerId === req.user.id) && status === 'co-host') {
     //   return  res.status(403).json({"message": "Forbidden"})
     // }
+} catch (err) {
+    next(err)
+}
 })
 
 // Delete a membership to a group specified by id.
 // Require Authentication: true
 // Require proper authorization: Current User must be the host of the group, or the user whose membership is being deleted
-router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res) => {
+router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res , next) => {
+
+    try {
 
     let { groupId , memberId  } = req.params
 
@@ -775,7 +844,9 @@ router.delete('/:groupId/membership/:memberId' , requireAuth , async (req , res)
    } else {
     return res.status(403).json({"message": "Forbidden"})
    }
-
+} catch (err) {
+    next(err)
+}
 })
 
 

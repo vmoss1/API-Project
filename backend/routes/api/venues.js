@@ -7,7 +7,9 @@ const router = express.Router();
 
 // Edit a new venue specified by its id
 // Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
-router.put('/:venueId' , requireAuth , async ( req, res ) => {
+router.put('/:venueId' , requireAuth , async ( req, res , next ) => {
+
+    try {
 
    let { venueId } = req.params
 
@@ -55,7 +57,10 @@ router.put('/:venueId' , requireAuth , async ( req, res ) => {
         lat: currentVenue.lat,
         lng: currentVenue.lng
     })
-
+    
+} catch (err) {
+    next(err)
+}
 })
 
 module.exports = router;

@@ -9,7 +9,9 @@ const router = express.Router();
 
 // Returns all the events.
 // Require Authentication: false
-router.get('/', async (req , res ) => {
+router.get('/', async (req , res , next) => {
+
+  try {
 
     let  { page , size } = req.query
 
@@ -75,12 +77,20 @@ router.get('/', async (req , res ) => {
      })
 
     return res.json({ Events: eventList })
+
+  } catch (err) {
+
+     next(err)
+      
+  }
 })
 
 // Get details of an Event specified by its id
 // Require Authentication: false
 
-router.get('/:eventId' , async (req , res ) => {
+router.get('/:eventId' , async (req , res , next ) => {
+
+  try {
 
    let { eventId } = req.params
 
@@ -137,12 +147,18 @@ router.get('/:eventId' , async (req , res ) => {
 });
 
   return res.json(EventObject)
+ 
+} catch (err) {
+  next(err)
+}
 })
 
 // Add an Image to an Event based on the Event's id
 // Require proper authorization: Current User must be organizer || cohost
 //   of the event cannot be a non member or membership is pending
-router.post('/:eventId/images' , requireAuth , async (req , res) => {
+router.post('/:eventId/images' , requireAuth , async (req , res , next) => {
+
+  try {
    
     let { eventId } = req.params
 
@@ -201,11 +217,16 @@ router.post('/:eventId/images' , requireAuth , async (req , res) => {
         url: newImage.url,
         preview: newImage.preview
     })
+  } catch (err) {
+    next(err)
+  }
 })
 
 // Edit and returns an event specified by its id
 // Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
-router.put('/:eventId' , requireAuth , async (req , res ) => {
+router.put('/:eventId' , requireAuth , async (req , res , next ) => {
+
+  try {
 
     let { eventId } = req.params
 
@@ -268,11 +289,17 @@ router.put('/:eventId' , requireAuth , async (req , res ) => {
     const editedEvent = await Event.findByPk(eventId)
 
      return res.json(editedEvent)
+
+    } catch (err) {
+      next(err)
+    }
 })
 
 // Delete an event specified by its id
 // Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"
-router.delete('/:eventId' , requireAuth, async (req , res ) => {
+router.delete('/:eventId' , requireAuth, async (req , res , next ) => {
+
+  try {
 
   let { eventId } = req.params
 
@@ -307,12 +334,16 @@ router.delete('/:eventId' , requireAuth, async (req , res ) => {
      return res.json({
         "message": "Successfully deleted"
       })
-
+    } catch (err) {
+      next(err)
+    }
 })
 
 // Returns the attendees of an event specified by its id.
 // Require Authentication: false
-router.get('/:eventId/attendees' , async ( req , res ) => {
+router.get('/:eventId/attendees' , async ( req , res , next) => {
+
+  try {
 
   let { eventId } = req.params
 
@@ -368,12 +399,17 @@ if (!(currentEvent.Group.organizerId === req.user.id || isCoHost)){
 } else {
   return res.json({Attendees: formattedAttendees})
 }
+  } catch (err) {
+    next(err)
+  }
 })
 
 // Request attendance for an event specified by id.
 // Require Authentication: true
 //  Require Authorization: Current User must be a member of the group
-router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
+router.post('/:eventId/attendance' , requireAuth , async (req , res , next ) => {
+
+  try {
      
   let { eventId } = req.params
 
@@ -435,13 +471,17 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
              "message": "User is already an attendee of the event"
           })
       }
-
+    } catch (err) {
+      next(err)
+    }
 })
 
 // Change the status of an attendance for an event specified by id.
 // Require Authentication: true
 // Require proper authorization: Current User must already be the organizer or have a membership to the group with the status of "co-host"
- router.put('/:eventId/attendance' , requireAuth , async (req , res ) => {
+ router.put('/:eventId/attendance' , requireAuth , async (req , res , next ) => {
+
+  try {
     
   let { eventId } = req.params
 
@@ -513,6 +553,9 @@ router.post('/:eventId/attendance' , requireAuth , async (req , res ) => {
 
        return res.status(403).json({"message": 'Forbidden'})
    }
+  } catch(err) {
+    next(err)
+  }
  })
 
  // Delete an attendance to an event specified by id.

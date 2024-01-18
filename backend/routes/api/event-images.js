@@ -6,49 +6,50 @@ const event = require("../../db/models/event");
 const router = express.Router();
 
 router.delete('/:imageId' , requireAuth , async (req , res ) => {
-   
-  let { imageId } = req.params;
+  
+  try {
+   let { imageId } = req.params;
 
-  imageId = +imageId
+   imageId = +imageId
 
-    const eventImage = await Eventimage.findByPk(imageId)
+    const eventImage = await Eventimage.findByPk(imageId, {
+      include: {
+        model: Event,
+        include: {
+          model: Group,
+        },
+      },
+    });
 
-    if (!eventImage){
-      return res.status(404).json({"message": "Event Image could not found"})
+    if (!eventImage) {
+      return res.status(404).json({ message: "Event Image couldn't be found" });
     }
 
-    const event = await Event.findByPk(eventImage.eventId)
+    const group = eventImage.Event.Group;
+    //if not the catch will catch the other errors
+    if (group.organizerId !== req.user.id) {
+      
+      const isCoHost = await Membership.findOne({
+        where: {
+          groupId: group.id,
+          userId: req.user.id,
+          status: "co-host",
+        },
+      });
 
-    const group = await Group.findByPk(event.groupId)
-
-    if (!event){
-     return res.status(404).json({"message": "Event not found"})
-    }
-
-    if (!group){
-      return res.status(404).json({"message": "Group not found"})
-    }
-
-    const member = await Membership.findOne({
-       where: { 
-        userId: req.user.id, 
+      if (!isCoHost) {
+        return res.status(403).json({ "message": "Forbidden" });
       }
-     });
-
-    if (!member || member.status === 'pending'){
-     return res.status(403).json({"message": "Forbidden"})
     }
 
-    if ((group.organizerId === req.user.id || member.status === 'co-host')) {
-      await eventImage.destroy()
+        await eventImage.destroy();
 
-       return res.json({
-          "message": "Successfully deleted"
-       })
-    } else {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-
+       return res.status(200).json({ message: "Successfully deleted" });
+        
+  } catch (err) {
+     
+       next(err);
+  }
 })
 
 

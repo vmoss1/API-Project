@@ -23,8 +23,9 @@ module.exports = {
    {
      groupId: 1,
      url: '../../../images/kayaking.png',
-     preview: true
+     preview: false
    },
+   
    {
     groupId: 2,
     url: '../../../images/shrimp.jpeg',
@@ -34,6 +35,41 @@ module.exports = {
     groupId: 3,
     url: '../../../images/camping.jpeg',
     preview: true
+  },
+  {
+    groupId: 4,
+    url: 'mountainsNoPreviewImg.jpg',
+    preview: false
+  },
+  {
+    groupId: 5,
+    url: 'paintingImg.jpeg',
+    preview: true
+  },
+  {
+    groupId: 6,
+    url: 'swimmingImg.jpeg',
+    preview: false
+  },
+  {
+    groupId: 7,
+    url: 'bridgeImg.jpeg',
+    preview: true
+  },
+  {
+    groupId: 8,
+    url: 'ghostImg.jpeg',
+    preview: false
+  },
+  {
+    groupId: 9,
+    url: 'beersImg.jpeg',
+    preview: true
+  },
+  {
+    groupId: 10,
+    url: 'art.jpeg',
+    preview: false
   },
 
    ], {
@@ -55,10 +91,6 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
-      url: {
-        [Op.in]: ['../../../images/kayaking.png' , '../../../images/shrimp.jpeg' , '../../../images/camping.jpeg' ]
-      }
-    })
+    return queryInterface.bulkDelete(options,  null , {})
   }
 };

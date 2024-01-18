@@ -8,16 +8,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.belongsToMany(models.Event , {
-        through: 'Attendance',
-        foreignKey: 'userId',
-        otherKey: 'eventId'
-      })
-      User.belongsToMany(models.Group , {
-        through: 'Membership' , 
-        foreignKey: 'userId',
-        otherKey: 'groupId'
-      })
+      // User.belongsToMany(models.Event , {
+      //   through: 'Attendance',
+      //   foreignKey: 'userId',
+      //   otherKey: 'eventId'
+      // })
+      // User.belongsToMany(models.Group , {
+      //   through: 'Membership' , 
+      //   foreignKey: 'userId',
+      //   otherKey: 'groupId'
+      // })
       User.hasMany(models.Attendance , {
         foreignKey: 'userId',
         onDelete: 'CASCADE',

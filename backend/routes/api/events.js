@@ -6,7 +6,7 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
-// Validation middleware for query parameters
+// Validation middleware for pagination
 const validatePagination = [
   check("page")
     .optional()

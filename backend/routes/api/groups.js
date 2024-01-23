@@ -1,8 +1,6 @@
 const express = require("express");
 const {  requireAuth } = require("../../utils/auth");
-const { Group , Membership , Groupimage , User , Venue , Attendance , Eventimage , Event} = require("../../db/models");
-const membership = require("../../db/models/membership");
-const venue = require("../../db/models/venue");
+const { Group , Membership , Groupimage , User , Venue , Attendance , Eventimage , Event } = require("../../db/models");
 
 const router = express.Router();
 
@@ -47,6 +45,7 @@ router.get('/' , async (req , res , next ) => {
     })
 
     return res.json({'Groups': groupList})
+
 } catch (err) {
     next(err)
 }
@@ -56,7 +55,7 @@ router.get('/' , async (req , res , next ) => {
 // Require Authentication: true
 router.get('/current' , requireAuth, async (req , res , next ) => {
 
-    try {
+try {
   
 const groupByCurrent = await Group.unscoped().findAll({
     where: {
@@ -97,8 +96,9 @@ groupList.forEach(group => {
 })
 
 return  res.json({Groups: groupList})
+
     } catch (err) {
-        next(err)
+      next(err)
     }
 
 })
@@ -768,34 +768,6 @@ router.put('/:groupId/membership' , requireAuth , async (req , res, next) => {
     } else {
        return res.status(403).json({"message": "Forbidden"})
     }
-
-    // if ((currentGroup.organizerId === req.user.id || isCoHost) && status === 'member' ){
-    //    if (memberId) currentMember.memberId = memberId
-    //    if (status) currentMember.status = status
-    //    await currentMember.save()
-    //    return res.json({
-    //      id: currentGroup.id,
-    //      groupId,
-    //      memberId,
-    //      status,
-    //    })
-    // } else if (!(currentGroup.organizerId === req.user.id || isCoHost) && status === 'member' ) {
-    //    return res.status(403).json({"message": "Forbidden"})
-    // }
-
-    // if (currentGroup.organizerId === req.user.id || status === 'co-host'){
-    //     if (memberId) currentMember.memberId = memberId
-    //     if (status) currentMember.status = status
-    //     await currentMember.save()
-    //     return res.json({
-    //       id: currentGroup.id,
-    //       groupId,
-    //       memberId,
-    //       status,
-    //     })
-    // } else if (!(currentGroup.organizerId === req.user.id) && status === 'co-host') {
-    //   return  res.status(403).json({"message": "Forbidden"})
-    // }
 } catch (err) {
     next(err)
 }

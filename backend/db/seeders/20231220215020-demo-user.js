@@ -107,6 +107,9 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     options.tableName = "Users"; // keying into users table
     const Op = Sequelize.Op; 
+    //  The second argument (null) represents the deletion condition 
+    // (no specific condition, meaning delete all rows), 
+    // and the third argument ({}) may include additional options.
     return queryInterface.bulkDelete(options, null , {});
     /**
      * Add commands to revert seed here.

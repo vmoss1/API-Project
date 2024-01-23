@@ -1,7 +1,6 @@
 const express = require("express");
 const {  requireAuth } = require("../../utils/auth");
-const { Group , Membership , Groupimage , User , Venue , Attendance , Eventimage , Event} = require("../../db/models");
-const event = require("../../db/models/event");
+const { Group , Membership , Groupimage ,} = require("../../db/models");
 
 const router = express.Router();
 
@@ -39,7 +38,7 @@ router.delete("/:imageId", requireAuth, async (req, res, next) => {
       });
 
       if (!isCoHost) {
-        return res.status(403).json({ message: "Not authorized to delete this image" });
+        return res.status(403).json({ message: "Forbidden" });
       }
     }
 
@@ -48,8 +47,7 @@ router.delete("/:imageId", requireAuth, async (req, res, next) => {
     return res.status(200).json({ message: "Successfully deleted" });
     
   } catch (err) {
-
-      next(err);
+    next(err);
   }
 });
 

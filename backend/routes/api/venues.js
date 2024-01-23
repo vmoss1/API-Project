@@ -1,7 +1,6 @@
 const express = require("express");
 const {  requireAuth } = require("../../utils/auth");
-const {  Membership , Venue , Group} = require("../../db/models");
-const venue = require("../../db/models/venue");
+const {  Membership , Venue , Group } = require("../../db/models");
 
 const router = express.Router();
 
@@ -29,14 +28,14 @@ router.put('/:venueId' , requireAuth , async ( req, res , next ) => {
 
     // console.log(currentGroup.id)
 
-    const checkHost = await Membership.findOne({
+    const isCoHost = await Membership.findOne({
          where: { 
             groupId: currentGroup.id,
              userId: req.user.id, 
              status: "co-host" } 
             })
 
-    if (!(checkHost || currentGroup.organizerId === req.user.id)){
+    if (!(isCoHost || currentGroup.organizerId === req.user.id)){
        return res.status(403).json({"message": "Forbidden"})
     }
 

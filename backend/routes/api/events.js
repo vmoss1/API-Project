@@ -1,32 +1,38 @@
 const express = require("express");
 const {  requireAuth } = require("../../utils/auth");
 const { Group , Membership , User , Venue , Attendance , Eventimage , Event } = require("../../db/models");
+const { check } = require("express-validator");
+const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
+// Validation middleware for query parameters
+const validatePagination = [
+  check("page")
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("Page must be greater than or equal to 1"),
+
+  check("size")
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("Size must be greater than or equal to 1"),
+  handleValidationErrors,
+];
+
 // Returns all the events.
 // Require Authentication: false
-router.get('/', async (req , res , next) => {
+router.get('/', validatePagination, async (req , res , next) => {
 
   try {
+    // sets defaults
+    let  { page = 1 , size = 20 } = req.query
 
-    let  { page , size } = req.query
+ //isNaN ensures that the code behaves even when dealing with an unexpected input
+ // ensure that size is limited to a maximum value of 20
 
-    size = parseInt(size); // ensures that the integers don't result in negative
-    page = parseInt(page)
-
-
-    if (size <= 0 || size > 20|| !size) {
-        size = 20; // default
-      }
-
-    if (page <= 0 || page > 10 || !page){
-       page = 1
-    }
-
-    if (page < 1 || size < 1) {
-    
-   }
+    page = isNaN(page) || page <= 0 ? 1 : parseInt(page) , 10;
+    size = isNaN(size) || size <= 0 ? 20 : Math.min(parseInt(size), 20);
 
      const allEvents = await Event.scope('ex' , 'defaultScope').findAll({
         include: [
@@ -45,7 +51,7 @@ router.get('/', async (req , res , next) => {
              attributes:  ['id' , 'city' , 'state']
           },
         ],
-        offset: (page - 1) * size, // Calculate offset based on page and size
+        offset: size * (page - 1), // Calculate offset based on page and size
         limit: size // Set the limit to the specified size
      })
 

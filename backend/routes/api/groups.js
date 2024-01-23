@@ -607,11 +607,20 @@ router.get('/:groupId/members' , async (req , res , next ) => {
     memList.forEach(mem => {
        
        mem.Membership = mem.Memberships
-
+        // checking to see if an array if so conversion will occur
+       if (Array.isArray(mem.Membership)) {
+        // Convert the array to an object
+        mem.Membership = mem.Membership.reduce((mem, membership) => {
+            // someKey: to use as the key in the resulting object
+            mem[membership.someKey] = membership;
+            return mem;
+        }, );
+    }
         delete mem.Memberships
+        delete mem.username
     })
 
-    return   res.json({Members: memList})
+    return res.json({Members: memList})
 } catch (err) {
     next(err)
 }

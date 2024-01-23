@@ -29,7 +29,7 @@ router.get('/', validatePagination, async (req , res , next) => {
     let  { page = 1 , size = 20 } = req.query
 
  //isNaN ensures that the code behaves even when dealing with an unexpected input
- // ensure that size is limited to a maximum value of 20
+ // ensure that size is limited to a maximum value of 20 and 10
 
     page = isNaN(page) || page <= 0 ? 1 : parseInt(page) , 10;
     size = isNaN(size) || size <= 0 ? 20 : Math.min(parseInt(size), 20);

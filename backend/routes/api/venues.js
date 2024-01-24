@@ -18,15 +18,11 @@ router.put('/:venueId' , requireAuth , async ( req, res , next ) => {
 
     const currentVenue = await Venue.findByPk(venueId)
 
-    // console.log(currentVenue)
-
     if (!currentVenue){
        return res.status(404).json({"message": "Venue couldn't be found"})
     }
 
     const currentGroup = await Group.findByPk(currentVenue.groupId)
-
-    // console.log(currentGroup.id)
 
     const isCoHost = await Membership.findOne({
          where: { 

@@ -39,8 +39,8 @@ router.post("/", validateLogin, async (req, res, next) => {
     const err = new Error("Login failed");
     err.status = 401;
     err.title = "Login failed";
-    err.errors = { "message": "Invalid credentials" };
-    delete err.stack
+    err.errors = { message: "Invalid credentials" };
+    delete err.stack;
     return next(err);
   }
 
@@ -62,7 +62,7 @@ router.post("/", validateLogin, async (req, res, next) => {
 //* Log out
 router.delete("/", (_req, res) => {
   res.clearCookie("token");
-  return res.json({ message: "success" });
+  return res.json({ message: "You have been successfully logged out" });
 });
 
 // Restore session user

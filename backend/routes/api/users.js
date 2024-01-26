@@ -17,40 +17,22 @@ const validateSignup = [
   check("email")
     .exists({ checkFalsy: true })
     .isEmail()
-    .withMessage("Please provide a valid email.")
-    .custom(async (value) => {
-      // Check if the email is already in use
-      const checkEmail = await User.findOne({
-        where: { email: value },
-      });
-      if (checkEmail) {
-        throw new Error("User with that email already exists");
-      }
-    }),
+    .withMessage("Please provide a valid email."),
   check("username")
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
     .withMessage("Please provide a username with at least 4 characters."),
-  check("username").not().isEmail().withMessage("Username cannot be an email.")
-  .custom(async (value) => {
-    // Check if the username is already in use
-    const checkUser = await User.findOne({
-      where: { username: value },
-    });
-    if (checkUser) {
-      throw new Error("User with that username already exists");
-    }
-  }),
+  check("username").not().isEmail().withMessage("Username cannot be an email."),
   check("password")
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage("Password must be 6 characters or more."),
-    check("firstName")
+  check("firstName")
     .exists({ checkFalsy: true })
-    .withMessage("Please provide a first name."),
+    .withMessage("First Name is required"),
   check("lastName")
     .exists({ checkFalsy: true })
-    .withMessage("Please provide a last name."),
+    .withMessage("Last Name is required"),
   handleValidationErrors,
 ];
 

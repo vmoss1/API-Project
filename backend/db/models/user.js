@@ -8,16 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // User.belongsToMany(models.Event , {
-      //   through: 'Attendance',
-      //   foreignKey: 'userId',
-      //   otherKey: 'eventId'
-      // })
-      // User.belongsToMany(models.Group , {
-      //   through: 'Membership' , 
-      //   foreignKey: 'userId',
-      //   otherKey: 'groupId'
-      // })
+
       User.hasMany(models.Attendance , {
         foreignKey: 'userId',
         onDelete: 'CASCADE',
@@ -41,7 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: {
+          args: true,
+          msg: 'User already exists ensure you do not already have an account'
+        },
         validate: {
           len: [4, 30],
           isNotEmail(val) {
@@ -54,7 +48,10 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: {
+          args: true,
+          msg: 'User already exists ensure you do not already have an account'
+        },
         validate: {
           len: [3, 256],
           isEmail: true,
@@ -90,10 +87,12 @@ module.exports = (sequelize, DataTypes) => {
           exclude: ["hashedPassword", "email", "createdAt", "updatedAt"],
         }, // default query when searching for Users, the hashedPassword, updatedAt, and, depending on your application, email and createdAt fields should not be returned
       }, // protects sensitive information from being leaked
-    }
-  );
+    });
+  
   return User;
+  
 };
+
 
 //! backend login flow -
 //  API login route will be hit with a request body holding a valid credential

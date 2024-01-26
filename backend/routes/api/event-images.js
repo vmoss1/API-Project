@@ -10,7 +10,6 @@ const router = express.Router();
 router.delete("/:imageId", requireAuth, async (req, res, next) => {
   try {
     let { imageId } = req.params;
-
     imageId = +imageId;
 
     const eventImage = await Eventimage.findByPk(imageId, {
@@ -28,7 +27,6 @@ router.delete("/:imageId", requireAuth, async (req, res, next) => {
 
     const group = eventImage.Event.Group;
     const isOrganizer = group.organizerId === req.user.id;
-
     const isCoHost = await Membership.findOne({
       where: {
         groupId: group.id,

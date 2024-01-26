@@ -10,7 +10,6 @@ const router = express.Router();
 router.delete("/:imageId", requireAuth, async (req, res, next) => {
   try {
     let { imageId } = req.params;
-
     imageId = +imageId;
 
     const groupImage = await Groupimage.findByPk(imageId, {
@@ -18,7 +17,6 @@ router.delete("/:imageId", requireAuth, async (req, res, next) => {
         model: Group,
       },
     });
-
     if (!groupImage) {
       return res.status(404).json({ message: "Group Image couldn't be found" });
     }

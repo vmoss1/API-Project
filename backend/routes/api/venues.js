@@ -9,13 +9,11 @@ const router = express.Router();
 router.put("/:venueId", requireAuth, async (req, res, next) => {
   try {
     let { venueId } = req.params;
-
     venueId = +venueId;
 
     const { address, city, state, lat, lng } = req.body;
 
     const currentVenue = await Venue.findByPk(venueId);
-
     if (!currentVenue) {
       return res.status(404).json({ message: "Venue couldn't be found" });
     }
@@ -29,7 +27,6 @@ router.put("/:venueId", requireAuth, async (req, res, next) => {
         status: "co-host",
       },
     });
-
     const isOrganizer = currentGroup.organizerId === req.user.id;
 
     if (!(isCoHost || isOrganizer)) {

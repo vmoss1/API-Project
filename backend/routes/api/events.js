@@ -38,7 +38,7 @@ router.get("/", validatePagination, async (req, res, next) => {
     // isNaN ensures that the code behaves even when dealing with an unexpected input
     // ensures that size is limited to a maximum value of 20 and 10
 
-    (page = isNaN(page) || page <= 0 ? 1 : parseInt(page)), 10;
+    page = isNaN(page) || page <= 0 ? 1 : parseInt(page);
     size = isNaN(size) || size <= 0 ? 20 : Math.min(parseInt(size), 20);
 
     const allEvents = await Event.scope("ex", "defaultScope").findAll({
@@ -200,8 +200,6 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
       url,
       preview,
     });
-
-    await newImage.save();
 
     return res.json({
       id: newImage.id,
@@ -430,8 +428,6 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
         userId: req.user.id,
         status: "pending",
       });
-
-      await newAttenders.save();
 
       let updatedAttender = await Attendance.findOne({
         where: {

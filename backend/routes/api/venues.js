@@ -28,7 +28,6 @@ router.put("/:venueId", requireAuth, async (req, res, next) => {
       },
     });
     const isOrganizer = currentGroup.organizerId === req.user.id;
-
     if (!(isCoHost || isOrganizer)) {
       return res.status(403).json({ message: "Forbidden" });
     }

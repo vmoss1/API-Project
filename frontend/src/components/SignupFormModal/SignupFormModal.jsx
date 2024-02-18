@@ -44,7 +44,7 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
+      <h1>Sign Up A New Wizard/Witch *No Muggles</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Email

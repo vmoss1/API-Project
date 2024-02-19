@@ -3,6 +3,16 @@
   color: black;
 }
 
+.Images {
+  height: 300px;
+  width: 300px;
+  float: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 #wizardGroup {
   color: gray;
   font-size: 1.25rem;

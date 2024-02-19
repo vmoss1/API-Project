@@ -36,6 +36,7 @@ const AllGroupList = () => {
           >
             <div>
               <img
+                className="Images"
                 src={
                   group.previewImage !== "No preview image found."
                     ? group.previewImage

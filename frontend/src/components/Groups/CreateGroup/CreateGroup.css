@@ -1,0 +1,30 @@
+.formPage {
+  display: flex;
+  justify-content: center;
+}
+
+#groupLeader {
+  margin-bottom: 0px;
+  color: teal;
+}
+
+#followSteps {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-bottom: 2px grey solid;
+}
+
+#locationBox {
+  border-bottom: 2px grey solid;
+}
+#groupNameBox {
+  border-bottom: 2px grey solid;
+}
+
+#aboutBox {
+  border-bottom: 2px grey solid;
+}
+
+#finalStepsBox {
+  border-bottom: 2px grey solid;
+}

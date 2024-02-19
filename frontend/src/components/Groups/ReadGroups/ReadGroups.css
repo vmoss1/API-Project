@@ -1,0 +1,63 @@
+* {
+  text-decoration: none;
+  color: black;
+}
+
+.Images {
+  height: 300px;
+  width: 350px;
+  float: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#wizardGroup {
+  color: gray;
+  font-size: 1.25rem;
+}
+
+.groupName {
+  font-size: 2rem;
+}
+
+.groupLocation {
+  color: grey;
+}
+
+.groupType {
+  color: grey;
+}
+
+.groups-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageLinks {
+  display: flex;
+  margin-top: 20px;
+  gap: 30px;
+  font-size: 2rem;
+  color: black;
+}
+
+#group:hover {
+  text-decoration: underline;
+  color: teal;
+}
+
+#event:hover {
+  text-decoration: underline;
+  color: teal;
+}
+
+.wizard-group {
+  display: flex;
+  border-top: 2px solid #ae0001;
+  border-bottom: 2px solid #ae0001;
+  margin-bottom: 20px;
+}

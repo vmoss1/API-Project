@@ -1,0 +1,27 @@
+@import url("https://fonts.cdnfonts.com/css/harry-potter");
+
+* {
+  font-family: "Harry Potter", sans-serif;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  font-family: "Harry Potter", sans-serif;
+  font-size: 1rem;
+  text-decoration: none;
+  border-bottom: #ae0001 2px solid;
+}
+
+#linkWand {
+  text-decoration: none;
+  font-size: 2rem;
+  color: #740001;
+}
+
+.profile-dropdown {
+  display: flex;
+  justify-self: center;
+  gap: 10px;
+}

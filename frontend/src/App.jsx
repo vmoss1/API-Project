@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import SignupFormPage from "./components/SignupFormModal/SignupFormModal";
 import Navigation from "./components/Navigation/Navigation";
+import CreateGroup from "./components/Groups/CreateGroup/CreateGroup";
+import ReadGroups from "./components/Groups/ReadGroups/ReadGroups";
+import { Modal } from "./context/Modal";
+import { LandingPage } from "./components/LandingPage/LandingPage";
+import ReadGroupDetails from "./components/Groups/ReadGroupDetails/ReadGroupDetails";
 import * as sessionActions from "./store/session";
 
 function Layout() {
@@ -18,6 +22,7 @@ function Layout() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <Modal />
       {isLoaded && <Outlet />}
     </>
   );
@@ -29,11 +34,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <LandingPage />,
       },
       {
-        path: "signup",
-        element: <SignupFormPage />,
+        path: "/groups",
+        element: <ReadGroups />,
+      },
+      {
+        path: "/groups/:id",
+        element: <ReadGroupDetails />,
+      },
+      {
+        path: "/groups/new",
+        element: <CreateGroup />,
       },
     ],
   },

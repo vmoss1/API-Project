@@ -20,5 +20,9 @@
 
 #modal-content {
   position: absolute;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  background-color: #2a623d;
+  border: black 5px solid;
 }

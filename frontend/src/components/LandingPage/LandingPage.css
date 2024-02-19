@@ -1,0 +1,84 @@
+#welcomeH1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  font-size: 5.5rem;
+  margin-top: 2rem;
+  margin-bottom: 10px;
+  text-shadow: #ae0001 2px 2px 2px;
+}
+
+#introForm {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+#logo {
+  height: 80px;
+  width: 80px;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#landingParagraph {
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 2px;
+}
+
+.join-theWand {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  background-color: #ae0001;
+  height: 50px;
+  width: 100px;
+}
+
+#whatAbout {
+  display: flex;
+  justify-content: center;
+}
+
+#paragraphAbout {
+  text-align: center;
+
+  word-wrap: break-word;
+}
+
+.landing-img {
+  width: 400px;
+  height: 300px;
+  border: 2px black solid;
+  box-shadow: #740001 5px 5px 5px 3px;
+}
+
+.landing-img:hover {
+  box-shadow: #1a472a 5px 5px 5px 3px;
+}
+
+.landingCards {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  color: black;
+}
+
+.landing-link {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  margin-top: 10px;
+  color: black;
+}
+
+.landing-link:hover {
+  color: teal;
+}

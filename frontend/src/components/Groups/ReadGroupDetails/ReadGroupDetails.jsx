@@ -1,15 +1,26 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGroupDetails } from "../../../store/groups";
+import { fetchGroupDetails, deleteGroupFunc } from "../../../store/groups";
+import UpdateGroup from "../UpdateGroup/UpdateGroup";
 import "./ReadGroupDetails.css";
 
 const ReadGroupDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [deleted, setDeleted] = useState(false);
 
   const groupDetails = useSelector((state) => state.groups.groupDetails);
+
+  const currentUser = useSelector((state) => state.session?.user);
+
+  const isGroupOrganizer =
+    currentUser && groupDetails.Organizer?.id === currentUser.id;
+
+  const isNotGroupOrganizer =
+    currentUser && groupDetails.Organizer?.id !== currentUser.id;
 
   useEffect(() => {
     dispatch(fetchGroupDetails(id));
@@ -18,6 +29,14 @@ const ReadGroupDetails = () => {
   let imagePrev = groupDetails.Groupimages?.find(
     (image) => image.preview === true
   );
+
+  const handleDeleteGroup = () => {
+    setDeleted(true);
+  };
+  const handleDeleteMessage = async () => {
+    const res = await dispatch(deleteGroupFunc(groupDetails.id));
+    if (res.message === "Successfully deleted") navigate(`/groups`);
+  };
 
   return (
     <div>
@@ -49,9 +68,36 @@ const ReadGroupDetails = () => {
             Group Leader {groupDetails.Organizer?.firstName},{" "}
             {groupDetails.Organizer?.lastName}
           </p>
-          <button id="joinButton" onClick={() => alert("Feature Coming Soon!")}>
-            Join this group
-          </button>
+          <div className="buttonContainer">
+            {isGroupOrganizer && (
+              <button id="createButton">Create Event</button>
+            )}
+            {isGroupOrganizer && (
+              <button id="Update" onClick={() => navigate("/edit-group")}>
+                Update
+              </button>
+            )}
+            {isGroupOrganizer && (
+              <button onClick={handleDeleteGroup} id="deleteButton">
+                Delete
+              </button>
+            )}
+            {deleted && (
+              <div>
+                <p>Are you sure?</p>
+                <button onClick={handleDeleteMessage}>Yes!</button>
+                <button onClick={() => setDeleted(false)}>No!</button>
+              </div>
+            )}
+            {isNotGroupOrganizer && (
+              <button
+                id="joinButton"
+                onClick={() => alert("Feature Coming Soon!")}
+              >
+                Join this group
+              </button>
+            )}
+          </div>
         </div>
       </div>
       <div className="bottomHalfContainer">

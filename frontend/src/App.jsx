@@ -5,6 +5,7 @@ import Navigation from "./components/Navigation/Navigation";
 import CreateGroup from "./components/Groups/CreateGroup/CreateGroup";
 import ReadGroups from "./components/Groups/ReadGroups/ReadGroups";
 import { Modal } from "./context/Modal";
+import UpdateGroup from "./components/Groups/UpdateGroup/UpdateGroup";
 import { LandingPage } from "./components/LandingPage/LandingPage";
 import ReadGroupDetails from "./components/Groups/ReadGroupDetails/ReadGroupDetails";
 import * as sessionActions from "./store/session";
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/groups/new",
         element: <CreateGroup />,
+      },
+      {
+        path: "/edit-group",
+        element: <UpdateGroup />,
       },
     ],
   },

@@ -1,24 +1,46 @@
-import { createGroupFunc, addGroupImageFunc } from "../../../store/groups";
+import { updateGroupFunc } from "../../../store/groups";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import "./CreateGroup.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./UpdateGroup.css";
 
-const CreateGroup = () => {
+const UpdateGroup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { state: locationState } = useLocation();
   const types = ["Select", "In person", "Online"];
   const privacies = ["Select", "Private", "Public"];
+  const user = useSelector((state) => state.session.user);
+
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [type, setType] = useState(types[0]);
   const [privacy, setPrivacy] = useState(privacies[0]);
-  const [image, setImage] = useState("");
   const [validations, setValidations] = useState({});
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (!locationState || !user || locationState.userId !== user.id) {
+      navigate("/");
+    } else {
+      const {
+        groupCity,
+        groupState,
+        groupName,
+        groupAbout,
+        groupType,
+        groupPrivate,
+      } = locationState;
+
+      setCity(groupCity || "");
+      setState(groupState || "");
+      setName(groupName || "");
+      setAbout(groupAbout || "");
+      setType(groupType || "");
+      setPrivacy(groupPrivate ? "true" : "false");
+    }
+  }, [user, locationState, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +50,6 @@ const CreateGroup = () => {
     if (!city) validate.city = "Please provide city";
     if (!state) validate.state = "Please provide state";
     if (!name) validate.name = "Please provide a name";
-    if (!image) validate.image = "Please provide an image URL";
     if (about.length < 30)
       validate.about = "Please write at least 30 characters";
     if (type == "Select") validate.type = "Please ensure selection is provided";
@@ -46,20 +67,13 @@ const CreateGroup = () => {
         city,
         state: state,
       };
+      const groupId = locationState.groupId; // accessing group from the locationState
 
-      console.log("GROUPS", newGroup);
-
-      const newImage = {
-        url: image,
-        preview: true,
-      };
-
-      const awaitNewGroup = await dispatch(createGroupFunc(newGroup));
+      const awaitNewGroup = await dispatch(updateGroupFunc(groupId, newGroup));
 
       if (awaitNewGroup.validate) {
         setValidations(awaitNewGroup.validate);
       } else {
-        await dispatch(addGroupImageFunc(awaitNewGroup.id, newImage));
         navigate(`/groups/${awaitNewGroup.id}`);
       }
     }
@@ -68,10 +82,8 @@ const CreateGroup = () => {
   return (
     <div className="formPage">
       <form onSubmit={handleSubmit}>
-        <h3 id="groupLeader">Become a Group Leader</h3>
-        <h2 id="followSteps">
-          Follow steps to build your local wizarding Group
-        </h2>
+        <h3 id="groupLeader">Update Your Group Info</h3>
+        <h2 id="followSteps">Follow steps to update any information</h2>
         <div id="locationBox">
           <h2>Set Location</h2>
           <p>
@@ -190,30 +202,12 @@ const CreateGroup = () => {
             )}
           </div>
         </div>
-        <div id="finalStepsBox">
-          <p>Please add an image url for your group below:</p>
-          <label htmlFor="image">
-            <input
-              type="text"
-              name="Image"
-              id="Image"
-              placeholder="Image URL"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-            />
-          </label>
-          <div>
-            {"image" in validations && (
-              <p className="validations">{validations.image}</p>
-            )}
-          </div>
-        </div>
         <div>
-          <button type="submit">Create Group</button>
+          <button type="submit">Update Group</button>
         </div>
       </form>
     </div>
   );
 };
 
-export default CreateGroup;
+export default UpdateGroup;

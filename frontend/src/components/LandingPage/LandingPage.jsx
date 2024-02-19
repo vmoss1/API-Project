@@ -36,12 +36,14 @@ export function LandingPage() {
           path={`events`}
           linkText={`Find an Event`}
         />
-        <LandingPageCard
-          image={newGroup}
-          alt={"Group of mutants sitting around a table."}
-          path={`groups/new`}
-          linkText={`Create a new group`}
-        />
+        {isLoggedIn && (
+          <LandingPageCard
+            image={newGroup}
+            alt={"New Group Photo"}
+            path={`groups/new`}
+            linkText={`Create a new group`}
+          />
+        )}
       </div>
       {!isLoggedIn && (
         <div className="join-theWand">

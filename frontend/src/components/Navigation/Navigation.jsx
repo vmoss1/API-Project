@@ -1,10 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
+import { Link } from "react-router-dom";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
+  const isLoggedIn = useSelector((state) => state.session.user !== null);
 
   return (
     <nav>
@@ -16,6 +18,7 @@ function Navigation({ isLoaded }) {
       {isLoaded && (
         <div>
           <ProfileButton user={sessionUser} />
+          {isLoggedIn && <Link to={"/groups/new"}>Create a new group</Link>}
         </div>
       )}
     </nav>

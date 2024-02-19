@@ -6,8 +6,8 @@ const READ_GROUP_DETAILS = "groups/readGroupDetails";
 const READ_GROUP_EVENTS = "groups/readGroupEvents";
 const CREATE_GROUP = "groups/createGroup";
 const ADD_GROUPIMAGE = "groups/addGroupImage";
-// const DELETE_GROUP = "groups/deleteGroup";
-// const UPDATE_GROUP = "groups/updateGroup";
+const DELETE_GROUP = "groups/deleteGroup";
+const UPDATE_GROUP = "groups/updateGroup";
 
 //action creators
 const readGroups = (groups) => ({
@@ -36,15 +36,17 @@ const addGroupImage = (groupId, image) => ({
   image,
 });
 
-// const deleteGroup = (groupId) => ({
-//   type: DELETE_GROUP,
-//   groupId,
-// });
+const deleteGroup = (groupId) => ({
+  type: DELETE_GROUP,
+  groupId,
+});
 
-// const updateGroup = (group) => ({
-//   type: UPDATE_GROUP,
-//   group,
-// });
+const updateGroup = (group) => ({
+  type: UPDATE_GROUP,
+  group,
+});
+
+// Thunk functions
 
 // Group-fetch thunk
 export const fetchAllGroups = () => async (dispatch) => {
@@ -92,14 +94,13 @@ export const createGroupFunc = (group) => async (dispatch) => {
     },
     body: JSON.stringify(group),
   });
-
   if (response.ok) {
-    const group = await response.json();
-    dispatch(createGroup(group));
-    return group;
+    const newGroup = await response.json();
+    dispatch(createGroup(newGroup));
+    return newGroup;
   } else {
-    const error = await response.json();
-    return error;
+    const e = await response.json();
+    return e;
   }
 };
 
@@ -112,11 +113,43 @@ export const addGroupImageFunc = (groupId, image) => async (dispatch) => {
     },
     body: JSON.stringify(image),
   });
-
   if (response.ok) {
     const group = await response.json();
     await dispatch(addGroupImage(groupId, image));
     return group;
+  } else {
+    const e = await response.json();
+    return e;
+  }
+};
+
+//delete group
+export const deleteGroupFunc = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch(deleteGroup(groupId));
+    return response.json();
+  } else {
+    const e = await response.json();
+    return e;
+  }
+};
+
+//update group
+export const updateGroupFunc = (groupId, groupData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(groupData),
+  });
+  if (response.ok) {
+    const editedGroup = await response.json();
+    dispatch(updateGroup(editedGroup));
+    return editedGroup;
   } else {
     const error = await response.json();
     return error;
@@ -138,18 +171,38 @@ const groupsReducer = (state = initialState, action) => {
     case READ_GROUP_EVENTS:
       return { ...state, groupEvents: action.payload };
     case CREATE_GROUP: {
-      const groupsState = { ...state };
-      groupsState[action.group.id] = action.group;
-      return groupsState;
+      return {
+        ...state,
+        [action.group.id]: action.group,
+      };
     }
     case ADD_GROUPIMAGE: {
-      const groupsState = { ...state };
-      if ("Groupimages" in groupsState[action.groupId]) {
-        groupsState[action.groupId].Groupimages.push(action.image);
-      } else {
-        groupsState[action.groupId].Groupimages = [action.image];
-      }
-      return groupsState;
+      const { groupId, image } = action;
+      return {
+        ...state,
+        [groupId]: {
+          ...state[groupId],
+          Groupimages: state[groupId]?.Groupimages
+            ? [...state[groupId].Groupimages, image]
+            : [image],
+        },
+      };
+    }
+    case DELETE_GROUP: {
+      const editGroups = state.list.filter(
+        (group) => group.id !== action.groupId
+      );
+      return { ...state, list: editGroups, groupDetails: null };
+    }
+    case UPDATE_GROUP: {
+      const editGroups = state.list.map((group) =>
+        group.id === action.group.id ? action.group : group
+      );
+      return {
+        ...state,
+        list: editGroups,
+        groupDetails: action.group,
+      };
     }
     default:
       return state;

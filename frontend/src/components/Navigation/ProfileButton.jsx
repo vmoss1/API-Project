@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { GiHarryPotterSkull } from "react-icons/gi";
 import * as sessionActions from "../../store/session";
-import OpenModalMenuItem from "./OpenModalMenuItem";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import "./Navigation.css";
@@ -11,6 +11,7 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
     setShowMenu(!showMenu);
@@ -61,14 +62,14 @@ function ProfileButton({ user }) {
           </>
         ) : (
           <>
-            <OpenModalMenuItem
-              itemText="Log In"
-              onItemClick={closeMenu}
+            <OpenModalButton
+              buttonText="Log In"
+              onButtonClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
+            <OpenModalButton
+              buttonText="Sign Up"
+              onButtonClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
           </>

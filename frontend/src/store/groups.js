@@ -6,8 +6,8 @@ const READ_GROUP_DETAILS = "groups/readGroupDetails";
 const READ_GROUP_EVENTS = "groups/readGroupEvents";
 const CREATE_GROUP = "groups/createGroup";
 const ADD_GROUPIMAGE = "groups/addGroupImage";
-const DELETE_GROUP = "groups/deleteGroup";
-const UPDATE_GROUP = "groups/updateGroup";
+// const DELETE_GROUP = "groups/deleteGroup";
+// const UPDATE_GROUP = "groups/updateGroup";
 
 //action creators
 const readGroups = (groups) => ({
@@ -36,15 +36,15 @@ const addGroupImage = (groupId, image) => ({
   image,
 });
 
-const deleteGroup = (groupId) => ({
-  type: DELETE_GROUP,
-  groupId,
-});
+// const deleteGroup = (groupId) => ({
+//   type: DELETE_GROUP,
+//   groupId,
+// });
 
-const updateGroup = (group) => ({
-  type: UPDATE_GROUP,
-  group,
-});
+// const updateGroup = (group) => ({
+//   type: UPDATE_GROUP,
+//   group,
+// });
 
 // Group-fetch thunk
 export const fetchAllGroups = () => async (dispatch) => {

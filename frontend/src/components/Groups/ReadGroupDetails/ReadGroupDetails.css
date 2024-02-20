@@ -23,6 +23,7 @@
 
 .para {
   margin-top: 2px;
+  margin-left: 10px;
 }
 
 .buttonContainer {
@@ -55,4 +56,31 @@
   letter-spacing: 1px;
   margin-top: 70px;
   background-color: rgb(222, 222, 222);
+}
+
+#detailsTop {
+  border: black 2px solid;
+  border-radius: 20px;
+  height: 220px;
+  width: 320px;
+}
+
+#eventCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+#eventH2 {
+  display: flex;
+  justify-content: center;
+}
+
+#descripEvent {
+  display: flex;
+  justify-content: center;
+}
+
+#eventItems {
+  margin-left: 20px;
 }

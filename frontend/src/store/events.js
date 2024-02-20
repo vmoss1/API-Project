@@ -53,8 +53,9 @@ export const fetchEventDetails = (eventId) => async (dispatch) => {
 };
 
 //Events create
-export const createEventFunc = (event) => async (dispatch) => {
-  const response = await csrfFetch("/api/events", {
+export const createEventFunc = (groupId, event) => async (dispatch) => {
+  //   console.log("EVENT", event);
+  const response = await csrfFetch(`/api/groups/${groupId}/events`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -116,7 +117,7 @@ const eventsReducer = (state = initialState, action) => {
     case CREATE_EVENT: {
       return {
         ...state,
-        [action.group.id]: action.group,
+        [action.event.id]: action.event,
       };
     }
     case ADD_EVENTIMAGE: {

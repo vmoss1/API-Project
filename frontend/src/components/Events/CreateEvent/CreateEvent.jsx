@@ -11,6 +11,7 @@ const CreateEvent = () => {
   const types = ["Select", "In person", "Online"];
   const privacies = ["Select", "Private", "Public"];
   const { groupName, groupId } = location.state;
+  const capacity = 1;
 
   const [name, setName] = useState("");
   const [type, setType] = useState(types[0]);
@@ -44,12 +45,14 @@ const CreateEvent = () => {
       const newEvent = {
         name,
         type,
-        price,
+        price: parseInt(price),
         startDate,
         endDate,
         description,
-        private: privacy,
+        capacity: parseInt(capacity),
       };
+
+      //   console.log("NEWEVENT", newEvent);
 
       const newImage = {
         url: image,

@@ -11,10 +11,13 @@
 
 #backToGroupLink {
   font-size: 18px;
-  margin-top: 5px;
+  height: 50px;
+  margin-left: 225px;
+  margin-bottom: 0px;
+  margin-top: 18px;
 }
 
-#backToGroupLink:hover {
+#backToLabel:hover {
   color: teal;
 }
 
@@ -32,9 +35,9 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 20px;
   letter-spacing: 1px;
-  margin-top: 70px;
+  margin-top: 5px;
+  padding: 0px;
 }
 
 .topDetails {

@@ -43,8 +43,9 @@ function SignupFormModal() {
   };
 
   return (
-    <>
-      <h1>Sign Up A New Wizard/Witch *No Muggles</h1>
+    <div id="formPageSignUp">
+      <h1>Sign Up A New Wizard/Witch </h1>
+      <h2 id="noMuggles">*NO Muggles*</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Email
@@ -106,9 +107,11 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        <div id="signUp">
+          <button type="submit">Sign Up</button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 

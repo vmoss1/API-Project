@@ -18,7 +18,11 @@ function Navigation({ isLoaded }) {
       {isLoaded && (
         <div>
           <ProfileButton user={sessionUser} />
-          {isLoggedIn && <Link to={"/groups/new"}>Create a new group</Link>}
+          {isLoggedIn && (
+            <Link to={"/groups/new"} id="newGroupButton">
+              Create a new group
+            </Link>
+          )}
         </div>
       )}
     </nav>

@@ -1,5 +1,5 @@
 import { createGroupFunc, addGroupImageFunc } from "../../../store/groups";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./CreateGroup.css";
@@ -9,6 +9,7 @@ const CreateGroup = () => {
   const navigate = useNavigate();
   const types = ["Select", "In person", "Online"];
   const privacies = ["Select", "Private", "Public"];
+
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [name, setName] = useState("");
@@ -17,8 +18,6 @@ const CreateGroup = () => {
   const [privacy, setPrivacy] = useState(privacies[0]);
   const [image, setImage] = useState("");
   const [validations, setValidations] = useState({});
-
-  useEffect(() => {}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,8 +46,6 @@ const CreateGroup = () => {
         state: state,
       };
 
-      console.log("GROUPS", newGroup);
-
       const newImage = {
         url: image,
         preview: true,
@@ -56,12 +53,9 @@ const CreateGroup = () => {
 
       const awaitNewGroup = await dispatch(createGroupFunc(newGroup));
 
-      if (awaitNewGroup.validate) {
-        setValidations(awaitNewGroup.validate);
-      } else {
-        await dispatch(addGroupImageFunc(awaitNewGroup.id, newImage));
-        navigate(`/groups/${awaitNewGroup.id}`);
-      }
+      await dispatch(addGroupImageFunc(awaitNewGroup.id, newImage));
+
+      navigate(`/groups/${awaitNewGroup.id}`);
     }
   };
 

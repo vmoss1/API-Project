@@ -7,10 +7,11 @@ import "./UpdateGroup.css";
 const UpdateGroup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { state: locationState } = useLocation();
+  const { state: locationState } = useLocation(); // can access this data from the location state that was passed in
   const types = ["Select", "In person", "Online"];
   const privacies = ["Select", "Private", "Public"];
-  const user = useSelector((state) => state.session.user);
+  const currentUser = useSelector((state) => state.session?.user);
+  const groupId = locationState.groupId; // accessing group from the locationState
 
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -21,26 +22,22 @@ const UpdateGroup = () => {
   const [validations, setValidations] = useState({});
 
   useEffect(() => {
-    if (!locationState || !user || locationState.userId !== user.id) {
-      navigate("/");
-    } else {
-      const {
-        groupCity,
-        groupState,
-        groupName,
-        groupAbout,
-        groupType,
-        groupPrivate,
-      } = locationState;
+    let {
+      groupCity,
+      groupState,
+      groupName,
+      groupAbout,
+      groupType,
+      groupPrivate,
+    } = locationState;
 
-      setCity(groupCity || "");
-      setState(groupState || "");
-      setName(groupName || "");
-      setAbout(groupAbout || "");
-      setType(groupType || "");
-      setPrivacy(groupPrivate ? "true" : "false");
-    }
-  }, [user, locationState, navigate]);
+    setCity(groupCity || "");
+    setState(groupState || "");
+    setName(groupName || "");
+    setAbout(groupAbout || "");
+    setType(groupType || "");
+    setPrivacy(groupPrivate ? "true" : "false");
+  }, [currentUser, locationState, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,15 +64,10 @@ const UpdateGroup = () => {
         city,
         state: state,
       };
-      const groupId = locationState.groupId; // accessing group from the locationState
 
       const awaitNewGroup = await dispatch(updateGroupFunc(groupId, newGroup));
 
-      if (awaitNewGroup.validate) {
-        setValidations(awaitNewGroup.validate);
-      } else {
-        navigate(`/groups/${awaitNewGroup.id}`);
-      }
+      navigate(`/groups/${awaitNewGroup.id}`);
     }
   };
 

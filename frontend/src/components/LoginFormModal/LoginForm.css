@@ -5,3 +5,16 @@ form {
   align-content: center;
   justify-content: center;
 }
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#loginButton {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}

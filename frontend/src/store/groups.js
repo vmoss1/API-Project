@@ -48,7 +48,7 @@ const updateGroup = (group) => ({
 
 // Thunk functions
 
-// Group-fetch thunk
+// Group fetch
 export const fetchAllGroups = () => async (dispatch) => {
   const response = await csrfFetch("/api/groups");
   const data = await response.json();
@@ -57,35 +57,27 @@ export const fetchAllGroups = () => async (dispatch) => {
 
 // Group details fetch
 export const fetchGroupDetails = (groupId) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/groups/${groupId}`);
-    if (response.ok) {
-      const groupDetails = await response.json();
-      dispatch(readGroupDetails(groupDetails));
-    } else {
-      throw new Error("Unable to fetch group Details");
-    }
-  } catch (e) {
-    console.log(e);
+  const response = await csrfFetch(`/api/groups/${groupId}`);
+  if (response.ok) {
+    const groupDetails = await response.json();
+    dispatch(readGroupDetails(groupDetails));
+  } else {
+    throw new Error("Unable to fetch group Details");
   }
 };
 
 // Group Events fetch
 export const fetchGroupEvents = (groupId) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/groups/${groupId}/events`);
-    if (response.ok) {
-      const { Events } = await response.json();
-      dispatch(readGroupEvents(Events));
-    } else {
-      throw new Error("Group events fetch failed");
-    }
-  } catch (e) {
-    console.log(e);
+  const response = await csrfFetch(`/api/groups/${groupId}/events`);
+  if (response.ok) {
+    const { Events } = await response.json();
+    dispatch(readGroupEvents(Events));
+  } else {
+    throw new Error("Group events fetch failed");
   }
 };
 
-//Create new group thunk
+//Create new group
 export const createGroupFunc = (group) => async (dispatch) => {
   const response = await csrfFetch("/api/groups", {
     method: "POST",
@@ -99,12 +91,11 @@ export const createGroupFunc = (group) => async (dispatch) => {
     dispatch(createGroup(newGroup));
     return newGroup;
   } else {
-    const e = await response.json();
-    return e;
+    throw new Error("Unable to Create");
   }
 };
 
-// add group image thunk
+// add group image
 export const addGroupImageFunc = (groupId, image) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}/images`, {
     method: "POST",
@@ -118,8 +109,7 @@ export const addGroupImageFunc = (groupId, image) => async (dispatch) => {
     await dispatch(addGroupImage(groupId, image));
     return group;
   } else {
-    const e = await response.json();
-    return e;
+    throw new Error("Unable to Add");
   }
 };
 
@@ -132,8 +122,7 @@ export const deleteGroupFunc = (groupId) => async (dispatch) => {
     dispatch(deleteGroup(groupId));
     return response.json();
   } else {
-    const e = await response.json();
-    return e;
+    throw new Error("Unable to Delete");
   }
 };
 
@@ -151,8 +140,7 @@ export const updateGroupFunc = (groupId, groupData) => async (dispatch) => {
     dispatch(updateGroup(editedGroup));
     return editedGroup;
   } else {
-    const error = await response.json();
-    return error;
+    throw new Error("Unable to Update");
   }
 };
 
@@ -189,18 +177,16 @@ const groupsReducer = (state = initialState, action) => {
       };
     }
     case DELETE_GROUP: {
-      const editGroups = state.list.filter(
-        (group) => group.id !== action.groupId
-      );
-      return { ...state, list: editGroups, groupDetails: null };
+      const { list } = state;
+      const updatedList = list.filter((group) => group.id !== action.groupId);
+      return { ...state, list: updatedList, groupDetails: null };
     }
     case UPDATE_GROUP: {
-      const editGroups = state.list.map((group) =>
-        group.id === action.group.id ? action.group : group
-      );
       return {
         ...state,
-        list: editGroups,
+        list: state.list.map((group) =>
+          group.id === action.group.id ? action.group : group
+        ),
         groupDetails: action.group,
       };
     }

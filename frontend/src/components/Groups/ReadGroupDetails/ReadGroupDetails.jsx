@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupDetails, deleteGroupFunc } from "../../../store/groups";
-import UpdateGroup from "../UpdateGroup/UpdateGroup";
 import "./ReadGroupDetails.css";
 
 const ReadGroupDetails = () => {
@@ -13,36 +12,53 @@ const ReadGroupDetails = () => {
   const [deleted, setDeleted] = useState(false);
 
   const groupDetails = useSelector((state) => state.groups.groupDetails);
-
   const currentUser = useSelector((state) => state.session?.user);
 
   const isGroupOrganizer =
     currentUser && groupDetails.Organizer?.id === currentUser.id;
-
   const isNotGroupOrganizer =
     currentUser && groupDetails.Organizer?.id !== currentUser.id;
-
-  useEffect(() => {
-    dispatch(fetchGroupDetails(id));
-  }, [dispatch, id]);
 
   let imagePrev = groupDetails.Groupimages?.find(
     (image) => image.preview === true
   );
 
-  const handleDeleteGroup = () => {
-    setDeleted(true);
+  useEffect(() => {
+    dispatch(fetchGroupDetails(id));
+  }, [dispatch, id]);
+
+  const handleUpdate = () => {
+    // passing current state object to the new page
+    navigate("/edit-group", {
+      state: {
+        groupId: id,
+        userId: groupDetails.organizerId,
+        groupName: groupDetails.name,
+        groupCity: groupDetails.city,
+        groupState: groupDetails.state,
+        groupAbout: groupDetails.about,
+        groupType: groupDetails.type,
+        groupPrivate: groupDetails.private,
+      },
+    });
   };
+
   const handleDeleteMessage = async () => {
     const res = await dispatch(deleteGroupFunc(groupDetails.id));
     if (res.message === "Successfully deleted") navigate(`/groups`);
   };
+  const handleDeleteGroup = () => {
+    setDeleted(true);
+  };
 
   return (
     <div>
-      <nav id="backToGroupLink">
-        <Link to="/groups">Back to Groups Page</Link>
-      </nav>
+      <div id="backToGroupLink">
+        <Link to="/groups" id="backToLabel">
+          Back to Groups Page
+        </Link>
+      </div>
+
       <div className="topHalfContainer">
         <div>
           <img
@@ -73,7 +89,7 @@ const ReadGroupDetails = () => {
               <button id="createButton">Create Event</button>
             )}
             {isGroupOrganizer && (
-              <button id="Update" onClick={() => navigate("/edit-group")}>
+              <button id="Update" onClick={handleUpdate}>
                 Update
               </button>
             )}

@@ -1,13 +1,9 @@
-#groupImageDetails {
-  height: 100px;
-  border: black 2px solid;
-}
-
 .upperDetailsOfTop {
   display: flex;
   flex-direction: row;
-  margin-bottom: 70px;
+  margin-bottom: 15px;
   border: 2px black solid;
+  border-radius: 20px;
 }
 
 #eventHeader {
@@ -16,6 +12,26 @@
   margin-top: 20px;
 }
 
-#deleteButton {
-  float: right;
+#groupCardInfo {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#groupImageDetails {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  border-radius: 20px;
+  height: 80px;
+  border: black 2px solid;
+}
+
+.lowerDetailsOfTop {
+  border: 2px black solid;
+  border-radius: 20px;
+  margin-top: 0px;
+}
+
+#lowerDetails {
+  margin: 20px;
 }

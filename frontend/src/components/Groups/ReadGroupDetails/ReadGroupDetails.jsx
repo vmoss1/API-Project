@@ -43,6 +43,12 @@ const ReadGroupDetails = () => {
     });
   };
 
+  const handleCreateEvent = () => {
+    navigate("/create-event", {
+      state: { groupId: id, groupName: groupDetails.name },
+    });
+  };
+
   const handleDeleteMessage = async () => {
     const res = await dispatch(deleteGroupFunc(groupDetails.id));
     if (res.message === "Successfully deleted") navigate(`/groups`);
@@ -86,7 +92,9 @@ const ReadGroupDetails = () => {
           </p>
           <div className="buttonContainer">
             {isGroupOrganizer && (
-              <button id="createButton">Create Event</button>
+              <button id="createButton" onClick={handleCreateEvent}>
+                Create Event
+              </button>
             )}
             {isGroupOrganizer && (
               <button id="Update" onClick={handleUpdate}>

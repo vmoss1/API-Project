@@ -83,27 +83,30 @@ const ManageEvents = () => {
               }
               alt={eventDetails.name}
             />
-            <p className="groupCard"> {groupName}</p>
-            <p className="groupCard"> {groupPrivacy}</p>
+            <div id="groupCardInfo">
+              <h2> {groupName}</h2>
+              <p> {groupPrivacy ? "Private" : "Public"}</p>
+            </div>
           </div>
 
           <div className="lowerDetailsOfTop">
-            <p className="para">Start Date: {eventDetails.startDate}</p>
-            <p className="para">End Date: {eventDetails.endDate}</p>
-            <p className="para">Price: {eventDetails.price}$</p>
-            <p className="para">Location Type: {groupType}</p>
+            <div id="lowerDetails">
+              <p className="para">Start Date: {eventDetails.startDate}</p>
+              <p className="para">End Date: {eventDetails.endDate}</p>
+              <p className="para">Price: {eventDetails.price}$</p>
+              <p className="para">Location Type: {groupType}</p>
 
-            <button onClick={handleDeleteEvent} id="deleteButton">
-              Delete
-            </button>
-
-            {deleted && (
-              <div>
-                <p>Are you sure?</p>
-                <button onClick={handleDeleteMessage}>Yes!</button>
-                <button onClick={() => setDeleted(false)}>No!</button>
-              </div>
-            )}
+              <button onClick={handleDeleteEvent} id="deleteButton">
+                Delete
+              </button>
+              {deleted && (
+                <div>
+                  <p>Are you sure?</p>
+                  <button onClick={handleDeleteMessage}>Yes!</button>
+                  <button onClick={() => setDeleted(false)}>No!</button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

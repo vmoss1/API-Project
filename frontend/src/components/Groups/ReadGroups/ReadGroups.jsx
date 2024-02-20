@@ -40,7 +40,7 @@ const AllGroupList = () => {
                 src={
                   group.previewImage !== "No preview image found."
                     ? group.previewImage
-                    : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
+                    : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
                 }
                 alt={group.name}
               />

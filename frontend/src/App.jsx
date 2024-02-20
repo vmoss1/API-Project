@@ -8,6 +8,7 @@ import { Modal } from "./context/Modal";
 import UpdateGroup from "./components/Groups/UpdateGroup/UpdateGroup";
 import { LandingPage } from "./components/LandingPage/LandingPage";
 import ReadGroupDetails from "./components/Groups/ReadGroupDetails/ReadGroupDetails";
+import ReadEvents from "./components/Events/ReadEvents/ReadEvents";
 import * as sessionActions from "./store/session";
 
 function Layout() {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/edit-group",
         element: <UpdateGroup />,
+      },
+      {
+        path: "/events",
+        element: <ReadEvents />,
       },
     ],
   },

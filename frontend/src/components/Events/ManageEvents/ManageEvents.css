@@ -1,0 +1,21 @@
+#groupImageDetails {
+  height: 100px;
+  border: black 2px solid;
+}
+
+.upperDetailsOfTop {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 70px;
+  border: 2px black solid;
+}
+
+#eventHeader {
+  margin-left: 30px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+#deleteButton {
+  float: right;
+}

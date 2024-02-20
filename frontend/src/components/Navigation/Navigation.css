@@ -12,6 +12,7 @@ nav {
   font-size: 1rem;
   text-decoration: none;
   border-bottom: #ae0001 2px solid;
+  height: 150px;
 }
 
 #linkWand {
@@ -22,6 +23,18 @@ nav {
 
 .profile-dropdown {
   display: flex;
+  flex-direction: column;
   justify-self: center;
-  gap: 10px;
+  gap: 5px;
+}
+
+#newGroupButton {
+  display: block;
+  float: left;
+}
+
+#buttonsClass {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }

@@ -36,8 +36,3 @@
 li {
   list-style-type: none;
 }
-
-label {
-  display: flex;
-  justify-content: flex-start;
-}

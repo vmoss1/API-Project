@@ -45,9 +45,13 @@ const AllEventList = () => {
               />
               <div>
                 <h2 className="eventName">{event.name}</h2>
-                <p className="eventLocation">
-                  {event.Venue.city}, {event.Venue.state}
-                </p>
+                {event.Venue ? (
+                  <p>
+                    {event.Venue.city}, {event.Venue.state}
+                  </p>
+                ) : (
+                  <p>Venue pending...</p>
+                )}
                 <p className="eventType">{event.numAttending} attending</p>
               </div>
             </div>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupDetails, deleteGroupFunc } from "../../../store/groups";
 import { fetchEventDetails } from "../../../store/events";
+import ReadGroupEvents from "../ReadGroupEvents/ReadGroupEvents";
 import "./ReadGroupDetails.css";
 
 const ReadGroupDetails = () => {
@@ -13,7 +14,7 @@ const ReadGroupDetails = () => {
   const [deleted, setDeleted] = useState(false);
 
   const groupDetails = useSelector((state) => state.groups.groupDetails);
-  const eventDetails = useSelector((state) => state.events.eventDetails);
+  // const eventDetails = useSelector((state) => state.events.eventDetails);
   const currentUser = useSelector((state) => state.session?.user);
 
   const isGroupOrganizer =
@@ -25,9 +26,9 @@ const ReadGroupDetails = () => {
     (image) => image.preview === true
   );
 
-  let eventImagePrev = eventDetails.eventimages?.find(
-    (image) => image.preview === true
-  );
+  // let eventImagePrev = eventDetails.eventimages?.find(
+  //   (image) => image.preview === true
+  // );
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -37,11 +38,11 @@ const ReadGroupDetails = () => {
     fetchDetails();
   }, [dispatch, id]);
 
-  const eventName = eventDetails.name;
-  const eventTime = eventDetails.startDate;
-  const eventDescription = eventDetails.description;
-  const eventCity = eventDetails.Venue.city;
-  const eventState = eventDetails.Venue.state;
+  // const eventName = eventDetails.name;
+  // const eventTime = eventDetails.startDate;
+  // const eventDescription = eventDetails.description;
+  // const eventCity = eventDetails.Venue.city;
+  // const eventState = eventDetails.Venue.state;
 
   const handleUpdate = () => {
     // passing current state object to the new page
@@ -151,8 +152,8 @@ const ReadGroupDetails = () => {
         <p>{groupDetails.about}</p>
         <h1>Events {groupDetails.numEvents}</h1>
       </div>
-      <h2 id="eventH2">Upcoming Events</h2>
-      <div id="eventsDiv">
+
+      {/* <div id="eventsDiv">
         <div id="eventCard">
           <img
             id="eventImageDetails"
@@ -174,7 +175,8 @@ const ReadGroupDetails = () => {
         <div id="descripEvent">
           <p>{eventDescription}</p>
         </div>
-      </div>
+      </div> */}
+      <div>{<ReadGroupEvents />}</div>
     </div>
   );
 };

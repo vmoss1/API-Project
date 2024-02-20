@@ -1,0 +1,23 @@
+.eventCard {
+  display: flex;
+  flex-direction: column;
+}
+
+#eventImage {
+  height: 200px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+#upcomingEventsCard {
+  display: flex;
+  flex-direction: column;
+}
+
+#eachCard {
+  border: black 2px solid;
+  border-radius: 20px;
+  display: flex;
+  margin-bottom: 20px;
+}

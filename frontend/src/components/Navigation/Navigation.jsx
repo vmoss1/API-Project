@@ -16,7 +16,7 @@ function Navigation({ isLoaded }) {
         </NavLink>
       </div>
       {isLoaded && (
-        <div>
+        <div id="topButton">
           <ProfileButton user={sessionUser} />
           {isLoggedIn && (
             <Link to={"/groups/new"} id="newGroupButton">

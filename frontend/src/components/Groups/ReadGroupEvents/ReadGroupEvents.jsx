@@ -14,6 +14,7 @@ const ReadGroupEvents = () => {
     dispatch(fetchGroupEvents(id));
   }, [dispatch, id]);
 
+  //cache a calculation between re-renders
   const sortedByDate = useMemo(() => {
     return [...groupEvents].sort(
       (a, b) => new Date(a.startDate) - new Date(b.startDate)

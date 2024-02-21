@@ -53,7 +53,7 @@ const router = createBrowserRouter([
         element: <CreateGroup />,
       },
       {
-        path: "/edit-group",
+        path: "/groups/update",
         element: <UpdateGroup />,
       },
       {
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
         element: <ManageEvents />,
       },
       {
-        path: "/create-event",
+        path: "/events/new",
         element: <CreateEvent />,
       },
     ],

@@ -6,6 +6,7 @@ import wizardGroup from "/wizard-groups.png";
 import quidditchImg from "/quidditch-event.png";
 import newGroup from "/new-group.png";
 import "./LandingPage.css";
+import { Link } from "react-router-dom";
 
 export function LandingPage() {
   const isLoggedIn = useSelector((state) => state.session.user !== null);
@@ -45,12 +46,18 @@ export function LandingPage() {
             linkText={`Create a new group`}
           />
         ) : (
-          <LandingPageCard
-            image={newGroup}
-            alt={"New Group Photo"}
-            path={""}
-            linkText={`*Log in to create a new group*`}
-          />
+          <Link to={""}>
+            <div className="landing-card">
+              <img
+                className="landing-img"
+                src={newGroup}
+                alt={"New Group Photo"}
+              ></img>
+              <h4 className={`landing-link-disabled ${""}`}>
+                {"Please Login to create a Group"}
+              </h4>
+            </div>
+          </Link>
         )}
       </div>
       {!isLoggedIn && (

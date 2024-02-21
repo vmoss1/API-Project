@@ -46,7 +46,7 @@ const ReadGroupDetails = () => {
 
   const handleUpdate = () => {
     // passing current state object to the new page
-    navigate("/edit-group", {
+    navigate("/groups/update", {
       state: {
         groupId: id,
         userId: groupDetails.organizerId,
@@ -61,7 +61,7 @@ const ReadGroupDetails = () => {
   };
 
   const handleCreateEvent = () => {
-    navigate("/create-event", {
+    navigate("/events/new", {
       state: { groupId: id, groupName: groupDetails.name },
     });
   };

@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchEventDetails, deleteEventFunc } from "../../../store/events";
 import { fetchGroupDetails } from "../../../store/groups";
 import "./ManageEvents.css";
+import { CiAlarmOn } from "react-icons/ci";
+import { CiDollar } from "react-icons/ci";
+import { CiLocationOn } from "react-icons/ci";
 
 const ManageEvents = () => {
   const { id } = useParams();
@@ -91,10 +94,21 @@ const ManageEvents = () => {
 
           <div className="lowerDetailsOfTop">
             <div id="lowerDetails">
-              <p className="para">Start Date: {eventDetails.startDate}</p>
-              <p className="para">End Date: {eventDetails.endDate}</p>
-              <p className="para">Price: {eventDetails.price}$</p>
-              <p className="para">Location Type: {groupType}</p>
+              <p className="para">
+                {" "}
+                <CiAlarmOn id="icons" />
+                START
+                {eventDetails.startDate} , END{eventDetails.endDate}
+              </p>
+
+              <p className="para">
+                <CiDollar id="icons" />
+                {eventDetails.price}$
+              </p>
+
+              <p className="para">
+                <CiLocationOn id="icons" /> {groupType}
+              </p>
 
               <button onClick={""} id="deleteButton">
                 Update
@@ -105,12 +119,8 @@ const ManageEvents = () => {
               {deleted && (
                 <div>
                   <p>Are you sure?</p>
-                  <button id="yesButton" onClick={handleDeleteMessage}>
-                    Yes!
-                  </button>
-                  <button id="noButton" onClick={() => setDeleted(false)}>
-                    No!
-                  </button>
+                  <button onClick={handleDeleteMessage}>Yes!</button>
+                  <button onClick={() => setDeleted(false)}>No!</button>
                 </div>
               )}
             </div>

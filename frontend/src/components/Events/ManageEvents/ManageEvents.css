@@ -1,9 +1,17 @@
 .upperDetailsOfTop {
   display: flex;
-  flex-direction: row;
+
+  align-items: center;
   margin-bottom: 15px;
   border: 2px black solid;
   border-radius: 20px;
+}
+
+#icons {
+  margin-right: 5px;
+}
+.iconsContainer {
+  flex-direction: column;
 }
 
 #eventHeader {

@@ -15,14 +15,14 @@ nav {
   font-family: "Harry Potter", sans-serif;
   font-size: 1rem;
   text-decoration: none;
-  border-bottom: #ae0001 2px solid;
+  border-bottom: rgb(41, 41, 82) 2px solid;
   height: 150px;
 }
 
 #linkWand {
   text-decoration: none;
   font-size: 2rem;
-  color: #740001;
+  color: rgb(41, 41, 82);
 }
 
 .profile-dropdown {
@@ -36,7 +36,7 @@ nav {
   z-index: 10;
 }
 
-#newGroupButton {
+.newGroupButton {
   display: flex;
   float: left;
   margin-right: 30px;

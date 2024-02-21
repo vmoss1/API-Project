@@ -35,3 +35,11 @@
 #lowerDetails {
   margin: 20px;
 }
+
+#yesButton {
+  background-color: rgb(172, 0, 0);
+}
+
+#noButton {
+  background-color: grey;
+}

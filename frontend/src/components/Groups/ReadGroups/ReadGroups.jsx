@@ -17,10 +17,10 @@ const AllGroupList = () => {
     <div className="groups-page">
       <img id="logo" src="hogwarts-logo.png" alt="Hogwarts-logo" />
       <div className="pageLinks">
-        <NavLink id="event" to="/events">
+        <NavLink id="eventLink" to="/events">
           Events
         </NavLink>
-        <NavLink id="group" to="/groups">
+        <NavLink id="groupLink" to="/groups">
           Groups
         </NavLink>
       </div>

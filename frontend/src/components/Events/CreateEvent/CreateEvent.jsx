@@ -9,13 +9,11 @@ const CreateEvent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const types = ["Select", "In person", "Online"];
-  const privacies = ["Select", "Private", "Public"];
   const { groupName, groupId } = location.state;
   const capacity = 1;
 
   const [name, setName] = useState("");
   const [type, setType] = useState(types[0]);
-  const [privacy, setPrivacy] = useState(privacies[0]);
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
@@ -36,8 +34,6 @@ const CreateEvent = () => {
     if (description.length < 30)
       validate.description = "Please write at least 30 characters";
     if (type == "Select") validate.type = "Please ensure selection is provided";
-    if (privacy == "Select")
-      validate.privacy = "Please ensure selection is provided";
 
     if (Object.values(validate).length) {
       setValidations(validate);
@@ -103,22 +99,6 @@ const CreateEvent = () => {
             <div>
               {"type" in validations && (
                 <p className="eventValidations">{validations.type}</p>
-              )}
-            </div>
-            <p>Is this group private or public?</p>
-            <label>
-              <select
-                value={privacy}
-                onChange={(e) => setPrivacy(e.target.value)}
-              >
-                <option value={privacies}>Select</option>
-                <option value={false}>Public</option>
-                <option value={true}>Private</option>
-              </select>
-            </label>
-            <div>
-              {"privacy" in validations && (
-                <p className="eventValidations">{validations.privacy}</p>
               )}
             </div>
           </div>

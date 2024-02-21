@@ -52,6 +52,7 @@ const AllEventList = () => {
                 ) : (
                   <p>Venue pending...</p>
                 )}
+                <p>{event.type}</p>
                 <p className="eventType">{event.numAttending} attending</p>
               </div>
             </div>

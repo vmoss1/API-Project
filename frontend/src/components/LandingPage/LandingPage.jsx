@@ -13,17 +13,25 @@ export function LandingPage() {
 
   return (
     <div id="introForm">
-      <h1 id="welcomeH1">TheWand</h1>
-      <img id="logo" src="hogwarts-logo.png" alt="Hogwarts-logo" />
-      <p id="landingParagraph">
-        Who knows what magical adventure awaits for you
-      </p>
-      <h3 id="whatAbout">What we are about: </h3>
-      <p id="paragraphAbout">
-        Delve into the depths of enchantment and sorcery as we bring together
-        enthusiasts of all levels, for events of magical exploration and
-        camaraderie.
-      </p>
+      <div id="section1">
+        <img id="logo" src="hogwarts-logo.png" alt="Hogwarts-logo" />
+        <div>
+          <h1 id="welcomeH1">TheWand</h1>
+
+          <p id="landingParagraph">
+            Who knows what magical adventure awaits for you
+          </p>
+        </div>
+        <img id="infoGraphic" src="info.png" alt="Hogwarts-logo" />
+      </div>
+      <div id="section2">
+        <h3 id="whatAbout">What we are about: </h3>
+        <p id="paragraphAbout">
+          Delve into the depths of enchantment and sorcery as we bring together
+          enthusiasts of all levels, for events of magical exploration and
+          camaraderie.
+        </p>
+      </div>
       <div className="landingCards">
         <LandingPageCard
           image={wizardGroup}
@@ -60,14 +68,16 @@ export function LandingPage() {
           </Link>
         )}
       </div>
-      {!isLoggedIn && (
-        <div className="JoinButton">
-          <OpenModalButton
-            buttonText="Join Today"
-            modalComponent={<SignupFormModal />}
-          />
-        </div>
-      )}
+      <div>
+        {!isLoggedIn && (
+          <div className="JoinButton">
+            <OpenModalButton
+              buttonText="Join Today"
+              modalComponent={<SignupFormModal />}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

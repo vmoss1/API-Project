@@ -45,19 +45,19 @@
   color: black;
 }
 
-#group:hover {
-  text-decoration: underline;
-  color: teal;
-}
-
-#event:hover {
-  text-decoration: underline;
-  color: teal;
-}
-
 .wizard-event {
   display: flex;
-  border-top: 2px solid #ae0001;
-  border-bottom: 2px solid #ae0001;
+  border-top: 2px solid rgb(41, 41, 82);
+  border-bottom: 2px solid rgb(41, 41, 82);
   margin-bottom: 20px;
+}
+
+#event {
+  color: teal;
+  text-decoration: underline;
+  font-size: 2.5rem;
+}
+#group {
+  color: grey;
+  font-size: 2.5rem;
 }

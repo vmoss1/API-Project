@@ -4,9 +4,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 5px 5px 5px #000;
   margin-right: 60px;
   border: 2px black solid;
+  border-radius: 10px;
+  box-shadow: rgb(200, 202, 176) 5px 5px 10px 5px;
 }
 
 #backToGroupLink {
@@ -83,4 +84,19 @@
 
 #eventItems {
   margin-left: 20px;
+}
+
+#joinButton {
+  background-color: rgb(176, 5, 5);
+}
+
+#createButton {
+  background-color: grey;
+}
+#Update {
+  background-color: grey;
+}
+
+#deleteButton {
+  background-color: grey;
 }

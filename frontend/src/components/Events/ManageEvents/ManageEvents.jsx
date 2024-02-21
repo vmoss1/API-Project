@@ -96,14 +96,21 @@ const ManageEvents = () => {
               <p className="para">Price: {eventDetails.price}$</p>
               <p className="para">Location Type: {groupType}</p>
 
+              <button onClick={""} id="deleteButton">
+                Update
+              </button>
               <button onClick={handleDeleteEvent} id="deleteButton">
                 Delete
               </button>
               {deleted && (
                 <div>
                   <p>Are you sure?</p>
-                  <button onClick={handleDeleteMessage}>Yes!</button>
-                  <button onClick={() => setDeleted(false)}>No!</button>
+                  <button id="yesButton" onClick={handleDeleteMessage}>
+                    Yes!
+                  </button>
+                  <button id="noButton" onClick={() => setDeleted(false)}>
+                    No!
+                  </button>
                 </div>
               )}
             </div>

@@ -62,9 +62,9 @@ function SignupFormModal() {
     <div id="formPageSignUp">
       <h1>Sign Up A New Wizard/Witch </h1>
       <h2 id="noMuggles">*NO Muggles*</h2>
-      <form onSubmit={handleSubmit}>
+      <form id="signUpForm" onSubmit={handleSubmit}>
+        Email
         <label>
-          Email
           <input
             type="text"
             value={email}
@@ -73,8 +73,8 @@ function SignupFormModal() {
           />
         </label>
         {errors.email && <p id="errorsMessage">{errors.email}</p>}
+        Username
         <label>
-          Username
           <input
             type="text"
             value={username}
@@ -86,8 +86,8 @@ function SignupFormModal() {
           <p className="validationsSignUp">{validations.username}</p>
         )}
         {errors.username && <p id="errorsMessage">{errors.username}</p>}
+        First Name
         <label>
-          First Name
           <input
             type="text"
             value={firstName}
@@ -96,8 +96,8 @@ function SignupFormModal() {
           />
         </label>
         {errors.firstName && <p id="errorsMessage">{errors.firstName}</p>}
+        Last Name
         <label>
-          Last Name
           <input
             type="text"
             value={lastName}
@@ -106,8 +106,8 @@ function SignupFormModal() {
           />
         </label>
         {errors.lastName && <p id="errorsMessage">{errors.lastName}</p>}
+        Password
         <label>
-          Password
           <input
             type="password"
             value={password}
@@ -116,8 +116,8 @@ function SignupFormModal() {
           />
         </label>
         {errors.password && <p id="errorsMessage">{errors.password}</p>}
+        Confirm Password
         <label>
-          Confirm Password
           <input
             type="password"
             value={confirmPassword}

@@ -13,8 +13,6 @@
 #backToGroupLink {
   font-size: 18px;
   height: 50px;
-  margin-left: 225px;
-  margin-bottom: 0px;
   margin-top: 18px;
 }
 
@@ -25,6 +23,7 @@
 .para {
   margin-top: 2px;
   margin-left: 10px;
+  font-family: fantasy;
 }
 
 .buttonContainer {
@@ -61,6 +60,7 @@
 
 #detailsTop {
   border: black 2px solid;
+  margin-top: 75px;
   border-radius: 20px;
   height: 220px;
   width: 320px;
@@ -99,4 +99,8 @@
 
 #deleteButton {
   background-color: grey;
+}
+
+#backToLabel {
+  font-family: fantasy;
 }

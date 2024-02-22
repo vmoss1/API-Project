@@ -1,9 +1,14 @@
 form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   align-content: center;
   justify-content: center;
+  font-family: fantasy;
+}
+
+#loginForm {
+  display: flex;
+  align-items: center;
 }
 
 .loginForm {
@@ -22,16 +27,18 @@ form {
 
 .loginValidations {
   color: #ae0001;
-  font-size: 15px;
+  font-size: 12px;
   display: flex;
   justify-content: center;
+  font-family: fantasy;
 }
 
 #invalidCredentials {
   color: #ae0001;
-  font-size: 15px;
+  font-size: 10px;
   display: flex;
   justify-content: center;
+  font-family: fantasy;
 }
 
 #demoButton {

@@ -7,6 +7,7 @@ import "./ReadEvents.css";
 const AllEventList = () => {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events.list);
+  // console.log("EVENTS", events);
 
   useEffect(() => {
     dispatch(fetchAllEvents());
@@ -33,7 +34,7 @@ const AllEventList = () => {
             key={event.id}
             className="wizard-event"
           >
-            <div>
+            <div id="photoBox">
               <img
                 className="eventImages"
                 src={
@@ -46,14 +47,15 @@ const AllEventList = () => {
               <div>
                 <h2 className="eventName">{event.name}</h2>
                 {event.Venue ? (
-                  <p>
+                  <p id="locationP">
                     {event.Venue.city}, {event.Venue.state}
                   </p>
                 ) : (
                   <p>Venue pending...</p>
                 )}
-                <p>{event.type}</p>
+                <p id="locationP">{event.type}</p>
                 <p className="eventType">{event.numAttending} attending</p>
+                {/* <p>{event.description}</p> */}
               </div>
             </div>
           </a>

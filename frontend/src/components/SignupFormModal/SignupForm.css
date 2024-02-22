@@ -1,3 +1,17 @@
+#formPageSignUp {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-right: 10px;
+  justify-content: center;
+  align-items: center;
+}
+#signUpForm {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
 label {
   display: flex;
   gap: 0.5rem;
@@ -9,14 +23,6 @@ label {
   justify-content: center;
   margin-bottom: 10px;
 }
-#formPageSignUp {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-  margin-right: 10px;
-  justify-content: center;
-  align-items: center;
-}
 
 #noMuggles {
   color: #ae0001;
@@ -25,8 +31,10 @@ label {
 
 .validationsSignUp {
   color: #ae0001;
+  font-family: fantasy;
 }
 
 #errorsMessage {
   color: #ae0001;
+  font-family: fantasy;
 }

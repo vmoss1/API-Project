@@ -23,12 +23,6 @@ function Navigation({ isLoaded }) {
               Create a new group
             </Link>
           )}
-          <Link to={"/groups"} className="newGroupButton">
-            View Groups
-          </Link>
-          <Link to={"/events"} className="newGroupButton">
-            View Events
-          </Link>
         </div>
       )}
     </nav>

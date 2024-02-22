@@ -8,6 +8,10 @@ button {
   border-radius: 20px;
 }
 
+li {
+  font-family: fantasy;
+}
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -34,6 +38,8 @@ nav {
   justify-content: center;
   margin-right: 20px;
   z-index: 10;
+  font-family: fantasy;
+  z-index: 10;
 }
 
 .newGroupButton {
@@ -41,6 +47,7 @@ nav {
   float: left;
   margin-right: 30px;
   margin-top: 15px;
+  font-family: fantasy;
 }
 
 #buttonsClass {

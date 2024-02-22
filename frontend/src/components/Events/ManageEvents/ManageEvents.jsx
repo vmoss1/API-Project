@@ -8,6 +8,7 @@ import "./ManageEvents.css";
 import { CiAlarmOn } from "react-icons/ci";
 import { CiDollar } from "react-icons/ci";
 import { CiLocationOn } from "react-icons/ci";
+import { BsChevronDoubleLeft } from "react-icons/bs";
 
 const ManageEvents = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const ManageEvents = () => {
 
   // console.log(groupDetails.Organizer);
 
-  let imagePrev = eventDetails.eventimages?.find(
+  let imagePrev = eventDetails.Eventimages?.find(
     (image) => image.preview === true
   );
 
@@ -50,17 +51,35 @@ const ManageEvents = () => {
     setDeleted(true);
   };
 
+  const formatEventDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    const formattedTime = date.toLocaleTimeString("en-US", {
+      timeStyle: "short",
+    });
+    return `${formattedDate} · ${formattedTime}`;
+  };
+
+  const formattedStartDate = formatEventDate(eventDetails.startDate);
+  const formattedEndDate = formatEventDate(eventDetails.endDate);
+
+  // console.log(formattedEndDate, formattedStartDate);
+
   return (
     <div>
       <div id="backToEventLink"></div>
 
       <div id="eventHeader">
         <Link to="/events" id="backToLabel">
+          <BsChevronDoubleLeft />
           Back to Events Page
         </Link>
         <h1>{eventDetails.name}</h1>
         <h2>
-          Hosted By {leaderFirstName}, {leaderLastName}
+          Hosted By {leaderFirstName} {leaderLastName}
         </h2>
       </div>
       <div className="topHalfContainer">
@@ -94,12 +113,13 @@ const ManageEvents = () => {
 
           <div className="lowerDetailsOfTop">
             <div id="lowerDetails">
-              <p className="para">
-                {" "}
-                <CiAlarmOn id="icons" />
-                START
-                {eventDetails.startDate} , END{eventDetails.endDate}
-              </p>
+              <div id="timeContainer">
+                <p>
+                  {" "}
+                  <CiAlarmOn id="icons" />
+                  Start {formattedStartDate} End {formattedEndDate}
+                </p>
+              </div>
 
               <p className="para">
                 <CiDollar id="icons" />

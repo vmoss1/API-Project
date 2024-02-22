@@ -9,6 +9,7 @@ const ReadGroupEvents = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const groupEvents = useSelector((state) => state.groups.groupEvents);
+  // console.log("GROUPS", groupEvents);
 
   useEffect(() => {
     dispatch(fetchGroupEvents(id));
@@ -21,12 +22,31 @@ const ReadGroupEvents = () => {
     );
   }, [groupEvents]);
 
-  const upcomingEvents = sortedByDate.filter(
-    (event) => new Date(event.startDate) > new Date()
-  );
-  const pastEvents = sortedByDate.filter(
-    (event) => new Date(event.startDate) <= new Date()
-  );
+  const formatEventDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    const formattedTime = date.toLocaleTimeString("en-US", {
+      timeStyle: "short",
+    });
+    return `${formattedDate} · ${formattedTime}`;
+  };
+
+  const upcomingEvents = sortedByDate
+    .filter((event) => new Date(event.startDate) > new Date())
+    .map((event) => ({
+      ...event,
+      formattedDate: formatEventDate(event.startDate),
+    }));
+
+  const pastEvents = sortedByDate
+    .filter((event) => new Date(event.startDate) <= new Date())
+    .map((event) => ({
+      ...event,
+      formattedDate: formatEventDate(event.startDate),
+    }));
 
   return (
     <div className="eventCard">
@@ -46,7 +66,7 @@ const ReadGroupEvents = () => {
                 alt={event.name}
               />
               <div id="eventItems">
-                <p>{event.startDate}</p>
+                <p>{event.formattedDate}</p>
                 <h2>{event.name}</h2>
                 {event.Venue ? (
                   <p>
@@ -70,7 +90,7 @@ const ReadGroupEvents = () => {
               {" "}
               <img id="eventImage" src={event.previewImage} alt={event.name} />
               <div id="eventItems">
-                <p>{event.startDate}</p>
+                <p>{event.formattedDate}</p>
                 <h2>{event.name}</h2>
                 {event.Venue ? (
                   <p>

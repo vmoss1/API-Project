@@ -46,9 +46,9 @@ function LoginFormModal() {
   return (
     <div className="loginForm">
       <h1>Log In Wizard/Witch</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} id="loginForm">
+        Username or Email
         <label>
-          Username or Email
           <input
             type="text"
             value={credential}
@@ -59,8 +59,8 @@ function LoginFormModal() {
         {"credential" in validations && (
           <p className="loginValidations">{validations.credential}</p>
         )}
+        Password
         <label>
-          Password
           <input
             type="password"
             value={password}

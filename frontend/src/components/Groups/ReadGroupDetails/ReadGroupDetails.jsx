@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupDetails, deleteGroupFunc } from "../../../store/groups";
 import { fetchEventDetails } from "../../../store/events";
 import ReadGroupEvents from "../ReadGroupEvents/ReadGroupEvents";
+import { BsChevronDoubleLeft } from "react-icons/bs";
+
 import "./ReadGroupDetails.css";
 
 const ReadGroupDetails = () => {
@@ -76,24 +78,28 @@ const ReadGroupDetails = () => {
 
   return (
     <div>
-      <div id="backToGroupLink">
-        <Link to="/groups" id="backToLabel">
-          Back to Groups Page
-        </Link>
-      </div>
-
       <div className="topHalfContainer">
-        <div>
-          <img
-            id="imageDetails"
-            src={
-              imagePrev !== undefined
-                ? imagePrev.url
-                : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
-            }
-            alt={groupDetails.name}
-          />
+        <div id="PhotoAndBreadCrumbLink">
+          {" "}
+          <div id="backToGroupLink">
+            <Link to="/groups" id="backToLabel">
+              <BsChevronDoubleLeft />
+              Back to Groups Page
+            </Link>
+          </div>
+          <div>
+            <img
+              id="imageDetails"
+              src={
+                imagePrev !== undefined
+                  ? imagePrev.url
+                  : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
+              }
+              alt={groupDetails.name}
+            />
+          </div>{" "}
         </div>
+
         <div className="topDetails">
           <div id="detailsTop">
             <h1>{groupDetails.name}</h1>
@@ -105,7 +111,7 @@ const ReadGroupDetails = () => {
               {groupDetails.private ? "Private" : "Public"}
             </p>
             <p className="para">
-              Group Leader {groupDetails.Organizer?.firstName},{" "}
+              Group Leader: {groupDetails.Organizer?.firstName}{" "}
               {groupDetails.Organizer?.lastName}
             </p>
           </div>
@@ -145,11 +151,11 @@ const ReadGroupDetails = () => {
       </div>
       <div className="bottomHalfContainer">
         <h1>Organizer</h1>
-        <p>
+        <p className="para">
           {groupDetails.Organizer?.firstName} {groupDetails.Organizer?.lastName}{" "}
         </p>
         <h1>What we are about</h1>
-        <p>{groupDetails.about}</p>
+        <p className="para">{groupDetails.about}</p>
         <h1>Events {groupDetails.numEvents}</h1>
       </div>
 

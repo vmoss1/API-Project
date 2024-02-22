@@ -11,7 +11,6 @@ const UpdateGroup = () => {
   const types = ["Select", "In person", "Online"];
   const privacies = ["Select", "Private", "Public"];
   const currentUser = useSelector((state) => state.session?.user);
-  const groupId = locationState.groupId; // accessing group from the locationState
 
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -22,6 +21,8 @@ const UpdateGroup = () => {
   const [validations, setValidations] = useState({});
 
   useEffect(() => {
+    if (!currentUser || !locationState) navigate("/");
+
     let {
       groupCity,
       groupState,
@@ -42,6 +43,7 @@ const UpdateGroup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const groupId = locationState.groupId; // accessing group from the locationState
     const validate = {};
 
     if (!city) validate.city = "Please provide city";
@@ -125,7 +127,7 @@ const UpdateGroup = () => {
               type="text"
               name="name"
               id="name"
-              placeholder="Name"
+              placeholder="What is your group name?"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />

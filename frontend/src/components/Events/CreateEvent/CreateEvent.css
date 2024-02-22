@@ -1,0 +1,37 @@
+.formEventPage {
+  display: flex;
+  justify-content: center;
+}
+
+#eventLeader {
+  margin-bottom: 0px;
+  color: teal;
+}
+
+#nameBox {
+  border-bottom: 2px grey solid;
+}
+#eventPriceBox {
+  border-bottom: 2px grey solid;
+}
+
+#dateBox {
+  border-bottom: 2px grey solid;
+}
+
+#finalStepsBox {
+  border-bottom: 2px grey solid;
+}
+
+.eventValidations {
+  color: red;
+}
+
+li {
+  list-style-type: none;
+}
+
+label {
+  display: flex;
+  justify-content: flex-start;
+}

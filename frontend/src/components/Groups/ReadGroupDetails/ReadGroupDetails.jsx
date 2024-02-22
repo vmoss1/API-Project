@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupDetails, deleteGroupFunc } from "../../../store/groups";
+import { fetchEventDetails } from "../../../store/events";
+import ReadGroupEvents from "../ReadGroupEvents/ReadGroupEvents";
 import "./ReadGroupDetails.css";
 
 const ReadGroupDetails = () => {
@@ -12,6 +14,7 @@ const ReadGroupDetails = () => {
   const [deleted, setDeleted] = useState(false);
 
   const groupDetails = useSelector((state) => state.groups.groupDetails);
+  // const eventDetails = useSelector((state) => state.events.eventDetails);
   const currentUser = useSelector((state) => state.session?.user);
 
   const isGroupOrganizer =
@@ -23,13 +26,27 @@ const ReadGroupDetails = () => {
     (image) => image.preview === true
   );
 
+  // let eventImagePrev = eventDetails.eventimages?.find(
+  //   (image) => image.preview === true
+  // );
+
   useEffect(() => {
-    dispatch(fetchGroupDetails(id));
+    const fetchDetails = async () => {
+      await dispatch(fetchEventDetails(id));
+      await dispatch(fetchGroupDetails(id));
+    };
+    fetchDetails();
   }, [dispatch, id]);
+
+  // const eventName = eventDetails.name;
+  // const eventTime = eventDetails.startDate;
+  // const eventDescription = eventDetails.description;
+  // const eventCity = eventDetails.Venue.city;
+  // const eventState = eventDetails.Venue.state;
 
   const handleUpdate = () => {
     // passing current state object to the new page
-    navigate("/edit-group", {
+    navigate("/groups/update", {
       state: {
         groupId: id,
         userId: groupDetails.organizerId,
@@ -40,6 +57,12 @@ const ReadGroupDetails = () => {
         groupType: groupDetails.type,
         groupPrivate: groupDetails.private,
       },
+    });
+  };
+
+  const handleCreateEvent = () => {
+    navigate("/events/new", {
+      state: { groupId: id, groupName: groupDetails.name },
     });
   };
 
@@ -66,27 +89,31 @@ const ReadGroupDetails = () => {
             src={
               imagePrev !== undefined
                 ? imagePrev.url
-                : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
+                : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
             }
             alt={groupDetails.name}
           />
         </div>
         <div className="topDetails">
-          <h1>{groupDetails.name}</h1>
-          <p className="para">
-            {groupDetails.city} , {groupDetails.state}
-          </p>
-          <p className="para">
-            {groupDetails.numEvents} Events ·
-            {groupDetails.private ? "Private" : "Public"}
-          </p>
-          <p className="para">
-            Group Leader {groupDetails.Organizer?.firstName},{" "}
-            {groupDetails.Organizer?.lastName}
-          </p>
+          <div id="detailsTop">
+            <h1>{groupDetails.name}</h1>
+            <p className="para">
+              {groupDetails.city} , {groupDetails.state}
+            </p>
+            <p className="para">
+              {groupDetails.numEvents} Events ·
+              {groupDetails.private ? "Private" : "Public"}
+            </p>
+            <p className="para">
+              Group Leader {groupDetails.Organizer?.firstName},{" "}
+              {groupDetails.Organizer?.lastName}
+            </p>
+          </div>
           <div className="buttonContainer">
             {isGroupOrganizer && (
-              <button id="createButton">Create Event</button>
+              <button id="createButton" onClick={handleCreateEvent}>
+                Create Event
+              </button>
             )}
             {isGroupOrganizer && (
               <button id="Update" onClick={handleUpdate}>
@@ -125,6 +152,31 @@ const ReadGroupDetails = () => {
         <p>{groupDetails.about}</p>
         <h1>Events {groupDetails.numEvents}</h1>
       </div>
+
+      {/* <div id="eventsDiv">
+        <div id="eventCard">
+          <img
+            id="eventImageDetails"
+            src={
+              eventImagePrev !== undefined
+                ? eventImagePrev.url
+                : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
+            }
+            alt={eventDetails.name}
+          />
+          <div id="eventItems">
+            <p>{eventTime}</p>
+            <h2>{eventName}</h2>
+            <p>
+              {eventCity} , {eventState}
+            </p>
+          </div>
+        </div>
+        <div id="descripEvent">
+          <p>{eventDescription}</p>
+        </div>
+      </div> */}
+      <div>{<ReadGroupEvents />}</div>
     </div>
   );
 };

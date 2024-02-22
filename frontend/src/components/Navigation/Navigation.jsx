@@ -16,13 +16,19 @@ function Navigation({ isLoaded }) {
         </NavLink>
       </div>
       {isLoaded && (
-        <div>
+        <div id="topButton">
           <ProfileButton user={sessionUser} />
           {isLoggedIn && (
-            <Link to={"/groups/new"} id="newGroupButton">
+            <Link to={"/groups/new"} className="newGroupButton">
               Create a new group
             </Link>
           )}
+          <Link to={"/groups"} className="newGroupButton">
+            View Groups
+          </Link>
+          <Link to={"/events"} className="newGroupButton">
+            View Events
+          </Link>
         </div>
       )}
     </nav>

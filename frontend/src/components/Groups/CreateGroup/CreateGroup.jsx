@@ -53,9 +53,13 @@ const CreateGroup = () => {
 
       const awaitNewGroup = await dispatch(createGroupFunc(newGroup));
 
-      await dispatch(addGroupImageFunc(awaitNewGroup.id, newImage));
+      if (awaitNewGroup.validations) {
+        setValidations(awaitNewGroup.validate);
+      } else {
+        await dispatch(addGroupImageFunc(awaitNewGroup.id, newImage));
 
-      navigate(`/groups/${awaitNewGroup.id}`);
+        navigate(`/groups/${awaitNewGroup.id}`);
+      }
     }
   };
 
@@ -115,7 +119,7 @@ const CreateGroup = () => {
               type="text"
               name="name"
               id="name"
-              placeholder="Name"
+              placeholder="What is the name of your group?"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />

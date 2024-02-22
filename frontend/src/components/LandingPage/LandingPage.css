@@ -3,30 +3,61 @@
   flex-wrap: wrap;
   align-content: center;
   justify-content: center;
-  font-size: 5.5rem;
+  font-size: 5.75rem;
   margin-top: 2rem;
   margin-bottom: 10px;
-  text-shadow: #ae0001 2px 2px 2px;
+  color: rgb(41, 41, 82);
+  text-shadow: rgb(200, 202, 176) 5px 10px 2px;
+  z-index: 0;
+  padding: 0px;
+}
+
+#section1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-content: center;
+  place-items: center;
+  border-bottom: 2px black solid;
 }
 
 #introForm {
   display: flex;
   flex-direction: column;
   align-content: center;
+  justify-content: center;
+}
+
+#infoGraphic {
+  margin-top: 10px;
+  height: 400px;
+  width: 550px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border: 2px black solid;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 #logo {
   height: 150px;
   width: 150px;
   position: absolute;
-  top: 7%;
+  top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+#section2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #landingParagraph {
   display: flex;
   justify-content: center;
+  text-align: center;
   font-size: 2rem;
   margin: 2px;
 }
@@ -38,7 +69,7 @@
 }
 
 button {
-  background-color: #ae0001;
+  background-color: rgb(200, 202, 176);
   height: 50px;
   width: 100px;
 }
@@ -58,18 +89,18 @@ button {
   width: 400px;
   height: 300px;
   border: 2px black solid;
-  box-shadow: #740001 5px 5px 5px 3px;
+  box-shadow: rgb(200, 202, 176) 5px 5px 10px 5px;
 }
 
 .landing-img:hover {
-  box-shadow: #1a472a 5px 5px 5px 3px;
+  box-shadow: rgb(41, 41, 82) 5px 5px 10px 3px;
 }
 
 .landingCards {
   display: flex;
   justify-content: center;
   gap: 25px;
-  color: black;
+  color: rgb(41, 41, 82);
 }
 
 .landing-link {
@@ -77,9 +108,17 @@ button {
   justify-content: center;
   font-size: 30px;
   margin-top: 10px;
-  color: black;
+  color: rgb(41, 41, 82);
 }
 
 .landing-link:hover {
   color: teal;
+}
+
+.landing-link-disabled {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  margin-top: 10px;
+  color: rgb(88, 88, 88);
 }

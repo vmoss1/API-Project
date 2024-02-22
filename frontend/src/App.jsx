@@ -8,6 +8,9 @@ import { Modal } from "./context/Modal";
 import UpdateGroup from "./components/Groups/UpdateGroup/UpdateGroup";
 import { LandingPage } from "./components/LandingPage/LandingPage";
 import ReadGroupDetails from "./components/Groups/ReadGroupDetails/ReadGroupDetails";
+import ReadEvents from "./components/Events/ReadEvents/ReadEvents";
+import ManageEvents from "./components/Events/ManageEvents/ManageEvents";
+import CreateEvent from "./components/Events/CreateEvent/CreateEvent";
 import * as sessionActions from "./store/session";
 
 function Layout() {
@@ -50,8 +53,20 @@ const router = createBrowserRouter([
         element: <CreateGroup />,
       },
       {
-        path: "/edit-group",
+        path: "/groups/update",
         element: <UpdateGroup />,
+      },
+      {
+        path: "/events",
+        element: <ReadEvents />,
+      },
+      {
+        path: "/events/:id",
+        element: <ManageEvents />,
+      },
+      {
+        path: "/events/new",
+        element: <CreateEvent />,
       },
     ],
   },

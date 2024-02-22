@@ -4,9 +4,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 5px 5px 5px #000;
   margin-right: 60px;
   border: 2px black solid;
+  border-radius: 10px;
+  box-shadow: rgb(200, 202, 176) 5px 5px 10px 5px;
 }
 
 #backToGroupLink {
@@ -23,6 +24,7 @@
 
 .para {
   margin-top: 2px;
+  margin-left: 10px;
 }
 
 .buttonContainer {
@@ -55,4 +57,46 @@
   letter-spacing: 1px;
   margin-top: 70px;
   background-color: rgb(222, 222, 222);
+}
+
+#detailsTop {
+  border: black 2px solid;
+  border-radius: 20px;
+  height: 220px;
+  width: 320px;
+}
+
+#eventCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+#eventH2 {
+  display: flex;
+  justify-content: center;
+}
+
+#descripEvent {
+  display: flex;
+  justify-content: center;
+}
+
+#eventItems {
+  margin-left: 20px;
+}
+
+#joinButton {
+  background-color: rgb(176, 5, 5);
+}
+
+#createButton {
+  background-color: grey;
+}
+#Update {
+  background-color: grey;
+}
+
+#deleteButton {
+  background-color: grey;
 }

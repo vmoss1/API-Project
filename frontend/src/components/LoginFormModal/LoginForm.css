@@ -17,4 +17,23 @@ form {
   display: flex;
   justify-content: center;
   margin-bottom: 5px;
+  gap: 20px;
+}
+
+.loginValidations {
+  color: #ae0001;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+#invalidCredentials {
+  color: #ae0001;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+#demoButton {
+  justify-content: center;
 }

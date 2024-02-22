@@ -22,3 +22,11 @@ label {
   color: #ae0001;
   margin-top: 0px;
 }
+
+.validationsSignUp {
+  color: #ae0001;
+}
+
+#errorsMessage {
+  color: #ae0001;
+}

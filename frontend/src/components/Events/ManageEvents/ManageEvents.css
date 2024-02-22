@@ -1,0 +1,53 @@
+.upperDetailsOfTop {
+  display: flex;
+
+  align-items: center;
+  margin-bottom: 15px;
+  border: 2px black solid;
+  border-radius: 20px;
+}
+
+#icons {
+  margin-right: 5px;
+}
+.iconsContainer {
+  flex-direction: column;
+}
+
+#eventHeader {
+  margin-left: 30px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+#groupCardInfo {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#groupImageDetails {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  border-radius: 20px;
+  height: 80px;
+  border: black 2px solid;
+}
+
+.lowerDetailsOfTop {
+  border: 2px black solid;
+  border-radius: 20px;
+  margin-top: 0px;
+}
+
+#lowerDetails {
+  margin: 20px;
+}
+
+#yesButton {
+  background-color: rgb(172, 0, 0);
+}
+
+#noButton {
+  background-color: grey;
+}

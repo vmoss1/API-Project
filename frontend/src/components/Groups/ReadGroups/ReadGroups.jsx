@@ -17,10 +17,10 @@ const AllGroupList = () => {
     <div className="groups-page">
       <img id="logo" src="hogwarts-logo.png" alt="Hogwarts-logo" />
       <div className="pageLinks">
-        <NavLink id="event" to="/events">
+        <NavLink id="eventLink" to="/events">
           Events
         </NavLink>
-        <NavLink id="group" to="/groups">
+        <NavLink id="groupLink" to="/groups">
           Groups
         </NavLink>
       </div>
@@ -40,7 +40,7 @@ const AllGroupList = () => {
                 src={
                   group.previewImage !== "No preview image found."
                     ? group.previewImage
-                    : "https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
+                    : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
                 }
                 alt={group.name}
               />

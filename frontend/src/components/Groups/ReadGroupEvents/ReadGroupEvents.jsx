@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupEvents } from "../../../store/groups";
+import { fetchEventDetails } from "../../../store/events";
 import { useMemo } from "react";
 import "./ReadGroupEvents.css";
 
@@ -9,11 +10,18 @@ const ReadGroupEvents = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const groupEvents = useSelector((state) => state.groups.groupEvents);
-  // console.log("GROUPS", groupEvents);
+  const eventDetails = useSelector((state) => state.events.eventDetails);
+  // console.log("EVENTS", eventDetails.description);
 
   useEffect(() => {
-    dispatch(fetchGroupEvents(id));
+    const fetchAll = async () => {
+      await dispatch(fetchGroupEvents(id));
+      await dispatch(fetchEventDetails(id));
+    };
+    fetchAll();
   }, [dispatch, id]);
+
+  // const eventDescription = eventDetails.desc
 
   //cache a calculation between re-renders
   const sortedByDate = useMemo(() => {
@@ -66,16 +74,16 @@ const ReadGroupEvents = () => {
                 alt={event.name}
               />
               <div id="eventItems">
-                <p>{event.formattedDate}</p>
+                <p id="locationP">{event.formattedDate}</p>
                 <h2>{event.name}</h2>
                 {event.Venue ? (
-                  <p>
+                  <p id="locationP">
                     {event.Venue.city}, {event.Venue.state}
                   </p>
                 ) : (
                   <p>Venue pending...</p>
                 )}
-                <p>{event.description}</p>
+                <p id="descriptionP">{eventDetails.description}</p>
               </div>
             </div>
           </a>
@@ -90,16 +98,16 @@ const ReadGroupEvents = () => {
               {" "}
               <img id="eventImage" src={event.previewImage} alt={event.name} />
               <div id="eventItems">
-                <p>{event.formattedDate}</p>
+                <p id="locationP">{event.formattedDate}</p>
                 <h2>{event.name}</h2>
                 {event.Venue ? (
-                  <p>
+                  <p id="locationP">
                     {event.Venue.city}, {event.Venue.state}
                   </p>
                 ) : (
-                  <p>Venue pending...</p>
+                  <p id="locationP">Venue pending...</p>
                 )}
-                <p>{event.description}</p>
+                <p id="locationP">{eventDetails.description}</p>
               </div>
             </div>
           </a>

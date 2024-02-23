@@ -6,7 +6,6 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import "./Navigation.css";
 
 function ProfileButton({ user }) {
@@ -60,13 +59,6 @@ function ProfileButton({ user }) {
           <li>
             <button onClick={logout}>Log Out</button>
           </li>
-
-          <Link to={"/groups"} className="newGroupButton">
-            View Groups
-          </Link>
-          <Link to={"/events"} className="newGroupButton">
-            View Events
-          </Link>
         </ul>
       )}
       {!user && (

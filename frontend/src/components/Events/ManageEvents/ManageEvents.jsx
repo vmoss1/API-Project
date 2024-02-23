@@ -18,8 +18,11 @@ const ManageEvents = () => {
 
   const eventDetails = useSelector((state) => state.events.eventDetails);
   const groupDetails = useSelector((state) => state.groups.groupDetails);
+  const currentUser = useSelector((state) => state.session.user);
 
-  // console.log(groupDetails.Organizer);
+  const isOrganizer =
+    currentUser && groupDetails.Organizer?.id === currentUser.id;
+  // console.log("ORGANIZER", isOrganizer);
 
   let imagePrev = eventDetails.Eventimages?.find(
     (image) => image.preview === true
@@ -78,7 +81,7 @@ const ManageEvents = () => {
           Back to Events Page
         </Link>
         <h1>{eventDetails.name}</h1>
-        <h2>
+        <h2 className="para">
           Hosted By {leaderFirstName} {leaderLastName}
         </h2>
       </div>
@@ -107,14 +110,14 @@ const ManageEvents = () => {
             />
             <div id="groupCardInfo">
               <h2> {groupName}</h2>
-              <p> {groupPrivacy ? "Private" : "Public"}</p>
+              <p className="para"> {groupPrivacy ? "Private" : "Public"}</p>
             </div>
           </div>
 
           <div className="lowerDetailsOfTop">
             <div id="lowerDetails">
               <div id="timeContainer">
-                <p>
+                <p className="para">
                   {" "}
                   <CiAlarmOn id="icons" />
                   Start {formattedStartDate} End {formattedEndDate}
@@ -130,12 +133,16 @@ const ManageEvents = () => {
                 <CiLocationOn id="icons" /> {groupType}
               </p>
 
-              <button onClick={""} id="deleteButton">
-                Update
-              </button>
-              <button onClick={handleDeleteEvent} id="deleteButton">
-                Delete
-              </button>
+              {isOrganizer && (
+                <button onClick={""} id="deleteButton">
+                  Update
+                </button>
+              )}
+              {isOrganizer && (
+                <button onClick={handleDeleteEvent} id="deleteButton">
+                  Delete
+                </button>
+              )}
               {deleted && (
                 <div>
                   <p>Are you sure?</p>
@@ -149,7 +156,7 @@ const ManageEvents = () => {
       </div>
       <div className="bottomHalfContainer">
         <h1>Details</h1>
-        <p>{eventDetails.description}</p>
+        <p className="para">{eventDetails.description}</p>
       </div>
     </div>
   );

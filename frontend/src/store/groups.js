@@ -159,10 +159,9 @@ const groupsReducer = (state = initialState, action) => {
     case READ_GROUP_EVENTS:
       return { ...state, groupEvents: action.payload };
     case CREATE_GROUP: {
-      return {
-        ...state,
-        [action.group.id]: action.group,
-      };
+      const groupsState = { ...state };
+      groupsState[action.group.id] = action.group;
+      return groupsState;
     }
     case ADD_GROUPIMAGE: {
       const { groupId, image } = action;

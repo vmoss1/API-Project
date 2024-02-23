@@ -104,7 +104,7 @@ export const deleteEventFunc = (eventId) => async (dispatch) => {
 
 const initialState = {
   list: [],
-  eventDetails: [],
+  eventDetails: {},
 };
 
 //Reducer

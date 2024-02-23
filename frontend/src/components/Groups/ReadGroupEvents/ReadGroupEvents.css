@@ -21,3 +21,8 @@
   display: flex;
   margin-bottom: 20px;
 }
+
+#descriptionP {
+  margin-top: 35px;
+  font-family: fantasy;
+}

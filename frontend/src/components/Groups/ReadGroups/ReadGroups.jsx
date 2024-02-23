@@ -2,16 +2,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchAllGroups } from "../../../store/groups";
+import { fetchAllEvents } from "../../../store/events";
+
 import "./ReadGroups.css";
 
 const AllGroupList = () => {
   const dispatch = useDispatch();
 
   const groups = useSelector((state) => state.groups.list);
+  const events = useSelector((state) => state.events.list);
 
   useEffect(() => {
-    dispatch(fetchAllGroups());
+    const allFuncs = async () => {
+      dispatch(fetchAllGroups());
+      dispatch(fetchAllEvents());
+    };
+    allFuncs();
   }, [dispatch]);
+
+  const countGroupEvents = (groupId) => {
+    return events.filter((event) => event.groupId === groupId).length;
+  };
+
+  // console.log(countGroupEvents(2));
 
   return (
     <div className="groups-page">
@@ -51,7 +64,7 @@ const AllGroupList = () => {
                 </p>
                 <p className="groupInfo">{group.about}</p>
                 <p className="groupType">
-                  {group.numEvents} Events ·{" "}
+                  {countGroupEvents(group.id)} Events ·{" "}
                   {group.private ? "Private" : "Public"}
                 </p>
               </div>

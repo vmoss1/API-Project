@@ -21,8 +21,6 @@ const ReadGroupEvents = () => {
     fetchAll();
   }, [dispatch, id]);
 
-  // const eventDescription = eventDetails.desc
-
   //cache a calculation between re-renders
   const sortedByDate = useMemo(() => {
     return [...groupEvents].sort(
@@ -46,6 +44,12 @@ const ReadGroupEvents = () => {
     return `${formattedDate} · ${formattedTime}`;
   };
 
+  const getDescription = (eventId) => {
+    if (eventDetails && eventDetails[eventId]) {
+      return eventDetails[eventId].description;
+    }
+    return "Description not available";
+  };
   const upcomingEvents = sortedByDate
     .filter((event) => new Date(event.startDate) > new Date())
     .map((event) => ({
@@ -62,61 +66,69 @@ const ReadGroupEvents = () => {
 
   return (
     <div className="eventCard">
-      <div id="upcomingEventsCard">
-        <h2>Upcoming Events</h2>
-        {upcomingEvents.map((event) => (
-          <a href={`/events/${event.id}`} key={event.id}>
-            <div id="eachCard">
-              {" "}
-              <img
-                id="eventImage"
-                src={
-                  event.previewImage !== undefined
-                    ? event.previewImage
-                    : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
-                }
-                alt={event.name}
-              />
-              <div id="eventItems">
-                <p id="locationP">{event.formattedDate}</p>
-                <h2>{event.name}</h2>
-                {event.Venue ? (
-                  <p id="locationP">
-                    {event.Venue.city}, {event.Venue.state}
-                  </p>
-                ) : (
-                  <p>Venue pending...</p>
-                )}
-                <p id="descriptionP">{eventDetails.description}</p>
+      {upcomingEvents.length > 0 && (
+        <div id="upcomingEventsCard">
+          <h2>Upcoming Events</h2>
+          {upcomingEvents.map((event) => (
+            <a href={`/events/${event.id}`} key={event.id}>
+              <div id="eachCard">
+                {" "}
+                <img
+                  id="eventImage"
+                  src={
+                    event.previewImage !== undefined
+                      ? event.previewImage
+                      : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
+                  }
+                  alt={event.name}
+                />
+                <div id="eventItems">
+                  <p id="locationP">{event.formattedDate}</p>
+                  <h2>{event.name}</h2>
+                  {event.Venue ? (
+                    <p id="locationP">
+                      {event.Venue.city}, {event.Venue.state}
+                    </p>
+                  ) : (
+                    <p>Venue pending...</p>
+                  )}
+                  <p id="descriptionP">{getDescription(event.id)}</p>
+                </div>
               </div>
-            </div>
-          </a>
-        ))}
-      </div>
+            </a>
+          ))}
+        </div>
+      )}
 
-      <div id="pastEventsCard">
-        <h2>Past Events</h2>
-        {pastEvents.map((event) => (
-          <a href={`/events/${event.id}`} key={event.id}>
-            <div>
-              {" "}
-              <img id="eventImage" src={event.previewImage} alt={event.name} />
-              <div id="eventItems">
-                <p id="locationP">{event.formattedDate}</p>
-                <h2>{event.name}</h2>
-                {event.Venue ? (
-                  <p id="locationP">
-                    {event.Venue.city}, {event.Venue.state}
-                  </p>
-                ) : (
-                  <p id="locationP">Venue pending...</p>
-                )}
-                <p id="locationP">{eventDetails.description}</p>
+      {pastEvents.length > 0 && (
+        <div id="pastEventsCard">
+          <h2>Past Events</h2>
+          {pastEvents.map((event) => (
+            <a href={`/events/${event.id}`} key={event.id}>
+              <div>
+                {" "}
+                <img
+                  id="eventImage"
+                  src={event.previewImage}
+                  alt={event.name}
+                />
+                <div id="eventItems">
+                  <p id="locationP">{event.formattedDate}</p>
+                  <h2>{event.name}</h2>
+                  {event.Venue ? (
+                    <p id="locationP">
+                      {event.Venue.city}, {event.Venue.state}
+                    </p>
+                  ) : (
+                    <p id="locationP">Venue pending...</p>
+                  )}
+                  <p id="locationP">{getDescription(event.id)}</p>
+                </div>
               </div>
-            </div>
-          </a>
-        ))}
-      </div>
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

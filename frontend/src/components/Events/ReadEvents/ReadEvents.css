@@ -29,6 +29,10 @@
   font-size: 2rem;
 }
 
+#startDate {
+  font-family: fantasy;
+}
+
 .eventLocation {
   color: grey;
 }

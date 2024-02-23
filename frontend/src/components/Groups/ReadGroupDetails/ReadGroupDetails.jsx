@@ -8,6 +8,7 @@ import {
   fetchGroupEvents,
 } from "../../../store/groups";
 import ReadGroupEvents from "../ReadGroupEvents/ReadGroupEvents";
+
 import { BsChevronDoubleLeft } from "react-icons/bs";
 
 import "./ReadGroupDetails.css";
@@ -38,6 +39,10 @@ const ReadGroupDetails = () => {
     };
     fetchDetails();
   }, [dispatch, id]);
+
+  const countGroupEvents = () => {
+    return groupEvents.length;
+  };
 
   if (!groupEvents) {
     return null;
@@ -111,7 +116,7 @@ const ReadGroupDetails = () => {
               {groupDetails.city} , {groupDetails.state}
             </p>
             <p className="para">
-              {groupDetails.numEvents} Events ·
+              {countGroupEvents(groupEvents.groupId)} Events ·
               {groupDetails.private ? "Private" : "Public"}
             </p>
             <p className="para">
@@ -161,7 +166,7 @@ const ReadGroupDetails = () => {
         </p>
         <h1>What we are about</h1>
         <p className="para">{groupDetails.about}</p>
-        <h1>Events {groupDetails.numEvents}</h1>
+        <h1>Events {countGroupEvents(groupEvents.id)}</h1>
       </div>
 
       {/* <div id="eventsDiv">

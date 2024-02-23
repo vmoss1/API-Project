@@ -28,8 +28,8 @@ const CreateGroup = () => {
     if (!state) validate.state = "Please provide state";
     if (!name) validate.name = "Please provide a name";
     if (!image) validate.image = "Please provide an image URL";
-    if (about.length < 30)
-      validate.about = "Please write at least 30 characters";
+    if (about.length < 50)
+      validate.about = "Please write at least 50 characters";
     if (type == "Select") validate.type = "Please ensure selection is provided";
     if (privacy == "Select")
       validate.privacy = "Please ensure selection is provided";
@@ -146,7 +146,7 @@ const CreateGroup = () => {
             id="about"
             cols="50"
             rows="10"
-            placeholder="Please write at least 30 characters"
+            placeholder="Please write at least 50 characters"
             value={about}
             onChange={(e) => setAbout(e.target.value)}
           ></textarea>

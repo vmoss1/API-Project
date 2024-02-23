@@ -27,23 +27,22 @@ const readGroupEvents = (events) => ({
 
 const createGroup = (group) => ({
   type: CREATE_GROUP,
-  group,
+  payload: group,
 });
 
 const addGroupImage = (groupId, image) => ({
   type: ADD_GROUPIMAGE,
-  groupId,
-  image,
+  payload: { groupId, image },
 });
 
 const deleteGroup = (groupId) => ({
   type: DELETE_GROUP,
-  groupId,
+  payload: groupId,
 });
 
 const updateGroup = (group) => ({
   type: UPDATE_GROUP,
-  group,
+  payload: group,
 });
 
 // Thunk functions
@@ -146,7 +145,7 @@ export const updateGroupFunc = (groupId, groupData) => async (dispatch) => {
 
 const initialState = {
   list: [],
-  groupDetails: [],
+  groupDetails: {},
   groupEvents: [],
 };
 
@@ -158,37 +157,39 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, groupDetails: action.payload };
     case READ_GROUP_EVENTS:
       return { ...state, groupEvents: action.payload };
-    case CREATE_GROUP: {
-      const groupsState = { ...state };
-      groupsState[action.group.id] = action.group;
-      return groupsState;
-    }
-    case ADD_GROUPIMAGE: {
-      const { groupId, image } = action;
+    case CREATE_GROUP:
       return {
         ...state,
-        [groupId]: {
-          ...state[groupId],
-          Groupimages: state[groupId]?.Groupimages
-            ? [...state[groupId].Groupimages, image]
-            : [image],
+        list: [...state.list, action.payload],
+        groupDetails: action.payload,
+      };
+    case ADD_GROUPIMAGE:
+      return {
+        ...state,
+        groupDetails: {
+          ...state.groupDetails,
+          Groupimages: [
+            ...(state.groupDetails?.Groupimages || []), // Ensure Groupimages is an array
+            action.payload.image,
+          ],
         },
       };
-    }
     case DELETE_GROUP: {
-      const { list } = state;
-      const updatedList = list.filter((group) => group.id !== action.groupId);
-      return { ...state, list: updatedList, groupDetails: null };
+      return {
+        ...state,
+        list: state.list.filter((group) => group.id !== action.payload),
+        groupDetails: {}, // Change to empty object when deleting a group
+      };
     }
-    case UPDATE_GROUP: {
+    case UPDATE_GROUP:
       return {
         ...state,
         list: state.list.map((group) =>
-          group.id === action.group.id ? action.group : group
+          group.id === action.payload.id ? action.payload : group
         ),
-        groupDetails: action.group,
+        groupDetails: action.payload,
       };
-    }
+
     default:
       return state;
   }

@@ -20,7 +20,7 @@ const readEventDetails = (eventDetails) => ({
 
 const createEvent = (event) => ({
   type: CREATE_EVENT,
-  event,
+  payload: event,
 });
 
 const addEventImage = (eventId, image) => ({
@@ -117,7 +117,8 @@ const eventsReducer = (state = initialState, action) => {
     case CREATE_EVENT: {
       return {
         ...state,
-        [action.event.id]: action.event,
+        list: [...state.list, action.payload],
+        eventDetails: action.payload,
       };
     }
     case ADD_EVENTIMAGE: {

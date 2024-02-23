@@ -190,7 +190,7 @@ const CreateEvent = () => {
           </div>
         </div>
         <div>
-          <button type="submit">Create Event</button>
+          <button onClick={handleSubmit}>Create Event</button>
         </div>
       </form>
     </div>

@@ -30,6 +30,10 @@ const ReadGroupEvents = () => {
     );
   }, [groupEvents]);
 
+  if (!groupEvents || !eventDetails) {
+    return null;
+  }
+
   const formatEventDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();

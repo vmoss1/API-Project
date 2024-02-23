@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGroupDetails, deleteGroupFunc } from "../../../store/groups";
-import { fetchEventDetails } from "../../../store/events";
+import {
+  fetchGroupDetails,
+  deleteGroupFunc,
+  fetchGroupEvents,
+} from "../../../store/groups";
 import ReadGroupEvents from "../ReadGroupEvents/ReadGroupEvents";
 import { BsChevronDoubleLeft } from "react-icons/bs";
 
@@ -16,29 +19,29 @@ const ReadGroupDetails = () => {
   const [deleted, setDeleted] = useState(false);
 
   const groupDetails = useSelector((state) => state.groups.groupDetails);
-  // const eventDetails = useSelector((state) => state.events.eventDetails);
+  const groupEvents = useSelector((state) => state.groups.groupEvents);
   const currentUser = useSelector((state) => state.session?.user);
 
   const isGroupOrganizer =
-    currentUser && groupDetails.Organizer?.id === currentUser.id;
+    currentUser && groupDetails?.Organizer?.id === currentUser.id;
   const isNotGroupOrganizer =
-    currentUser && groupDetails.Organizer?.id !== currentUser.id;
+    currentUser && groupDetails?.Organizer?.id !== currentUser.id;
 
   let imagePrev = groupDetails.Groupimages?.find(
     (image) => image.preview === true
   );
 
-  // let eventImagePrev = eventDetails.eventimages?.find(
-  //   (image) => image.preview === true
-  // );
-
   useEffect(() => {
     const fetchDetails = async () => {
-      await dispatch(fetchEventDetails(id));
+      await dispatch(fetchGroupEvents(id));
       await dispatch(fetchGroupDetails(id));
     };
     fetchDetails();
   }, [dispatch, id]);
+
+  if (!groupEvents) {
+    return null;
+  }
 
   // const eventName = eventDetails.name;
   // const eventTime = eventDetails.startDate;
@@ -75,6 +78,7 @@ const ReadGroupDetails = () => {
   const handleDeleteGroup = () => {
     setDeleted(true);
   };
+  if (!groupEvents) return null;
 
   return (
     <div>
@@ -111,8 +115,8 @@ const ReadGroupDetails = () => {
               {groupDetails.private ? "Private" : "Public"}
             </p>
             <p className="para">
-              Group Leader: {groupDetails.Organizer?.firstName}{" "}
-              {groupDetails.Organizer?.lastName}
+              Group Leader: {groupDetails?.Organizer?.firstName}{" "}
+              {groupDetails?.Organizer?.lastName}
             </p>
           </div>
           <div className="buttonContainer">
@@ -152,7 +156,8 @@ const ReadGroupDetails = () => {
       <div className="bottomHalfContainer">
         <h1>Organizer</h1>
         <p className="para">
-          {groupDetails.Organizer?.firstName} {groupDetails.Organizer?.lastName}{" "}
+          {groupDetails?.Organizer?.firstName}{" "}
+          {groupDetails?.Organizer?.lastName}{" "}
         </p>
         <h1>What we are about</h1>
         <p className="para">{groupDetails.about}</p>
@@ -182,7 +187,7 @@ const ReadGroupDetails = () => {
           <p>{eventDescription}</p>
         </div>
       </div> */}
-      <div>{<ReadGroupEvents />}</div>
+      <div>{groupEvents && <ReadGroupEvents />}</div>
     </div>
   );
 };

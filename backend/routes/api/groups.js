@@ -450,6 +450,8 @@ router.post("/:groupId/events", requireAuth, async (req, res, next) => {
     let { groupId } = req.params;
     groupId = +groupId;
 
+    // console.log("NEWEVENT");
+
     const {
       venueId,
       name,
@@ -475,6 +477,7 @@ router.post("/:groupId/events", requireAuth, async (req, res, next) => {
         status: "co-host",
       },
     });
+    // console.log("NEWEVENT2");
 
     const isOrganizer = currentGroup.organizerId === req.user.id;
     if (!(isOrganizer || isCoHost)) {
@@ -483,12 +486,13 @@ router.post("/:groupId/events", requireAuth, async (req, res, next) => {
 
     const currentVenue = await Venue.findOne({
       where: {
-        groupId: currentGroup.id,
+        id: req.body.venueId,
       },
     });
     if (!currentVenue) {
       return res.status(404).json({ message: "Venue couldn't be found" });
     }
+    // console.log("NEWEVENT3");
 
     const newEvent = await Event.create({
       groupId,

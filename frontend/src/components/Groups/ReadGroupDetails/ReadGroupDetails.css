@@ -16,6 +16,10 @@
   margin-top: 18px;
 }
 
+button {
+  background-color: grey;
+}
+
 #backToLabel:hover {
   color: teal;
 }
@@ -94,10 +98,6 @@
   background-color: grey;
 }
 #Update {
-  background-color: grey;
-}
-
-#deleteButton {
   background-color: grey;
 }
 

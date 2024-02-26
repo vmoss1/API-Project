@@ -147,7 +147,7 @@ const ReadGroupDetails = () => {
                   <div>
                     <p>Are you sure?</p>
                     <button onClick={handleDeleteMessage}>Yes!</button>
-                    <button onClick={() => setShowMenu(false)}>No!</button>
+                    <button onClick={closeDeleteMenu}>No!</button>
                   </div>
                 }
               />

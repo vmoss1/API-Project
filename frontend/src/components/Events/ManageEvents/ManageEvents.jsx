@@ -129,7 +129,7 @@ const ManageEvents = () => {
 
               <p className="para">
                 <CiDollar id="icons" />
-                {eventDetails.price}$
+                {eventDetails.price === 0 ? "FREE" : `${eventDetails.price}$`}
               </p>
 
               <p className="para">

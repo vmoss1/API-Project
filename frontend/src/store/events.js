@@ -136,7 +136,7 @@ const eventsReducer = (state = initialState, action) => {
     case DELETE_EVENT: {
       const { list } = state;
       const updatedList = list.filter((event) => event.id !== action.eventId);
-      return { ...state, list: updatedList, eventDetails: null };
+      return { ...state, list: updatedList, eventDetails: {} };
     }
     default:
       return state;

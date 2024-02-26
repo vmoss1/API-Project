@@ -13,6 +13,10 @@
   word-wrap: break-word;
 }
 
+button {
+  background-color: grey;
+}
+
 #icons {
   margin-right: 5px;
 }

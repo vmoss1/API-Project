@@ -1,16 +1,17 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupEvents } from "../../../store/groups";
 // import { fetchEventDetails } from "../../../store/events";
 import { useMemo } from "react";
 import "./ReadGroupEvents.css";
+import { Link } from "react-router-dom";
 
 const ReadGroupEvents = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const groupEvents = useSelector((state) => state.groups.groupEvents);
-  // const eventDetails = useSelector((state) => state.events.eventDetails);
+  const eventDetails = useSelector((state) => state.events.eventDetails);
   // console.log("EVENTS", eventDetails.description);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const ReadGroupEvents = () => {
     );
   }, [groupEvents]);
 
-  if (!groupEvents) {
+  if (!groupEvents || !eventDetails) {
     return null;
   }
 
@@ -50,7 +51,6 @@ const ReadGroupEvents = () => {
   //   }
   //   return "Description not available";
   // };
-
   const upcomingEvents = sortedByDate
     .filter((event) => new Date(event.startDate) > new Date())
     .map((event) => ({

@@ -32,7 +32,7 @@ const CreateEvent = () => {
     if (!startDate) validate.startDate = "Please provide a start date";
     if (!endDate) validate.endDate = "Please provide an end date";
     if (!image) validate.image = "Please provide an image URL";
-    if (!price) validate.price = "Please provide price";
+    if (price < 0) validate.price = "Please provide a valid price";
     if (description.length < 30)
       validate.description = "Please write at least 30 characters";
     if (type == "Select") validate.type = "Please ensure selection is provided";

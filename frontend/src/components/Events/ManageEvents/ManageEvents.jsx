@@ -104,11 +104,7 @@ const ManageEvents = () => {
           <div className="upperDetailsOfTop">
             <img
               id="groupImageDetails"
-              src={
-                groupImagePrev !== undefined
-                  ? groupImagePrev.url
-                  : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
-              }
+              src={groupImagePrev.url}
               alt={eventDetails.name}
             />
             <div id="groupCardInfo">

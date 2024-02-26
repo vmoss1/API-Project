@@ -8,16 +8,16 @@ import {
   fetchGroupEvents,
 } from "../../../store/groups";
 import ReadGroupEvents from "../ReadGroupEvents/ReadGroupEvents";
-
+import OpenModalButton from "../../OpenModalButton/OpenModalButton";
 import { BsChevronDoubleLeft } from "react-icons/bs";
-
 import "./ReadGroupDetails.css";
 
 const ReadGroupDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [deleted, setDeleted] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const closeDeleteMenu = () => setShowMenu(false);
 
   const groupDetails = useSelector((state) => state.groups.groupDetails);
   const groupEvents = useSelector((state) => state.groups.groupEvents);
@@ -76,13 +76,15 @@ const ReadGroupDetails = () => {
     });
   };
 
-  const handleDeleteMessage = async () => {
+  const handleDeleteMessage = async (e) => {
+    e.preventDefault();
     const res = await dispatch(deleteGroupFunc(groupDetails.id));
-    if (res.message === "Successfully deleted") navigate(`/groups`);
+    if (res.message === "Successfully deleted") {
+      closeDeleteMenu(); // Close the menu when the delete action is confirmed
+      navigate(`/groups`);
+    }
   };
-  const handleDeleteGroup = () => {
-    setDeleted(true);
-  };
+
   if (!groupEvents) return null;
 
   return (
@@ -136,16 +138,19 @@ const ReadGroupDetails = () => {
               </button>
             )}
             {isGroupOrganizer && (
-              <button onClick={handleDeleteGroup} id="deleteButton">
-                Delete
-              </button>
-            )}
-            {deleted && (
-              <div>
-                <p>Are you sure?</p>
-                <button onClick={handleDeleteMessage}>Yes!</button>
-                <button onClick={() => setDeleted(false)}>No!</button>
-              </div>
+              <OpenModalButton
+                value={showMenu}
+                buttonText="Delete"
+                onButtonClick={() => setShowMenu(true)}
+                onModalClose={closeDeleteMenu} // Pass closeDeleteMenu function
+                modalComponent={
+                  <div>
+                    <p>Are you sure?</p>
+                    <button onClick={handleDeleteMessage}>Yes!</button>
+                    <button onClick={() => setShowMenu(false)}>No!</button>
+                  </div>
+                }
+              />
             )}
             {isNotGroupOrganizer && (
               <button

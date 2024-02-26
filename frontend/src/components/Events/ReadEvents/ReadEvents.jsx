@@ -1,14 +1,15 @@
 import { fetchAllEvents } from "../../../store/events";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./ReadEvents.css";
 import { useMemo } from "react";
 
 const AllEventList = () => {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events.list);
-  // console.log("EVENTS", events);
+  // const eventDetails = useSelector((state) => state.events.eventDetails);
+  // console.log("EVENTS", eventDetails);
 
   useEffect(() => {
     dispatch(fetchAllEvents());
@@ -53,8 +54,8 @@ const AllEventList = () => {
       </div>
       <div className="events-list">
         {upcomingEvents.map((event) => (
-          <a
-            href={`/events/${event.id}`}
+          <Link
+            to={`/events/${event.id}`}
             key={event.id}
             className="wizard-event"
           >
@@ -82,7 +83,7 @@ const AllEventList = () => {
                 <p id="startDate">Start Date: {event.formattedDate}</p>
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </div>

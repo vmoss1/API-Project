@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { fetchAllGroups } from "../../../store/groups";
 import { fetchAllEvents } from "../../../store/events";
 
@@ -42,8 +42,8 @@ const AllGroupList = () => {
       </div>
       <div className="groups-list">
         {groups.map((group) => (
-          <a
-            href={`/groups/${group.id}`}
+          <Link
+            to={`/groups/${group.id}`}
             key={group.id}
             className="wizard-group"
           >
@@ -69,7 +69,7 @@ const AllGroupList = () => {
                 </p>
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </div>

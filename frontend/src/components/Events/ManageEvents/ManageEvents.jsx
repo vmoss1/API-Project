@@ -9,20 +9,31 @@ import { CiAlarmOn } from "react-icons/ci";
 import { CiDollar } from "react-icons/ci";
 import { CiLocationOn } from "react-icons/ci";
 import { BsChevronDoubleLeft } from "react-icons/bs";
+import OpenModalButton from "../../OpenModalButton/OpenModalButton";
 
 const ManageEvents = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [deleted, setDeleted] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const closeDeleteMenu = () => setShowMenu(false);
 
   const eventDetails = useSelector((state) => state.events.eventDetails);
   const groupDetails = useSelector((state) => state.groups.groupDetails);
   const currentUser = useSelector((state) => state.session.user);
+  // console.log(eventDetails.groupId);
 
   const isOrganizer =
     currentUser && groupDetails.Organizer?.id === currentUser.id;
   // console.log("ORGANIZER", isOrganizer);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      await dispatch(fetchEventDetails(id));
+      await dispatch(fetchGroupDetails(eventDetails.groupId));
+    };
+    fetchDetails();
+  }, [dispatch, id, eventDetails.groupId]);
 
   let imagePrev = eventDetails.Eventimages?.find(
     (image) => image.preview === true
@@ -32,14 +43,6 @@ const ManageEvents = () => {
     (image) => image.preview === true
   );
 
-  useEffect(() => {
-    const fetchDetails = async () => {
-      await dispatch(fetchEventDetails(id));
-      await dispatch(fetchGroupDetails(id));
-    };
-    fetchDetails();
-  }, [dispatch, id]);
-
   const leaderFirstName = groupDetails.Organizer?.firstName;
   const leaderLastName = groupDetails.Organizer?.lastName;
   const groupType = groupDetails.type;
@@ -48,10 +51,10 @@ const ManageEvents = () => {
 
   const handleDeleteMessage = async () => {
     const res = await dispatch(deleteEventFunc(eventDetails.id));
-    if (res.message === "Successfully deleted") navigate(`/events`);
-  };
-  const handleDeleteEvent = () => {
-    setDeleted(true);
+    if (res.message === "Successfully deleted") {
+      closeDeleteMenu();
+      navigate(`/events`);
+    }
   };
 
   const formatEventDate = (dateString) => {
@@ -139,16 +142,19 @@ const ManageEvents = () => {
                 </button>
               )}
               {isOrganizer && (
-                <button onClick={handleDeleteEvent} id="deleteButton">
-                  Delete
-                </button>
-              )}
-              {deleted && (
-                <div>
-                  <p>Are you sure?</p>
-                  <button onClick={handleDeleteMessage}>Yes!</button>
-                  <button onClick={() => setDeleted(false)}>No!</button>
-                </div>
+                <OpenModalButton
+                  value={showMenu}
+                  buttonText="Delete"
+                  onButtonClick={() => setShowMenu(true)}
+                  onCloseButtonClick={closeDeleteMenu} // Pass closeDeleteMenu function
+                  modalComponent={
+                    <div>
+                      <p>Are you sure?</p>
+                      <button onClick={handleDeleteMessage}>Yes!</button>
+                      <button onClick={() => setShowMenu(false)}>No!</button>
+                    </div>
+                  }
+                />
               )}
             </div>
           </div>

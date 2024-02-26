@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupEvents } from "../../../store/groups";
-import { fetchEventDetails } from "../../../store/events";
+// import { fetchEventDetails } from "../../../store/events";
 import { useMemo } from "react";
 import "./ReadGroupEvents.css";
+import { Link } from "react-router-dom";
 
 const ReadGroupEvents = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const ReadGroupEvents = () => {
   useEffect(() => {
     const fetchAll = async () => {
       await dispatch(fetchGroupEvents(id));
-      await dispatch(fetchEventDetails(id));
+      // await dispatch(fetchEventDetails(id));
     };
     fetchAll();
   }, [dispatch, id]);
@@ -44,12 +45,12 @@ const ReadGroupEvents = () => {
     return `${formattedDate} · ${formattedTime}`;
   };
 
-  const getDescription = (eventId) => {
-    if (eventDetails && eventDetails[eventId]) {
-      return eventDetails[eventId].description;
-    }
-    return "Description not available";
-  };
+  // const getDescription = (eventId) => {
+  //   if (eventDetails && eventDetails[eventId]) {
+  //     return eventDetails[eventId].description;
+  //   }
+  //   return "Description not available";
+  // };
   const upcomingEvents = sortedByDate
     .filter((event) => new Date(event.startDate) > new Date())
     .map((event) => ({
@@ -70,7 +71,7 @@ const ReadGroupEvents = () => {
         <div id="upcomingEventsCard">
           <h2>Upcoming Events</h2>
           {upcomingEvents.map((event) => (
-            <a href={`/events/${event.id}`} key={event.id}>
+            <Link to={`/events/${event.id}`} key={event.id}>
               <div id="eachCard">
                 {" "}
                 <img
@@ -92,10 +93,10 @@ const ReadGroupEvents = () => {
                   ) : (
                     <p>Venue pending...</p>
                   )}
-                  <p id="descriptionP">{getDescription(event.id)}</p>
+                  <p id="descriptionP">Description not available...</p>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       )}
@@ -104,7 +105,7 @@ const ReadGroupEvents = () => {
         <div id="pastEventsCard">
           <h2>Past Events</h2>
           {pastEvents.map((event) => (
-            <a href={`/events/${event.id}`} key={event.id}>
+            <Link to={`/events/${event.id}`} key={event.id}>
               <div>
                 {" "}
                 <img
@@ -122,10 +123,10 @@ const ReadGroupEvents = () => {
                   ) : (
                     <p id="locationP">Venue pending...</p>
                   )}
-                  <p id="locationP">{getDescription(event.id)}</p>
+                  <p id="locationP">Description not available...</p>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       )}

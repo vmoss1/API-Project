@@ -28,16 +28,14 @@
 }
 
 #infoGraphic {
-  margin-top: 10px;
-  height: 350px;
-  width: 450px;
+  height: 85%;
+  width: 85%;
   display: flex;
   justify-content: center;
   align-content: center;
   border: 2px black solid;
   border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: rgb(200, 202, 176) 5px 5px 10px 5px;
+  box-shadow: rgb(41, 41, 82) 5px 10px 20px 5px;
   z-index: 0;
 }
 
@@ -81,7 +79,7 @@ button {
 #whatAbout {
   display: flex;
   justify-content: center;
-  font-family: fantasy;
+  font-size: 25px;
 }
 
 #paragraphAbout {
@@ -95,11 +93,11 @@ button {
   height: 350px;
   border: 2px black solid;
   border-radius: 10px;
-  box-shadow: rgb(200, 202, 176) 5px 5px 10px 5px;
+  box-shadow: rgb(41, 41, 82) 5px 10px 20px 5px;
 }
 
 .landing-img:hover {
-  box-shadow: rgb(41, 41, 82) 5px 5px 10px 3px;
+  box-shadow: rgb(200, 202, 176) 5px 5px 10px;
 }
 
 .landingCards {
@@ -107,6 +105,7 @@ button {
   justify-content: center;
   gap: 30px;
   color: rgb(41, 41, 82);
+  height: 75%;
 }
 
 .landing-link {

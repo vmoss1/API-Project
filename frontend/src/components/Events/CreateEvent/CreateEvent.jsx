@@ -10,7 +10,7 @@ const CreateEvent = () => {
   const location = useLocation();
   const types = ["Select", "In person", "Online"];
   const { groupName, groupId } = location.state;
-  const capacity = 1;
+  const capacity = 20;
   // const venueId = 1;
   // console.log("GROUPID", groupId);
 
@@ -48,7 +48,7 @@ const CreateEvent = () => {
         endDate,
         description,
         capacity: parseInt(capacity),
-        venueId: 1,
+        // venueId: 1,
       };
 
       // console.log("NEWEVENT", newEvent);

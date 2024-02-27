@@ -164,14 +164,14 @@ const ReadGroupDetails = () => {
         </div>
       </div>
       <div className="bottomHalfContainer">
-        <h1>Organizer</h1>
+        <h1>Organized By</h1>
         <p className="para">
           {groupDetails?.Organizer?.firstName}{" "}
           {groupDetails?.Organizer?.lastName}{" "}
         </p>
         <h1>What we are about</h1>
         <p className="para">{groupDetails.about}</p>
-        <h1>Events {countGroupEvents(groupEvents.id)}</h1>
+        <h1>Events ({countGroupEvents(groupEvents.id)})</h1>
       </div>
 
       {/* <div id="eventsDiv">

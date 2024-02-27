@@ -84,14 +84,14 @@ const ManageEvents = () => {
           Back to Events Page
         </Link>
         <h1>{eventDetails.name}</h1>
-        <h2 className="para">
+        <label className="para">
           Hosted By {leaderFirstName} {leaderLastName}
-        </h2>
+        </label>
       </div>
       <div className="topHalfContainer">
         <div>
           <img
-            id="imageDetails"
+            id="imageEventDetails"
             src={
               imagePrev !== undefined
                 ? imagePrev.url
@@ -113,26 +113,29 @@ const ManageEvents = () => {
             />
             <div id="groupCardInfo">
               <h2> {groupName}</h2>
-              <p className="para"> {groupPrivacy ? "Private" : "Public"}</p>
+              <p className="paragraphDetails">
+                {" "}
+                {groupPrivacy ? "Private" : "Public"}
+              </p>
             </div>
           </div>
 
           <div className="lowerDetailsOfTop">
             <div id="lowerDetails">
               <div id="timeContainer">
-                <p className="para">
+                <p className="paragraphDetails">
                   {" "}
                   <CiAlarmOn id="icons" />
                   Start {formattedStartDate} End {formattedEndDate}
                 </p>
               </div>
 
-              <p className="para">
+              <p className="paragraphDetails">
                 <CiDollar id="icons" />
                 {eventDetails.price === 0 ? "FREE" : `${eventDetails.price}$`}
               </p>
 
-              <p className="para">
+              <p className="paragraphDetails">
                 <CiLocationOn id="icons" /> {groupType}
               </p>
 

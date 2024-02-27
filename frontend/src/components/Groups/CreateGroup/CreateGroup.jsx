@@ -1,4 +1,8 @@
-import { createGroupFunc, addGroupImageFunc } from "../../../store/groups";
+import {
+  createGroupFunc,
+  addGroupImageFunc,
+  createVenueFunc,
+} from "../../../store/groups";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +23,12 @@ const CreateGroup = () => {
   const [image, setImage] = useState("");
   const [validations, setValidations] = useState({});
 
+  const [address, setAddress] = useState("");
+  const [cityVenue, setCityVenue] = useState("");
+  const [stateVenue, setStateVenue] = useState("");
+  // const [lat , setLat] = useState('')
+  // const [lng, setLng] = useState('')
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,6 +43,11 @@ const CreateGroup = () => {
     if (type == "Select") validate.type = "Please ensure selection is provided";
     if (privacy == "Select")
       validate.privacy = "Please ensure selection is provided";
+
+    if (!address) validate.address = "Please provide an address";
+    if (!cityVenue) validate.cityVenue = "Please provide a city for your Venue";
+    if (!stateVenue)
+      validate.stateVenue = "Please provide a state for your Venue";
 
     if (Object.values(validate).length) {
       setValidations(validate);
@@ -51,13 +66,21 @@ const CreateGroup = () => {
         preview: true,
       };
 
+      const newVenue = {
+        address,
+        city: cityVenue,
+        state: stateVenue,
+        lat: parseInt(80),
+        lng: parseInt(120),
+      };
+
       const awaitNewGroup = await dispatch(createGroupFunc(newGroup));
 
       if (awaitNewGroup.validations) {
         setValidations(awaitNewGroup.validate);
       } else {
         await dispatch(addGroupImageFunc(awaitNewGroup.id, newImage));
-
+        await dispatch(createVenueFunc(awaitNewGroup.id, newVenue));
         navigate(`/groups/${awaitNewGroup.id}`);
       }
     }
@@ -205,6 +228,52 @@ const CreateGroup = () => {
               <p className="validations">{validations.image}</p>
             )}
           </div>
+        </div>
+        <h2>Create a Venue for your Group</h2>
+        <label htmlFor="address">
+          <input
+            type="text"
+            name="address"
+            id="address"
+            placeholder="Street Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </label>
+        <div>
+          {"address" in validations && (
+            <p className="validations">{validations.address}</p>
+          )}
+        </div>
+        <label htmlFor="cityVenue">
+          <input
+            type="text"
+            name="cityVenue"
+            id="cityVenue"
+            placeholder="City"
+            value={cityVenue}
+            onChange={(e) => setCityVenue(e.target.value)}
+          />
+        </label>
+        <div>
+          {"cityVenue" in validations && (
+            <p className="validations">{validations.cityVenue}</p>
+          )}
+        </div>
+
+        <label htmlFor="stateVenue">
+          <input
+            type="text"
+            id="stateVenue"
+            placeholder="State"
+            value={stateVenue}
+            onChange={(e) => setStateVenue(e.target.value)}
+          />
+        </label>
+        <div>
+          {"stateVenue" in validations && (
+            <p className="validations">{validations.stateVenue}</p>
+          )}
         </div>
         <div>
           <button type="submit">Create Group</button>

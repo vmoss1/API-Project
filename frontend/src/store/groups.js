@@ -8,8 +8,20 @@ const CREATE_GROUP = "groups/createGroup";
 const ADD_GROUPIMAGE = "groups/addGroupImage";
 const DELETE_GROUP = "groups/deleteGroup";
 const UPDATE_GROUP = "groups/updateGroup";
+// const READ_GROUP_VENUES = "groups/readVenues";
+const CREATE_GROUP_VENUE = "groups/createVenue";
 
 //action creators
+const createGroupVenue = (venue) => ({
+  type: CREATE_GROUP_VENUE,
+  payload: venue,
+});
+
+// const readGroupVenues = (venues) => ({
+//   type: READ_GROUP_VENUES,
+//   payload: venues,
+// });
+
 const readGroups = (groups) => ({
   type: READ_GROUPS,
   payload: groups,
@@ -46,6 +58,46 @@ const updateGroup = (group) => ({
 });
 
 // Thunk functions
+
+//Create venue
+export const createVenueFunc = (groupId, venue) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/groups/${groupId}/venues`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(venue), // Pass the venue data in the request body
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create venue");
+    }
+    const createdVenue = await response.json();
+    dispatch(createGroupVenue(createdVenue));
+    return createdVenue;
+  } catch (error) {
+    console.error("Error creating venue:", error);
+    throw error;
+  }
+};
+
+// //Read Venues
+// export const fetchGroupVenues = (groupId) => async (dispatch) => {
+//   try {
+//     const response = await csrfFetch(`/api/groups/${groupId}/venues`);
+
+//     if (!response.ok) {
+//       throw new Error("Failed to fetch group venues");
+//     }
+//     const { Venues } = await response.json();
+//     dispatch(readGroupVenues(Venues));
+//     return Venues;
+//   } catch (error) {
+//     console.error("Error fetching group venues:", error);
+//     throw error;
+//   }
+// };
 
 // Group fetch
 export const fetchAllGroups = () => async (dispatch) => {
@@ -147,6 +199,7 @@ const initialState = {
   list: [],
   groupDetails: {},
   groupEvents: [],
+  groupVenues: [],
 };
 
 const groupsReducer = (state = initialState, action) => {
@@ -157,6 +210,16 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, groupDetails: action.payload };
     case READ_GROUP_EVENTS:
       return { ...state, groupEvents: action.payload };
+    // case READ_GROUP_VENUES:
+    //   return {
+    //     ...state,
+    //     groupVenues: action.payload,
+    //   };
+    case CREATE_GROUP_VENUE:
+      return {
+        ...state,
+        groupVenues: [...state.groupVenues, action.payload],
+      };
     case CREATE_GROUP:
       return {
         ...state,

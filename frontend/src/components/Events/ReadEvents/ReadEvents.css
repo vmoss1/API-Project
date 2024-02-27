@@ -4,8 +4,8 @@
 }
 
 .eventImages {
-  height: 300px;
-  width: 400px;
+  height: 275px;
+  width: 375px;
   float: left;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -16,12 +16,19 @@
   box-shadow: rgb(41, 41, 82) 5px 5px 10px 5px;
 }
 
+.events-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
 #photoBox {
   display: flex;
+  gap: 10px;
 }
 
 #wizardEvent {
-  color: gray;
+  color: rgb(157, 157, 157);
   font-size: 1.25rem;
 }
 
@@ -31,19 +38,22 @@
 
 #startDate {
   font-family: fantasy;
+  font-size: 1rem;
 }
 
 .eventLocation {
-  color: grey;
+  color: rgb(71, 71, 71);
 }
 
 #locationP {
   font-family: fantasy;
+  font-size: 1.25rem;
 }
 
 .eventType {
-  color: grey;
+  color: rgb(9, 9, 9);
   font-family: fantasy;
+  font-size: 1.25rem;
 }
 
 .events-page {
@@ -51,6 +61,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url(https://images.ctfassets.net/usf1vwtuqyxm/4aFhPoOZZPgMpvJCuL52g9/d2be480ee2a3bfc6d8ac13a21a04918a/release_2_ww_ravenclaw_house_pride.png);
 }
 
 .eventPageLinks {
@@ -65,7 +76,7 @@
   display: flex;
   border-top: 2px solid rgb(41, 41, 82);
   border-bottom: 2px solid rgb(41, 41, 82);
-  margin-bottom: 20px;
+  background-color: rgba(200, 200, 200, 0.5);
 }
 
 #event {
@@ -75,7 +86,7 @@
   font-family: fantasy;
 }
 #group {
-  color: grey;
+  color: rgb(173, 173, 173);
   font-size: 2.5rem;
   font-family: fantasy;
 }

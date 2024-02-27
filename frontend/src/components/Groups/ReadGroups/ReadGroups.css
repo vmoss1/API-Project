@@ -4,7 +4,7 @@
 }
 
 #eventLink {
-  color: grey;
+  color: rgb(189, 189, 189);
   font-family: fantasy;
 }
 
@@ -15,8 +15,8 @@
 }
 
 .Images {
-  height: 300px;
-  width: 400px;
+  height: 275px;
+  width: 375px;
   float: left;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -28,12 +28,13 @@
 }
 
 #wizardGroup {
-  color: gray;
-  font-size: 1.25rem;
+  color: rgb(179, 179, 179);
+  font-size: 1.5rem;
 }
 
 .groupInfo {
   font-family: fantasy;
+  font-size: 1.25rem;
 }
 
 .groupName {
@@ -41,11 +42,15 @@
 }
 
 .groupLocation {
-  color: grey;
+  color: rgb(14, 14, 14);
+  font-size: 1.5rem;
+  font-family: fantasy;
 }
 
 .groupType {
-  color: grey;
+  color: rgb(44, 44, 44);
+  font-size: 1.5rem;
+  font-family: fantasy;
 }
 
 .groups-page {
@@ -53,6 +58,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url(https://images.ctfassets.net/usf1vwtuqyxm/4aFhPoOZZPgMpvJCuL52g9/d2be480ee2a3bfc6d8ac13a21a04918a/release_2_ww_ravenclaw_house_pride.png);
 }
 
 .pageLinks {
@@ -61,6 +67,12 @@
   gap: 30px;
   font-size: 2.5rem;
   color: black;
+}
+
+.groups-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 #group:hover {
@@ -75,5 +87,6 @@
   display: flex;
   border-top: 2px solid rgb(41, 41, 82);
   border-bottom: 2px solid rgb(41, 41, 82);
-  margin-bottom: 20px;
+
+  background-color: rgba(200, 200, 200, 0.5);
 }

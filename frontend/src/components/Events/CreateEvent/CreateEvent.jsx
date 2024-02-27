@@ -9,10 +9,8 @@ const CreateEvent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const types = ["Select", "In person", "Online"];
-  const { groupName, groupId } = location.state;
+  const { groupName, groupId, venueId } = location.state;
   const capacity = 20;
-  // const venueId = 1;
-  // console.log("GROUPID", groupId);
 
   const [name, setName] = useState("");
   const [type, setType] = useState(types[0]);
@@ -48,17 +46,13 @@ const CreateEvent = () => {
         endDate,
         description,
         capacity: parseInt(capacity),
-        // venueId: 1,
+        venueId,
       };
-
-      // console.log("NEWEVENT", newEvent);
 
       const newImage = {
         url: image,
         preview: true,
       };
-
-      // console.log("GROUPID2", groupId);
 
       const awaitNewEvent = await dispatch(createEventFunc(groupId, newEvent));
 

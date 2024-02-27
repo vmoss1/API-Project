@@ -6,12 +6,25 @@
 #groupLeader {
   margin-bottom: 0px;
   color: teal;
+  font-family: fantasy;
 }
 
 #followSteps {
   margin-top: 0px;
   margin-bottom: 0px;
   border-bottom: 2px grey solid;
+  font-family: fantasy;
+}
+
+#cityStateContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#groupNameContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 #locationBox {
@@ -19,6 +32,9 @@
 }
 #groupNameBox {
   border-bottom: 2px grey solid;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 #aboutBox {
@@ -27,6 +43,9 @@
 
 #finalStepsBox {
   border-bottom: 2px grey solid;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .validations {
@@ -40,4 +59,10 @@ li {
 label {
   display: flex;
   justify-content: flex-start;
+}
+
+#createVenueContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

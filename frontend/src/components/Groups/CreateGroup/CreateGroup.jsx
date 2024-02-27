@@ -26,8 +26,6 @@ const CreateGroup = () => {
   const [address, setAddress] = useState("");
   const [cityVenue, setCityVenue] = useState("");
   const [stateVenue, setStateVenue] = useState("");
-  // const [lat , setLat] = useState('')
-  // const [lng, setLng] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -99,35 +97,37 @@ const CreateGroup = () => {
             TheWand groups meet locally, in person and online. We will connect
             you with Wizards/Witches in your area, and more can join you online.
           </p>
-          <label htmlFor="city">
-            <input
-              type="text"
-              name="city"
-              id="city"
-              placeholder="City"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-          </label>
-          <div>
-            {"city" in validations && (
-              <p className="validations">{validations.city}</p>
-            )}
-          </div>
+          <div id="cityStateContainer">
+            <label htmlFor="city">
+              <input
+                type="text"
+                name="city"
+                id="city"
+                placeholder="City"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </label>
+            <div>
+              {"city" in validations && (
+                <p className="validations">{validations.city}</p>
+              )}
+            </div>
 
-          <label htmlFor="state">
-            <input
-              type="text"
-              id="state"
-              placeholder="State"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-            />
-          </label>
-          <div>
-            {"state" in validations && (
-              <p className="validations">{validations.state}</p>
-            )}
+            <label htmlFor="state">
+              <input
+                type="text"
+                id="state"
+                placeholder="State"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              />
+            </label>
+            <div>
+              {"state" in validations && (
+                <p className="validations">{validations.state}</p>
+              )}
+            </div>
           </div>
         </div>
 
@@ -137,20 +137,22 @@ const CreateGroup = () => {
             Choose a name that will give people a clear idea of what the group
             is about. You can edit this later if you change your mind.
           </p>
-          <label htmlFor="name">
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="What is the name of your group?"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </label>
-          <div>
-            {"name" in validations && (
-              <p className="validations">{validations.name}</p>
-            )}
+          <div id="groupNameContainer">
+            <label htmlFor="name">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="What is the name of your group?"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </label>
+            <div>
+              {"name" in validations && (
+                <p className="validations">{validations.name}</p>
+              )}
+            </div>
           </div>
         </div>
         <div id="aboutBox">
@@ -229,54 +231,56 @@ const CreateGroup = () => {
             )}
           </div>
         </div>
-        <h2>Create a Venue for your Group</h2>
-        <label htmlFor="address">
-          <input
-            type="text"
-            name="address"
-            id="address"
-            placeholder="Street Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-        <div>
-          {"address" in validations && (
-            <p className="validations">{validations.address}</p>
-          )}
-        </div>
-        <label htmlFor="cityVenue">
-          <input
-            type="text"
-            name="cityVenue"
-            id="cityVenue"
-            placeholder="City"
-            value={cityVenue}
-            onChange={(e) => setCityVenue(e.target.value)}
-          />
-        </label>
-        <div>
-          {"cityVenue" in validations && (
-            <p className="validations">{validations.cityVenue}</p>
-          )}
-        </div>
+        <div id="createVenueContainer">
+          <h2>Create a Venue for your Group Events</h2>
+          <label htmlFor="address">
+            <input
+              type="text"
+              name="address"
+              id="address"
+              placeholder="Street Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </label>
+          <div>
+            {"address" in validations && (
+              <p className="validations">{validations.address}</p>
+            )}
+          </div>
+          <label htmlFor="cityVenue">
+            <input
+              type="text"
+              name="cityVenue"
+              id="cityVenue"
+              placeholder="City"
+              value={cityVenue}
+              onChange={(e) => setCityVenue(e.target.value)}
+            />
+          </label>
+          <div>
+            {"cityVenue" in validations && (
+              <p className="validations">{validations.cityVenue}</p>
+            )}
+          </div>
 
-        <label htmlFor="stateVenue">
-          <input
-            type="text"
-            id="stateVenue"
-            placeholder="State"
-            value={stateVenue}
-            onChange={(e) => setStateVenue(e.target.value)}
-          />
-        </label>
-        <div>
-          {"stateVenue" in validations && (
-            <p className="validations">{validations.stateVenue}</p>
-          )}
-        </div>
-        <div>
-          <button type="submit">Create Group</button>
+          <label htmlFor="stateVenue">
+            <input
+              type="text"
+              id="stateVenue"
+              placeholder="State"
+              value={stateVenue}
+              onChange={(e) => setStateVenue(e.target.value)}
+            />
+          </label>
+          <div>
+            {"stateVenue" in validations && (
+              <p className="validations">{validations.stateVenue}</p>
+            )}
+          </div>
+          <div>
+            <button type="submit">Create Group</button>
+          </div>
         </div>
       </form>
     </div>

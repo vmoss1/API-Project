@@ -1,0 +1,29 @@
+#deleteModalContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#deleteP {
+  font-family: fantasy;
+}
+
+.buttonContainer1 {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+#yes {
+  font-size: 20px;
+}
+
+#no {
+  background-color: rgb(157, 0, 0);
+  font-size: 20px;
+}

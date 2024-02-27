@@ -8,8 +8,6 @@ import { useMemo } from "react";
 const AllEventList = () => {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events.list);
-  // const eventDetails = useSelector((state) => state.events.eventDetails);
-  // console.log("EVENTS", eventDetails);
 
   useEffect(() => {
     dispatch(fetchAllEvents());

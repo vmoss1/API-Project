@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,20 +8,22 @@ import {
   fetchGroupEvents,
 } from "../../../store/groups";
 import ReadGroupEvents from "../ReadGroupEvents/ReadGroupEvents";
-import OpenModalButton from "../../OpenModalButton/OpenModalButton";
+// import OpenModalButton from "../../OpenModalButton/OpenModalButton";
 import { BsChevronDoubleLeft } from "react-icons/bs";
+import DeleteModal from "../../DeleteModal/DeleteModal";
 import "./ReadGroupDetails.css";
+import { useModal } from "../../../context/Modal";
 
 const ReadGroupDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
-  const closeDeleteMenu = () => setShowMenu(false);
+  const { setModalContent } = useModal();
 
   const groupDetails = useSelector((state) => state.groups.groupDetails);
   const groupEvents = useSelector((state) => state.groups.groupEvents);
   const currentUser = useSelector((state) => state.session?.user);
+  // console.log(groupDetails);
 
   const isGroupOrganizer =
     currentUser && groupDetails?.Organizer?.id === currentUser.id;
@@ -48,12 +50,6 @@ const ReadGroupDetails = () => {
     return null;
   }
 
-  // const eventName = eventDetails.name;
-  // const eventTime = eventDetails.startDate;
-  // const eventDescription = eventDetails.description;
-  // const eventCity = eventDetails.Venue.city;
-  // const eventState = eventDetails.Venue.state;
-
   const handleUpdate = () => {
     // passing current state object to the new page
     navigate("/groups/update", {
@@ -72,17 +68,23 @@ const ReadGroupDetails = () => {
 
   const handleCreateEvent = () => {
     navigate("/events/new", {
-      state: { groupId: id, groupName: groupDetails.name },
+      state: {
+        groupId: id,
+        groupName: groupDetails.name,
+        venueId: groupDetails.Venues[0].id,
+      },
     });
   };
 
-  const handleDeleteMessage = async (e) => {
-    e.preventDefault();
+  const handleDeleteMessage = async () => {
     const res = await dispatch(deleteGroupFunc(groupDetails.id));
     if (res.message === "Successfully deleted") {
-      closeDeleteMenu(); // Close the menu when the delete action is confirmed
       navigate(`/groups`);
     }
+  };
+
+  const deleteModal = () => {
+    setModalContent(<DeleteModal onDelete={handleDeleteMessage} />);
   };
 
   if (!groupEvents) return null;
@@ -137,21 +139,7 @@ const ReadGroupDetails = () => {
                 Update
               </button>
             )}
-            {isGroupOrganizer && (
-              <OpenModalButton
-                value={showMenu}
-                buttonText="Delete"
-                onButtonClick={() => setShowMenu(true)}
-                onModalClose={closeDeleteMenu} // Pass closeDeleteMenu function
-                modalComponent={
-                  <div>
-                    <p>Are you sure?</p>
-                    <button onClick={handleDeleteMessage}>Yes!</button>
-                    <button onClick={closeDeleteMenu}>No!</button>
-                  </div>
-                }
-              />
-            )}
+            {isGroupOrganizer && <button onClick={deleteModal}>Delete</button>}
             {isNotGroupOrganizer && (
               <button
                 id="joinButton"
@@ -173,30 +161,6 @@ const ReadGroupDetails = () => {
         <p className="para">{groupDetails.about}</p>
         <h1>Events ({countGroupEvents(groupEvents.id)})</h1>
       </div>
-
-      {/* <div id="eventsDiv">
-        <div id="eventCard">
-          <img
-            id="eventImageDetails"
-            src={
-              eventImagePrev !== undefined
-                ? eventImagePrev.url
-                : "https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png"
-            }
-            alt={eventDetails.name}
-          />
-          <div id="eventItems">
-            <p>{eventTime}</p>
-            <h2>{eventName}</h2>
-            <p>
-              {eventCity} , {eventState}
-            </p>
-          </div>
-        </div>
-        <div id="descripEvent">
-          <p>{eventDescription}</p>
-        </div>
-      </div> */}
       <div>{groupEvents && <ReadGroupEvents />}</div>
     </div>
   );

@@ -18,6 +18,7 @@
   place-content: center;
   place-items: center;
   border-bottom: 2px black solid;
+  background-image: url(https://images.ctfassets.net/usf1vwtuqyxm/FguKzCQXYbXvJMS27FKqZ/5a936f1febc6e5767626c1831ded406a/USH_Hogwarts2_VB.jpg);
 }
 
 #introForm {
@@ -40,10 +41,10 @@
 }
 
 #logo {
-  height: 150px;
-  width: 150px;
+  height: 100px;
+  width: 100px;
   position: absolute;
-  top: 10%;
+  top: 8%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -55,12 +56,13 @@
 }
 
 #landingParagraph {
+  color: rgb(41, 41, 82);
   display: flex;
   justify-content: center;
   text-align: center;
-  font-size: 2rem;
+  font-size: 3.5rem;
   margin: 2px;
-  text-shadow: rgb(200, 202, 176) 5px 10px 2px;
+  text-shadow: rgb(200, 202, 176) 4px 5px 2px;
 }
 
 .JoinButton {

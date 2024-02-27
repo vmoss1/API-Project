@@ -24,8 +24,6 @@ const AllGroupList = () => {
     return events.filter((event) => event.groupId === groupId).length;
   };
 
-  // console.log(countGroupEvents(2));
-
   return (
     <div className="groups-page">
       <img id="logo" src="hogwarts-logo.png" alt="Hogwarts-logo" />

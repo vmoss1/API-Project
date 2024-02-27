@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,14 +9,14 @@ import { CiAlarmOn } from "react-icons/ci";
 import { CiDollar } from "react-icons/ci";
 import { CiLocationOn } from "react-icons/ci";
 import { BsChevronDoubleLeft } from "react-icons/bs";
-import OpenModalButton from "../../OpenModalButton/OpenModalButton";
+import DeleteModal from "../../DeleteModal/DeleteModal";
+import { useModal } from "../../../context/Modal";
 
 const ManageEvents = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
-  const closeDeleteMenu = () => setShowMenu(false);
+  const { setModalContent } = useModal();
 
   const eventDetails = useSelector((state) => state.events.eventDetails);
   const groupDetails = useSelector((state) => state.groups.groupDetails);
@@ -52,11 +52,13 @@ const ManageEvents = () => {
   const handleDeleteMessage = async () => {
     const res = await dispatch(deleteEventFunc(eventDetails.id));
     if (res.message === "Successfully deleted") {
-      closeDeleteMenu();
       navigate(`/events`);
     }
   };
 
+  const deleteModal = () => {
+    setModalContent(<DeleteModal onDelete={handleDeleteMessage} />);
+  };
   const formatEventDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -71,7 +73,6 @@ const ManageEvents = () => {
 
   const formattedStartDate = formatEventDate(eventDetails.startDate);
   const formattedEndDate = formatEventDate(eventDetails.endDate);
-
   // console.log(formattedEndDate, formattedStartDate);
 
   return (
@@ -138,27 +139,14 @@ const ManageEvents = () => {
               <p className="paragraphDetails">
                 <CiLocationOn id="icons" /> {groupType}
               </p>
-
-              {isOrganizer && (
-                <button onClick={""} id="deleteButton">
-                  Update
-                </button>
-              )}
-              {isOrganizer && (
-                <OpenModalButton
-                  value={showMenu}
-                  buttonText="Delete"
-                  onButtonClick={() => setShowMenu(true)}
-                  onCloseButtonClick={closeDeleteMenu} // Pass closeDeleteMenu function
-                  modalComponent={
-                    <div>
-                      <p>Are you sure?</p>
-                      <button onClick={handleDeleteMessage}>Yes!</button>
-                      <button onClick={() => setShowMenu(false)}>No!</button>
-                    </div>
-                  }
-                />
-              )}
+              <div id="organizerButtons">
+                {isOrganizer && (
+                  <button onClick={""} id="deleteButton">
+                    Update
+                  </button>
+                )}
+                {isOrganizer && <button onClick={deleteModal}>Delete</button>}
+              </div>
             </div>
           </div>
         </div>

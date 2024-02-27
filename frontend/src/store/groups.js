@@ -218,7 +218,10 @@ const groupsReducer = (state = initialState, action) => {
     case CREATE_GROUP_VENUE:
       return {
         ...state,
-        groupDetails: [...state.groupDetails, action.payload], //! Added groupDetails instead of groupVenues
+        groupDetails: {
+          ...state.groupDetails,
+          Venues: [...(state.groupDetails?.Venues || []), action.payload],
+        },
       };
     case CREATE_GROUP:
       return {

@@ -486,7 +486,7 @@ router.post("/:groupId/events", requireAuth, async (req, res, next) => {
 
     const currentVenue = await Venue.findOne({
       where: {
-        id: req.body.venueId,
+        groupId: currentGroup.id,
       },
     });
     if (!currentVenue) {

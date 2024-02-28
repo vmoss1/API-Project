@@ -9,7 +9,8 @@ import {
 } from "../../../store/groups";
 import ReadGroupEvents from "../ReadGroupEvents/ReadGroupEvents";
 // import OpenModalButton from "../../OpenModalButton/OpenModalButton";
-import { BsChevronDoubleLeft } from "react-icons/bs";
+import { FcDownLeft } from "react-icons/fc";
+
 import DeleteModal from "../../DeleteModal/DeleteModal";
 import "./ReadGroupDetails.css";
 import { useModal } from "../../../context/Modal";
@@ -96,7 +97,7 @@ const ReadGroupDetails = () => {
           {" "}
           <div id="backToGroupLink">
             <Link to="/groups" id="backToLabel">
-              <BsChevronDoubleLeft />
+              <FcDownLeft />
               Back to Groups Page
             </Link>
           </div>
@@ -115,18 +116,22 @@ const ReadGroupDetails = () => {
 
         <div className="topDetails">
           <div id="detailsTop">
-            <h1>{groupDetails.name}</h1>
-            <p className="para">
-              {groupDetails.city} , {groupDetails.state}
-            </p>
-            <p className="para">
-              {countGroupEvents(groupEvents.groupId)} Events ·
-              {groupDetails.private ? "Private" : "Public"}
-            </p>
-            <p className="para">
-              Group Leader: {groupDetails?.Organizer?.firstName}{" "}
-              {groupDetails?.Organizer?.lastName}
-            </p>
+            <div id="h1Name">
+              <h1>{groupDetails.name}</h1>
+            </div>
+            <div id="topDetailsParagraph">
+              <p className="paraGroupDetailsTop">
+                {groupDetails.city} , {groupDetails.state}
+              </p>
+              <p className="paraGroupDetailsTop">
+                {countGroupEvents(groupEvents.groupId)} Events ·
+                {groupDetails.private ? "Private" : "Public"}
+              </p>
+              <p className="paraGroupDetailsTop">
+                Group Leader: {groupDetails?.Organizer?.firstName}{" "}
+                {groupDetails?.Organizer?.lastName}
+              </p>
+            </div>
           </div>
           <div className="buttonContainer">
             {isGroupOrganizer && (
@@ -152,14 +157,16 @@ const ReadGroupDetails = () => {
         </div>
       </div>
       <div className="bottomHalfContainer">
-        <h1>Organized By</h1>
-        <p className="para">
+        <h1 className="bottomHalfDetails">Organized By</h1>
+        <p className="paraGroupDetails">
           {groupDetails?.Organizer?.firstName}{" "}
           {groupDetails?.Organizer?.lastName}{" "}
         </p>
-        <h1>What we are about</h1>
-        <p className="para">{groupDetails.about}</p>
-        <h1>Events ({countGroupEvents(groupEvents.id)})</h1>
+        <h1 className="bottomHalfDetails">What we are about</h1>
+        <p className="paraGroupDetails">{groupDetails.about}</p>
+        <h1 className="bottomHalfDetails">
+          Events ({countGroupEvents(groupEvents.id)})
+        </h1>
       </div>
       <div>{groupEvents && <ReadGroupEvents />}</div>
     </div>

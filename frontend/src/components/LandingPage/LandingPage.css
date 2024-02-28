@@ -6,8 +6,8 @@
   font-size: 5.75rem;
   margin-top: 2rem;
   margin-bottom: 10px;
-  color: rgb(41, 41, 82);
-  text-shadow: rgb(200, 202, 176) 5px 10px 2px;
+  color: rgb(200, 202, 176);
+  text-shadow: rgb(1, 11, 26) 5px 10px 2px;
   z-index: 0;
   padding: 0px;
 }
@@ -18,7 +18,7 @@
   place-content: center;
   place-items: center;
   border-bottom: 2px black solid;
-  background-image: url(https://images.ctfassets.net/usf1vwtuqyxm/FguKzCQXYbXvJMS27FKqZ/5a936f1febc6e5767626c1831ded406a/USH_Hogwarts2_VB.jpg);
+  background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
 }
 
 #introForm {
@@ -36,7 +36,7 @@
   align-content: center;
   border: 2px black solid;
   border-radius: 10px;
-  box-shadow: rgb(41, 41, 82) 5px 10px 20px 5px;
+  box-shadow: rgb(177, 177, 178) 5px 10px 20px 5px;
   z-index: 0;
 }
 
@@ -53,16 +53,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: rgb(0, 0, 62);
 }
 
 #landingParagraph {
-  color: rgb(41, 41, 82);
+  color: rgb(200, 202, 176);
   display: flex;
   justify-content: center;
   text-align: center;
   font-size: 3.5rem;
   margin: 2px;
-  text-shadow: rgb(200, 202, 176) 4px 5px 2px;
+  text-shadow: rgb(1, 11, 26) 4px 5px 2px;
 }
 
 .JoinButton {
@@ -82,12 +83,14 @@ button {
   display: flex;
   justify-content: center;
   font-size: 25px;
+  color: rgb(200, 202, 176);
 }
 
 #paragraphAbout {
   text-align: center;
   word-wrap: break-word;
   font-family: fantasy;
+  color: rgb(200, 202, 176);
 }
 
 .landing-img {
@@ -95,19 +98,21 @@ button {
   height: 350px;
   border: 2px black solid;
   border-radius: 10px;
-  box-shadow: rgb(41, 41, 82) 5px 10px 20px 5px;
+  box-shadow: rgb(200, 202, 176) 5px 5px 10px;
 }
 
 .landing-img:hover {
-  box-shadow: rgb(200, 202, 176) 5px 5px 10px;
+  box-shadow: rgb(0, 167, 167) 2px 5px 10px;
+  transform: scale(1.1);
 }
 
 .landingCards {
   display: flex;
   justify-content: center;
   gap: 30px;
-  color: rgb(41, 41, 82);
+  color: rgb(180, 180, 180);
   height: 75%;
+  background-color: rgb(0, 0, 62);
 }
 
 .landing-link {
@@ -115,11 +120,12 @@ button {
   justify-content: center;
   font-size: 30px;
   margin-top: 10px;
-  color: rgb(41, 41, 82);
+  color: rgb(200, 202, 176);
 }
 
 .landing-link:hover {
-  color: teal;
+  color: rgb(0, 167, 167);
+  transform: scale(1.1);
 }
 
 .landing-link-disabled {

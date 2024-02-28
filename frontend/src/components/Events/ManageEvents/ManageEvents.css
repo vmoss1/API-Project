@@ -1,18 +1,42 @@
-.upperDetailsOfTop {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  border: 2px black solid;
-  border-radius: 20px;
-}
-
 #imageEventDetails {
   border: black 2px solid;
-  height: 400px;
-  width: 600px;
+  height: 350px;
+  width: 550px;
   border-radius: 10px;
   margin-right: 20px;
-  box-shadow: rgb(41, 41, 82) 5px 5px 10px 5px;
+  box-shadow: rgb(180, 180, 180) 1px 6px 12px 5px;
+}
+
+#EventPageDetails {
+  background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
+}
+
+#groupNameCard {
+  font-family: fantasy;
+}
+
+.topHalfEventContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  /* background-image: url(https://images.ctfassets.net/usf1vwtuqyxm/4aFhPoOZZPgMpvJCuL52g9/d2be480ee2a3bfc6d8ac13a21a04918a/release_2_ww_ravenclaw_house_pride.png); */
+}
+
+#eventDetailsPara {
+  color: aliceblue;
+}
+.eventDetailsPara {
+  color: aliceblue;
+  font-family: fantasy;
+}
+
+.bottomEventHalfContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgb(0, 15, 90);
 }
 
 #timeContainer {
@@ -20,6 +44,12 @@
   flex-direction: column;
   justify-content: center;
   word-wrap: break-word;
+}
+
+#eventHeaderName {
+  color: aliceblue;
+  font-size: 2rem;
+  font-family: fantasy;
 }
 
 button {
@@ -34,8 +64,11 @@ button {
 }
 
 #eventHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
   margin-left: 30px;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   margin-top: 20px;
 }
 
@@ -58,11 +91,23 @@ button {
   border: black 2px solid;
 }
 
+.upperDetailsOfTop {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: 2px black solid;
+  border-radius: 20px;
+  background-color: rgba(227, 227, 227, 0.607);
+}
 .lowerDetailsOfTop {
   border: 2px black solid;
   border-radius: 20px;
-  margin-top: 0px;
+  margin-right: 10px;
+  margin-bottom: 25px;
   max-height: 400px;
+  background-color: rgba(227, 227, 227, 0.607);
 }
 
 #lowerDetails {
@@ -74,7 +119,7 @@ button {
 }
 
 #noButton {
-  background-color: grey;
+  background-color: rgb(128, 128, 128);
 }
 
 .paragraphDetails {

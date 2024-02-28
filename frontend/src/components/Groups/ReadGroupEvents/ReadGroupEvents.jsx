@@ -60,7 +60,7 @@ const ReadGroupEvents = () => {
     <div className="eventCard">
       {upcomingEvents.length > 0 && (
         <div id="upcomingEventsCard">
-          <h2>Upcoming Events</h2>
+          <h2 id="upcomingEventTitle">Upcoming Events:</h2>
           {upcomingEvents.map((event) => (
             <Link to={`/events/${event.id}`} key={event.id}>
               <div id="eachCard">

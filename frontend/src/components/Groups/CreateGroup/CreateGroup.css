@@ -16,6 +16,10 @@
   font-family: fantasy;
 }
 
+.group_Form {
+  font-family: fantasy;
+}
+
 #cityStateContainer {
   display: flex;
   flex-direction: column;

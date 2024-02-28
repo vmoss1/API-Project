@@ -8,7 +8,7 @@ import "./ManageEvents.css";
 import { CiAlarmOn } from "react-icons/ci";
 import { CiDollar } from "react-icons/ci";
 import { CiLocationOn } from "react-icons/ci";
-import { BsChevronDoubleLeft } from "react-icons/bs";
+import { FcDownLeft } from "react-icons/fc";
 import DeleteModal from "../../DeleteModal/DeleteModal";
 import { useModal } from "../../../context/Modal";
 
@@ -76,20 +76,18 @@ const ManageEvents = () => {
   // console.log(formattedEndDate, formattedStartDate);
 
   return (
-    <div>
-      <div id="backToEventLink"></div>
-
-      <div id="eventHeader">
-        <Link to="/events" id="backToLabel">
-          <BsChevronDoubleLeft />
-          Back to Events Page
-        </Link>
-        <h1>{eventDetails.name}</h1>
-        <label className="para">
-          Hosted By {leaderFirstName} {leaderLastName}
-        </label>
-      </div>
-      <div className="topHalfContainer">
+    <div id="EventPageDetails">
+      <div className="topHalfEventContainer">
+        <div id="eventHeader">
+          <Link to="/events" id="backToLabel">
+            <FcDownLeft />
+            Back to Events Page
+          </Link>
+          <h1 id="eventHeaderName">{eventDetails.name}</h1>
+          <label id="eventHeaderName">
+            Hosted By {leaderFirstName} {leaderLastName}
+          </label>
+        </div>
         <div>
           <img
             id="imageEventDetails"
@@ -113,7 +111,7 @@ const ManageEvents = () => {
               alt={eventDetails.name}
             />
             <div id="groupCardInfo">
-              <h2> {groupName}</h2>
+              <h2 id="groupNameCard"> {groupName}</h2>
               <p className="paragraphDetails">
                 {" "}
                 {groupPrivacy ? "Private" : "Public"}
@@ -151,9 +149,9 @@ const ManageEvents = () => {
           </div>
         </div>
       </div>
-      <div className="bottomHalfContainer">
-        <h1>Details</h1>
-        <p className="para">{eventDetails.description}</p>
+      <div className="bottomEventHalfContainer">
+        <h1 id="eventDetailsPara">Details</h1>
+        <p className="eventDetailsPara">{eventDetails.description}</p>
       </div>
     </div>
   );

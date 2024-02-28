@@ -14,15 +14,13 @@ const CreateGroup = () => {
   const types = ["Select", "In person", "Online"];
   const privacies = ["Select", "Private", "Public"];
 
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [type, setType] = useState(types[0]);
   const [privacy, setPrivacy] = useState(privacies[0]);
   const [image, setImage] = useState("");
   const [validations, setValidations] = useState({});
-
+  const [location, setLocation] = useState("");
   const [address, setAddress] = useState("");
   const [cityVenue, setCityVenue] = useState("");
   const [stateVenue, setStateVenue] = useState("");
@@ -31,7 +29,7 @@ const CreateGroup = () => {
     e.preventDefault();
 
     const validate = {};
-
+    if (!location) validate.location = "Please provide Location";
     if (!city) validate.city = "Please provide city";
     if (!state) validate.state = "Please provide state";
     if (!name) validate.name = "Please provide a name";
@@ -41,11 +39,12 @@ const CreateGroup = () => {
     if (type == "Select") validate.type = "Please ensure selection is provided";
     if (privacy == "Select")
       validate.privacy = "Please ensure selection is provided";
-
     if (!address) validate.address = "Please provide an address";
     if (!cityVenue) validate.cityVenue = "Please provide a city for your Venue";
     if (!stateVenue)
       validate.stateVenue = "Please provide a state for your Venue";
+
+    const [city, state] = location.split(", ").map((item) => item.trim());
 
     if (Object.values(validate).length) {
       setValidations(validate);
@@ -93,19 +92,19 @@ const CreateGroup = () => {
         </h2>
         <div id="locationBox">
           <h2>Set Location</h2>
-          <p>
+          <p className="group_Form">
             TheWand groups meet locally, in person and online. We will connect
             you with Wizards/Witches in your area, and more can join you online.
           </p>
           <div id="cityStateContainer">
-            <label htmlFor="city">
+            <label htmlFor="location">
               <input
                 type="text"
-                name="city"
+                name="location"
                 id="city"
-                placeholder="City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
+                placeholder="City, STATE"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
               />
             </label>
             <div>
@@ -113,16 +112,6 @@ const CreateGroup = () => {
                 <p className="validations">{validations.city}</p>
               )}
             </div>
-
-            <label htmlFor="state">
-              <input
-                type="text"
-                id="state"
-                placeholder="State"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-              />
-            </label>
             <div>
               {"state" in validations && (
                 <p className="validations">{validations.state}</p>
@@ -133,7 +122,7 @@ const CreateGroup = () => {
 
         <div id="groupNameBox">
           <h2>What will your group name be</h2>
-          <p>
+          <p className="group_Form">
             Choose a name that will give people a clear idea of what the group
             is about. You can edit this later if you change your mind.
           </p>
@@ -157,7 +146,7 @@ const CreateGroup = () => {
         </div>
         <div id="aboutBox">
           <h2>Now describe what your group will be about</h2>
-          <p>
+          <p className="group_Form">
             People will see this when we promote your group, but you will be
             able to add to it later, too.
           </p>
@@ -183,7 +172,7 @@ const CreateGroup = () => {
         </div>
         <div>
           <h2>Final Steps...</h2>
-          <p>Is this an in person or online group?</p>
+          <p className="group_Form">Is this an in person or online group?</p>
           <label>
             <select value={type} onChange={(e) => setType(e.target.value)}>
               {types.map((type) => (
@@ -196,7 +185,7 @@ const CreateGroup = () => {
               <p className="validations">{validations.type}</p>
             )}
           </div>
-          <p>Is this group private or public?</p>
+          <p className="group_Form">Is this group private or public?</p>
           <label>
             <select
               value={privacy}
@@ -214,7 +203,9 @@ const CreateGroup = () => {
           </div>
         </div>
         <div id="finalStepsBox">
-          <p>Please add an image url for your group below:</p>
+          <p className="group_Form">
+            Please add an image url for your group below:
+          </p>
           <label htmlFor="image">
             <input
               type="text"
@@ -233,6 +224,7 @@ const CreateGroup = () => {
         </div>
         <div id="createVenueContainer">
           <h2>Create a Venue for your Group Events</h2>
+          <p className="group_Form">What is the Street Address?</p>
           <label htmlFor="address">
             <input
               type="text"
@@ -248,6 +240,7 @@ const CreateGroup = () => {
               <p className="validations">{validations.address}</p>
             )}
           </div>
+          <p className="group_Form">What City will this be located in?</p>
           <label htmlFor="cityVenue">
             <input
               type="text"
@@ -263,7 +256,9 @@ const CreateGroup = () => {
               <p className="validations">{validations.cityVenue}</p>
             )}
           </div>
-
+          <p className="group_Form">
+            What is the State or Country this will be held?
+          </p>
           <label htmlFor="stateVenue">
             <input
               type="text"

@@ -45,7 +45,7 @@ const AllGroupList = () => {
             key={group.id}
             className="wizard-group"
           >
-            <div>
+            <div className="groupCard">
               <img
                 className="Images"
                 src={
@@ -55,7 +55,7 @@ const AllGroupList = () => {
                 }
                 alt={group.name}
               />
-              <div>
+              <div className="groupInfoContainer">
                 <h2 className="groupName">{group.name}</h2>
                 <p className="groupLocation">
                   {group.city}, {group.state}

@@ -1,13 +1,13 @@
 #imageDetails {
-  width: 600px;
-  min-height: 400px;
+  width: 550px;
+  min-height: 350px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 60px;
   border: 2px black solid;
   border-radius: 10px;
-  box-shadow: rgb(41, 41, 82) 5px 10px 20px 5px;
+  box-shadow: rgb(180, 180, 180) 1px 6px 12px 5px;
 }
 
 #backToGroupLink {
@@ -16,24 +16,44 @@
   margin-top: 18px;
 }
 
+.paraGroupDetailsTop {
+  font-family: fantasy;
+}
+
+#topDetailsParagraph {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+#h1Name {
+  margin-left: 5px;
+}
+
 button {
   background-color: grey;
 }
 
 #backToLabel:hover {
-  color: teal;
+  color: rgb(0, 198, 198);
 }
 
-.para {
+.paraGroupDetails {
   margin-top: 2px;
   margin-left: 10px;
   font-family: fantasy;
+  color: antiquewhite;
+}
+
+.bottomHalfDetails {
+  color: rgb(220, 220, 220);
 }
 
 .buttonContainer {
   display: flex;
   gap: 10px;
-  margin-top: 140px;
+  margin-top: 40px;
+  margin-bottom: 15px;
 }
 
 .topHalfContainer {
@@ -43,6 +63,7 @@ button {
   letter-spacing: 1px;
   margin-top: 5px;
   padding: 0px;
+  background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
 }
 
 .topDetails {
@@ -56,18 +77,17 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
   letter-spacing: 1px;
-  margin-top: 70px;
-  background-color: rgb(222, 222, 222);
+  background-color: rgb(5, 0, 71);
 }
 
 #detailsTop {
   border: black 2px solid;
   margin-top: 75px;
   border-radius: 20px;
-  height: 220px;
-  width: 320px;
+  max-height: 400px;
+  max-width: 330px;
+  background-color: rgba(205, 205, 205, 0.585);
 }
 
 #eventCard {
@@ -92,6 +112,7 @@ button {
 
 #joinButton {
   background-color: rgb(176, 5, 5);
+  margin-bottom: 25px;
 }
 
 #createButton {
@@ -103,4 +124,5 @@ button {
 
 #backToLabel {
   font-family: fantasy;
+  color: aliceblue;
 }

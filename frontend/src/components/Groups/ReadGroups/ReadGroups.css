@@ -4,12 +4,12 @@
 }
 
 #eventLink {
-  color: rgb(189, 189, 189);
+  color: rgb(255, 255, 255);
   font-family: fantasy;
 }
 
 #groupLink {
-  color: teal;
+  color: rgb(0, 181, 181);
   text-decoration: underline;
   font-family: fantasy;
 }
@@ -17,24 +17,38 @@
 .Images {
   height: 275px;
   width: 375px;
-  float: left;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   margin-left: 10px;
-  margin-right: 30px;
+  margin-right: 20px;
   border: 2px black solid;
   border-radius: 10px;
   box-shadow: rgb(41, 41, 82) 5px 5px 10px 5px;
 }
 
 #wizardGroup {
-  color: rgb(179, 179, 179);
+  color: rgb(255, 255, 255);
   font-size: 1.5rem;
+}
+
+.groupCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
+  max-height: 400px;
+  background-color: rgba(200, 200, 200, 0.594);
+  border-radius: 10px;
+}
+
+.groupCard:hover {
+  transform: scale(1.1);
 }
 
 .groupInfo {
   font-family: fantasy;
-  font-size: 1.25rem;
+  font-size: 0.75rem;
+  word-wrap: wrap;
 }
 
 .groupName {
@@ -58,7 +72,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(https://images.ctfassets.net/usf1vwtuqyxm/4aFhPoOZZPgMpvJCuL52g9/d2be480ee2a3bfc6d8ac13a21a04918a/release_2_ww_ravenclaw_house_pride.png);
+  background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
 }
 
 .pageLinks {
@@ -85,8 +99,4 @@
 
 .wizard-group {
   display: flex;
-  border-top: 2px solid rgb(41, 41, 82);
-  border-bottom: 2px solid rgb(41, 41, 82);
-
-  background-color: rgba(200, 200, 200, 0.5);
 }

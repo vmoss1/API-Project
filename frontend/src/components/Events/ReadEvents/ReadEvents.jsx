@@ -38,7 +38,6 @@ const AllEventList = () => {
 
   return (
     <div className="events-page">
-      <img id="logo" src="hogwarts-logo.png" alt="Hogwarts-logo" />
       <div className="eventPageLinks">
         <NavLink id="event" to="/events">
           Events

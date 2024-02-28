@@ -31,7 +31,7 @@
 }
 
 button {
-  background-color: grey;
+  background-color: antiquewhite;
 }
 
 #backToLabel:hover {
@@ -49,6 +49,10 @@ button {
   color: rgb(220, 220, 220);
 }
 
+#joinButton {
+  height: 50px;
+}
+
 .buttonContainer {
   display: flex;
   gap: 10px;
@@ -61,7 +65,7 @@ button {
   justify-content: center;
   align-items: flex-start;
   letter-spacing: 1px;
-  margin-top: 5px;
+
   padding: 0px;
   background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
 }
@@ -116,10 +120,10 @@ button {
 }
 
 #createButton {
-  background-color: grey;
+  background-color: antiquewhite;
 }
 #Update {
-  background-color: grey;
+  background-color: antiquewhite;
 }
 
 #backToLabel {

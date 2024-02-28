@@ -26,7 +26,6 @@ const AllGroupList = () => {
 
   return (
     <div className="groups-page">
-      <img id="logo" src="hogwarts-logo.png" alt="Hogwarts-logo" />
       <div className="pageLinks">
         <NavLink id="eventLink" to="/events">
           Events

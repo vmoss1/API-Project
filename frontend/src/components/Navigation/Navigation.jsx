@@ -10,7 +10,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <nav>
-      <div>
+      <div id="homeButtonWand">
         <NavLink id="linkWand" to="/">
           TheWand
         </NavLink>

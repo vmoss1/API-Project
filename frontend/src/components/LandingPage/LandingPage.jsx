@@ -14,7 +14,6 @@ export function LandingPage() {
   return (
     <div id="introForm">
       <div id="section1">
-        <img id="logo" src="hogwarts-logo.png" alt="Hogwarts-logo" />
         <div>
           <h1 id="welcomeH1">TheWand</h1>
 
@@ -33,40 +32,45 @@ export function LandingPage() {
         </p>
       </div>
       <div className="landingCards">
-        <LandingPageCard
-          image={wizardGroup}
-          alt={"Wizards huddled"}
-          path={`groups`}
-          linkText={`See all Groups`}
-        />
-        <LandingPageCard
-          image={quidditchImg}
-          alt={"Quidditch game"}
-          path={`events`}
-          linkText={`Find an Event`}
-        />
-
-        {isLoggedIn ? (
+        <div id="landingGroupCard">
           <LandingPageCard
-            image={newGroup}
-            alt={"New Group Photo"}
-            path={`groups/new`}
-            linkText={`Create a new group`}
+            image={wizardGroup}
+            alt={"Wizards huddled"}
+            path={`groups`}
+            linkText={`See all Groups`}
           />
-        ) : (
-          <Link to={""}>
-            <div className="landing-card">
-              <img
-                className="landing-img"
-                src={newGroup}
-                alt={"New Group Photo"}
-              ></img>
-              <h4 className={`landing-link-disabled ${""}`}>
-                {"Please Login to create a Group"}
-              </h4>
-            </div>
-          </Link>
-        )}
+        </div>
+        <div id="landingEventCard">
+          <LandingPageCard
+            image={quidditchImg}
+            alt={"Quidditch game"}
+            path={`events`}
+            linkText={`Find an Event`}
+          />
+        </div>
+        <div id="landingCreateCard">
+          {isLoggedIn ? (
+            <LandingPageCard
+              image={newGroup}
+              alt={"New Group Photo"}
+              path={`groups/new`}
+              linkText={`Create a new group`}
+            />
+          ) : (
+            <Link to={""}>
+              <div className="landing-card">
+                <img
+                  className="landing-img"
+                  src={newGroup}
+                  alt={"New Group Photo"}
+                ></img>
+                <h4 className={`landing-link-disabled ${""}`}>
+                  {"Please Login to create a Group"}
+                </h4>
+              </div>
+            </Link>
+          )}
+        </div>
       </div>
       <div>
         {!isLoggedIn && (

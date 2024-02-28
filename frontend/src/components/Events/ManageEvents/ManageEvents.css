@@ -7,10 +7,6 @@
   box-shadow: rgb(180, 180, 180) 1px 6px 12px 5px;
 }
 
-#EventPageDetails {
-  background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
-}
-
 #groupNameCard {
   font-family: fantasy;
 }
@@ -20,7 +16,7 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
-  /* background-image: url(https://images.ctfassets.net/usf1vwtuqyxm/4aFhPoOZZPgMpvJCuL52g9/d2be480ee2a3bfc6d8ac13a21a04918a/release_2_ww_ravenclaw_house_pride.png); */
+  background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
 }
 
 #eventDetailsPara {
@@ -33,10 +29,11 @@
 
 .bottomEventHalfContainer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   background-color: rgb(0, 15, 90);
+  height: 500px;
 }
 
 #timeContainer {
@@ -53,7 +50,7 @@
 }
 
 button {
-  background-color: grey;
+  background-color: antiquewhite;
 }
 
 #icons {

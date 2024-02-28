@@ -5,11 +5,22 @@
 }
 
 button {
-  border-radius: 20px;
+  border-radius: 10px;
+}
+
+.profile-button {
+  height: 30px;
+  width: 50px;
+  margin-top: 8px;
 }
 
 li {
   font-family: fantasy;
+}
+
+#homeButtonWand {
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 nav {
@@ -19,14 +30,22 @@ nav {
   font-family: "Harry Potter", sans-serif;
   font-size: 1rem;
   text-decoration: none;
-  border-bottom: rgb(41, 41, 82) 2px solid;
-  height: 150px;
+  border-bottom: rgb(19, 19, 39) 2px solid;
+  height: 60px;
+  background-color: rgb(26, 26, 54);
+}
+
+.profile-dropdown-container {
+  z-index: 10;
+  margin-top: 5px;
+  margin-right: 5px;
 }
 
 #linkWand {
   text-decoration: none;
   font-size: 2rem;
-  color: rgb(41, 41, 82);
+  color: antiquewhite;
+  margin-top: 10px;
 }
 
 .profile-dropdown {
@@ -36,9 +55,14 @@ nav {
   align-content: center;
   display: flex;
   justify-content: center;
-  z-index: 10;
   font-family: fantasy;
   z-index: 10;
+}
+
+.dropDownDetails {
+  color: antiquewhite;
+  font-size: 20px;
+  margin-right: 10px;
 }
 
 .newGroupButton {
@@ -47,6 +71,13 @@ nav {
   margin-right: 30px;
   margin-top: 15px;
   font-family: fantasy;
+  color: antiquewhite;
+}
+
+.login-signup-buttons {
+  display: flex;
+  color: aliceblue;
+  gap: 10px;
 }
 
 #buttonsClass {

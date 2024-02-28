@@ -9,6 +9,7 @@ form {
 #loginForm {
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
 .loginForm {
@@ -21,7 +22,6 @@ form {
 #loginButton {
   display: flex;
   justify-content: center;
-  margin-bottom: 5px;
   gap: 20px;
 }
 

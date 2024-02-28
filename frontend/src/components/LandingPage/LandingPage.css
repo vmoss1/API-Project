@@ -19,6 +19,7 @@
   place-items: center;
   border-bottom: 2px black solid;
   background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
+  z-index: 0;
 }
 
 #introForm {
@@ -69,14 +70,15 @@
 .JoinButton {
   display: flex;
   justify-content: center;
-  margin-bottom: 15px;
+  background-color: rgb(0, 0, 62);
 }
 
 button {
   background-color: rgb(200, 202, 176);
-  height: 50px;
-  width: 100px;
+  height: 40px;
+  width: 80px;
   font-family: fantasy;
+  margin-bottom: 15px;
 }
 
 #whatAbout {
@@ -93,9 +95,18 @@ button {
   color: rgb(200, 202, 176);
 }
 
+.landingCards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  color: rgb(180, 180, 180);
+  height: 75%;
+  background-color: rgb(0, 0, 62);
+}
+
 .landing-img {
-  width: 450px;
-  height: 350px;
+  width: 400px;
+  height: 300px;
   border: 2px black solid;
   border-radius: 10px;
   box-shadow: rgb(200, 202, 176) 5px 5px 10px;
@@ -104,15 +115,6 @@ button {
 .landing-img:hover {
   box-shadow: rgb(0, 167, 167) 2px 5px 10px;
   transform: scale(1.1);
-}
-
-.landingCards {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  color: rgb(180, 180, 180);
-  height: 75%;
-  background-color: rgb(0, 0, 62);
 }
 
 .landing-link {
@@ -134,4 +136,12 @@ button {
   font-size: 30px;
   margin-top: 10px;
   color: rgb(66, 66, 66);
+}
+
+@media screen and (max-width: 1020px) {
+  .landingCards {
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+  }
 }

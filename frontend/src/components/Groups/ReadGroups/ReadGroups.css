@@ -15,8 +15,8 @@
 }
 
 .Images {
-  height: 275px;
-  width: 375px;
+  height: 250px;
+  width: 350px;
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 10px;
@@ -35,7 +35,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 700px;
+  max-width: 680px;
   max-height: 400px;
   background-color: rgba(200, 200, 200, 0.594);
   border-radius: 10px;
@@ -99,4 +99,23 @@
 
 .wizard-group {
   display: flex;
+}
+@media screen and (max-width: 768px) {
+  .groupCard {
+    flex-direction: column;
+    align-items: center;
+  }
+  .Images {
+    max-height: 200px;
+    max-width: 300px;
+    margin-top: 15px;
+    width: 200px;
+  }
+  .groups-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+    max-height: 500px;
+  }
 }

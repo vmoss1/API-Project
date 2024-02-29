@@ -70,3 +70,8 @@ label {
   flex-direction: column;
   gap: 10px;
 }
+
+#createGroupButton {
+  height: 50px;
+  width: 100px;
+}

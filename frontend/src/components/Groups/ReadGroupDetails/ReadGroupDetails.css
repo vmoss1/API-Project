@@ -115,18 +115,25 @@ button {
 }
 
 #joinButton {
-  background-color: rgb(176, 5, 5);
+  background-color: rgba(188, 43, 43, 0.734);
   margin-bottom: 25px;
 }
 
 #createButton {
-  background-color: antiquewhite;
+  background-color: rgba(255, 255, 255, 0.508);
+  height: 50px;
 }
 #Update {
-  background-color: antiquewhite;
+  background-color: rgba(255, 255, 255, 0.508);
+  height: 50px;
 }
 
 #backToLabel {
   font-family: fantasy;
   color: aliceblue;
+}
+
+#deleteGroupButton {
+  height: 50px;
+  background-color: rgba(176, 88, 88, 0.603);
 }

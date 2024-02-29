@@ -199,7 +199,6 @@ const initialState = {
   list: [],
   groupDetails: {},
   groupEvents: [],
-  groupVenues: [],
 };
 
 const groupsReducer = (state = initialState, action) => {
@@ -213,7 +212,7 @@ const groupsReducer = (state = initialState, action) => {
     // case READ_GROUP_VENUES:
     //   return {
     //     ...state,
-    //     groupVenues: action.payload,
+    //     groupDetails: action.payload,
     //   };
     case CREATE_GROUP_VENUE:
       return {

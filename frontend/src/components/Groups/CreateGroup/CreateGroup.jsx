@@ -274,7 +274,9 @@ const CreateGroup = () => {
             )}
           </div>
           <div>
-            <button type="submit">Create Group</button>
+            <button id="createGroupButton" type="submit">
+              Create Group
+            </button>
           </div>
         </div>
       </form>

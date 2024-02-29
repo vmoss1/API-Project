@@ -139,11 +139,18 @@ const ManageEvents = () => {
               </p>
               <div id="organizerButtons">
                 {isOrganizer && (
-                  <button onClick={""} id="deleteButton">
+                  <button
+                    onClick={() => alert("Feature Coming Soon!")}
+                    id="updateEventButton"
+                  >
                     Update
                   </button>
                 )}
-                {isOrganizer && <button onClick={deleteModal}>Delete</button>}
+                {isOrganizer && (
+                  <button id="deleteEventButton" onClick={deleteModal}>
+                    Delete
+                  </button>
+                )}
               </div>
             </div>
           </div>

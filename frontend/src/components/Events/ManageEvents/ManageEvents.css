@@ -48,11 +48,15 @@
   font-size: 2rem;
   font-family: fantasy;
 }
-
-button {
-  background-color: antiquewhite;
+#deleteEventButton {
+  background-color: rgba(142, 6, 6, 0.508);
+  height: 50px;
 }
 
+#updateEventButton {
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.508);
+}
 #icons {
   margin-right: 5px;
 }
@@ -109,14 +113,6 @@ button {
 
 #lowerDetails {
   margin: 20px;
-}
-
-#yesButton {
-  background-color: rgb(172, 0, 0);
-}
-
-#noButton {
-  background-color: rgb(128, 128, 128);
 }
 
 .paragraphDetails {

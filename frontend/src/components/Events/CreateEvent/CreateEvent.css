@@ -35,3 +35,6 @@ label {
   display: flex;
   justify-content: flex-start;
 }
+#createEventButton {
+  height: 50px;
+}

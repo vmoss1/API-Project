@@ -189,7 +189,9 @@ const CreateEvent = () => {
           </div>
         </div>
         <div>
-          <button onClick={handleSubmit}>Create Event</button>
+          <button id="createEventButton" onClick={handleSubmit}>
+            Create Event
+          </button>
         </div>
       </form>
     </div>

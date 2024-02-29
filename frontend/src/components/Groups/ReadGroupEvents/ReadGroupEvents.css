@@ -6,6 +6,14 @@
   background-color: rgb(5, 0, 71);
 }
 
+#pastEventsCard {
+  display: flex;
+  flex-direction: column;
+}
+#pastEventsCard:hover {
+  transform: scale(1.1);
+}
+
 #eventImage {
   height: 200px;
   margin-top: 20px;

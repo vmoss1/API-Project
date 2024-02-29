@@ -94,10 +94,10 @@ const ReadGroupEvents = () => {
 
       {pastEvents.length > 0 && (
         <div id="pastEventsCard">
-          <h2>Past Events</h2>
+          <h2 id="upcomingEventTitle">Past Events</h2>
           {pastEvents.map((event) => (
             <Link to={`/events/${event.id}`} key={event.id}>
-              <div>
+              <div id="eachCard">
                 {" "}
                 <img
                   id="eventImage"
@@ -114,7 +114,7 @@ const ReadGroupEvents = () => {
                   ) : (
                     <p id="locationP">Venue pending...</p>
                   )}
-                  <p id="locationP">Description not available...</p>
+                  <p id="descriptionP">Description not available...</p>
                 </div>
               </div>
             </Link>

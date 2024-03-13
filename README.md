@@ -1,4 +1,4 @@
-# TheOne
+# TheWand
 
 ## Database Schema Design
 

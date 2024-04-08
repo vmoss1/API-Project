@@ -1,0 +1,25 @@
+#footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border-top: 1px solid black;
+  margin-bottom: 15px;
+}
+#about-me {
+  margin: 0px;
+  margin-top: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+#github-link {
+  margin: 0px;
+  margin-top: 10px;
+  text-decoration: none;
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+#github-link:hover {
+  text-shadow: 2px 2px 9px rgb(24, 0, 180);
+}

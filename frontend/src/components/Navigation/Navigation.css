@@ -20,6 +20,8 @@ li {
 #homeButtonWand {
   margin-top: 10px;
   margin-left: 10px;
+  display: flex;
+  flex-direction: row;
 }
 
 nav {
@@ -30,13 +32,13 @@ nav {
   font-size: 1rem;
   text-decoration: none;
   border-bottom: rgb(41, 41, 82) 2px solid;
-  height: 100px;
+  height: 60px;
 }
 
 #linkWand {
   text-decoration: none;
   font-size: 2rem;
-  color: rgb(0, 0, 0);
+  color: rgb(41, 41, 82);
   margin-top: 10px;
 }
 

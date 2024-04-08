@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import { Link } from "react-router-dom";
+import { FaWandSparkles } from "react-icons/fa6";
+
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -11,6 +13,9 @@ function Navigation({ isLoaded }) {
   return (
     <nav>
       <div id="homeButtonWand">
+        <div style={{ fontSize: "30px" }}>
+          <FaWandSparkles />
+        </div>
         <NavLink id="linkWand" to="/">
           TheWand
         </NavLink>

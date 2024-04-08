@@ -6,6 +6,7 @@ import wizardGroup from "/wizard-groups.png";
 import quidditchImg from "/quidditch-event.png";
 import newGroup from "/new-group.png";
 import "./LandingPage.css";
+import Footer from "../Footer/Footer";
 import { Link } from "react-router-dom";
 
 export function LandingPage() {
@@ -81,6 +82,9 @@ export function LandingPage() {
             />
           </div>
         )}
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );

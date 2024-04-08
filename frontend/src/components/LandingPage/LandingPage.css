@@ -30,8 +30,8 @@
 }
 
 #infoGraphic {
-  height: 85%;
-  width: 85%;
+  height: 90%;
+  width: 95%;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -76,7 +76,7 @@
 }
 
 button {
-  background-color: rgb(200, 202, 176);
+  background-color: rgba(194, 194, 194, 0.62);
   height: 40px;
   width: 80px;
   font-family: fantasy;
@@ -96,6 +96,8 @@ button {
   word-wrap: break-word;
   font-family: fantasy;
   color: rgb(200, 202, 176);
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 .landing-img {

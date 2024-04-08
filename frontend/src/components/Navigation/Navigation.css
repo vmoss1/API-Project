@@ -36,7 +36,7 @@ nav {
 #linkWand {
   text-decoration: none;
   font-size: 2rem;
-  color: antiquewhite;
+  color: rgb(0, 0, 0);
   margin-top: 10px;
 }
 
@@ -74,7 +74,7 @@ nav {
 }
 
 .dropDownDetails {
-  color: antiquewhite;
+  color: rgb(0, 0, 0);
   font-size: 20px;
   margin-right: 10px;
 }
@@ -85,7 +85,7 @@ nav {
   margin-right: 30px;
   margin-top: 15px;
   font-family: fantasy;
-  color: antiquewhite;
+  color: rgb(0, 0, 0);
 }
 
 .login-signup-buttons {
@@ -108,8 +108,10 @@ nav {
 .login-signup-buttons {
   display: flex;
   gap: 10px;
+  margin-top: 5px;
 }
 
 #logout-button {
   background-color: rgba(146, 13, 13, 0.968);
+  margin-left: 5px;
 }

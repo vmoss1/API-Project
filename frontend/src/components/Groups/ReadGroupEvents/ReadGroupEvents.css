@@ -19,6 +19,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 20px;
+  border-radius: 25px;
 }
 
 #upcomingEventTitle {
@@ -32,6 +33,7 @@
 
 #upcomingEventsCard:hover {
   transform: scale(1.1);
+  transition: transform 0.5s ease;
 }
 
 #eachCard {
@@ -46,4 +48,11 @@
 #descriptionP {
   margin-top: 35px;
   font-family: fantasy;
+}
+#eventItems {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-right: 10px;
+  margin-top: 10px;
 }

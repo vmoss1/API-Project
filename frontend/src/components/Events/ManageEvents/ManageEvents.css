@@ -7,6 +7,10 @@
   box-shadow: rgb(180, 180, 180) 1px 6px 12px 5px;
 }
 
+#EventPageDetails {
+  background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
+}
+
 #groupNameCard {
   font-family: fantasy;
 }
@@ -33,7 +37,7 @@
   align-items: center;
   flex-direction: column;
   background-color: rgb(0, 15, 90);
-  height: 500px;
+  min-height: 500px;
 }
 
 #timeContainer {
@@ -47,10 +51,6 @@
   color: aliceblue;
   font-size: 2rem;
   font-family: fantasy;
-}
-#deleteEventButton {
-  background-color: rgba(142, 6, 6, 0.508);
-  height: 50px;
 }
 
 #updateEventButton {
@@ -113,6 +113,18 @@
 
 #lowerDetails {
   margin: 20px;
+}
+
+#yesButton {
+  background-color: rgb(172, 0, 0);
+}
+
+#noButton {
+  background-color: rgba(208, 208, 208, 0.673);
+}
+
+#update-button {
+  background-color: rgba(208, 208, 208, 0.673);
 }
 
 .paragraphDetails {

@@ -47,20 +47,28 @@ function ProfileButton({ user }) {
     <div className="profile-dropdown-container">
       {user && (
         <div className="profile-button-container">
-          <button onClick={toggleMenu} className="profile-button">
+          <div
+            style={{ fontSize: "30px" }}
+            onClick={toggleMenu}
+            className="profile-button"
+          >
             <GiHarryPotterSkull />
-          </button>
+          </div>
         </div>
       )}
-      {user && showMenu && (
-        <ul className={ulClassName} ref={ulRef}>
-          <li className="dropDownDetails">Hello! {user.firstName}</li>
-          <li className="dropDownDetails">{user.email}</li>
-          <li>
-            <button onClick={logout}>Log Out</button>
-          </li>
-        </ul>
-      )}
+      <div id="profile-dropdown">
+        {user && showMenu && (
+          <ul className={ulClassName} ref={ulRef}>
+            <li>Hello! {user.firstName}</li>
+            <li>{user.email}</li>
+            <li>
+              <button id="logout-button" onClick={logout}>
+                Log Out
+              </button>
+            </li>
+          </ul>
+        )}
+      </div>
       {!user && (
         <div className="login-signup-buttons">
           <OpenModalButton

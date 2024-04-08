@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
@@ -15,24 +14,20 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-  const [validations, setValidations] = useState({});
-
-  useEffect(() => {
-    const validate = {};
-
-    if (!email) validate.email = "Email must be provided";
-    if (!username || username.length < 4)
-      validate.username = "Username must be greater than 4 characters";
-    if (!firstName) validate.firstName = "First Name must be provided";
-    if (!lastName) validate.lastName = "Last Name must be provided";
-    if (!password || password.length < 6)
-      validate.password = "Password must be greater than 6 characters";
-    if (!confirmPassword) validate.confirmPassword = "Please confirm password";
-    setValidations(validate);
-  }, [email, password, username, firstName, lastName, confirmPassword]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!email) errors.email = "Email must be provided";
+    if (!username || username.length < 4)
+      errors.username = "Username must be greater than 4 characters";
+    if (!firstName) errors.firstName = "First Name must be provided";
+    if (!lastName) errors.lastName = "Last Name must be provided";
+    if (!password || password.length < 6)
+      errors.password = "Password must be greater than 6 characters";
+    if (!confirmPassword) errors.confirmPassword = "Please confirm password";
+
+    setErrors(errors);
     if (password === confirmPassword) {
       setErrors({});
       return dispatch(
@@ -82,8 +77,8 @@ function SignupFormModal() {
             required
           />
         </label>
-        {"username" in validations && (
-          <p className="validationsSignUp">{validations.username}</p>
+        {"username" in errors && (
+          <p className="validationsSignUp">{errors.username}</p>
         )}
         {errors.username && <p id="errorsMessage">{errors.username}</p>}
         First Name
@@ -125,15 +120,12 @@ function SignupFormModal() {
             required
           />
         </label>
-        {"password" in validations && (
-          <p className="validationsSignUp">{validations.password}</p>
+        {"password" in errors && (
+          <p className="validationsSignUp">{errors.password}</p>
         )}
         {errors.message && <p id="errorsMessage">{errors.message}</p>}
         <div id="signUp">
-          <button
-            type="submit"
-            disabled={Object.values(validations).length > 0}
-          >
+          <button type="submit" disabled={Object.values(errors).length > 0}>
             Sign Up
           </button>
         </div>

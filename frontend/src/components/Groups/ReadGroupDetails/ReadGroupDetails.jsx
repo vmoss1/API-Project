@@ -145,7 +145,7 @@ const ReadGroupDetails = () => {
               </button>
             )}
             {isGroupOrganizer && (
-              <button id="deleteGroupButton" onClick={deleteModal}>
+              <button id="delete-button" onClick={deleteModal}>
                 Delete
               </button>
             )}

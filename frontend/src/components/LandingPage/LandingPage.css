@@ -36,7 +36,7 @@
   align-content: center;
   border: 2px black solid;
   border-radius: 10px;
-  box-shadow: rgb(177, 177, 178) 5px 10px 20px 5px;
+  box-shadow: rgb(177, 177, 178) 0 0 4px 5px;
   z-index: 0;
 }
 
@@ -44,7 +44,7 @@
   height: 100px;
   width: 100px;
   position: absolute;
-  top: 8%;
+  top: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -70,6 +70,8 @@
   display: flex;
   justify-content: center;
   margin-bottom: 15px;
+  margin-top: 10px;
+  border: none;
 }
 
 button {
@@ -84,6 +86,7 @@ button {
   justify-content: center;
   font-size: 25px;
   color: rgb(200, 202, 176);
+  margin-top: 20px;
 }
 
 #paragraphAbout {
@@ -91,6 +94,7 @@ button {
   word-wrap: break-word;
   font-family: fantasy;
   color: rgb(200, 202, 176);
+  margin-bottom: 30px;
 }
 
 .landing-img {
@@ -98,12 +102,13 @@ button {
   height: 350px;
   border: 2px black solid;
   border-radius: 10px;
-  box-shadow: rgb(200, 202, 176) 5px 5px 10px;
+  box-shadow: rgb(200, 202, 176) 0 0 4px 5px;
 }
 
 .landing-img:hover {
-  box-shadow: rgb(0, 167, 167) 2px 5px 10px;
+  box-shadow: rgb(0, 167, 167) 20 0 4px 5px;
   transform: scale(1.1);
+  transition: transform 0.5s ease;
 }
 
 .landingCards {
@@ -126,6 +131,7 @@ button {
 .landing-link:hover {
   color: rgb(0, 167, 167);
   transform: scale(1.1);
+  transition: transform 0.5s ease;
 }
 
 .landing-link-disabled {

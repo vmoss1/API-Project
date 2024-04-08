@@ -8,6 +8,7 @@
   border: 2px black solid;
   border-radius: 10px;
   box-shadow: rgb(180, 180, 180) 1px 6px 12px 5px;
+  margin-bottom: 30px;
 }
 
 #backToGroupLink {
@@ -15,23 +16,24 @@
   height: 50px;
   margin-top: 18px;
 }
-
 .paraGroupDetailsTop {
   font-family: fantasy;
+  margin-top: 15px;
 }
 
 #topDetailsParagraph {
   display: flex;
   flex-direction: column;
   margin-left: 10px;
+  margin-right: 10px;
+}
+
+#delete-button {
+  background-color: rgba(177, 38, 38, 0.676);
 }
 
 #h1Name {
   margin-left: 5px;
-}
-
-button {
-  background-color: grey;
 }
 
 #backToLabel:hover {
@@ -39,7 +41,7 @@ button {
 }
 
 .paraGroupDetails {
-  margin-top: 2px;
+  margin-top: 10px;
   margin-left: 10px;
   font-family: fantasy;
   color: antiquewhite;
@@ -47,6 +49,7 @@ button {
 
 .bottomHalfDetails {
   color: rgb(220, 220, 220);
+  margin-top: 10px;
 }
 
 .buttonContainer {
@@ -61,7 +64,7 @@ button {
   justify-content: center;
   align-items: flex-start;
   letter-spacing: 1px;
-  margin-top: 5px;
+
   padding: 0px;
   background-image: url(https://img.freepik.com/premium-photo/blue-feathers-closeup-background-generative-ai_791958-114.jpg);
 }
@@ -116,10 +119,10 @@ button {
 }
 
 #createButton {
-  background-color: grey;
+  background-color: rgba(208, 208, 208, 0.673);
 }
 #Update {
-  background-color: grey;
+  background-color: rgba(208, 208, 208, 0.673);
 }
 
 #backToLabel {

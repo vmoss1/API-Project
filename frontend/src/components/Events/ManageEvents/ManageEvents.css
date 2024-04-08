@@ -5,6 +5,7 @@
   border-radius: 10px;
   margin-right: 20px;
   box-shadow: rgb(180, 180, 180) 1px 6px 12px 5px;
+  margin-top: 15px;
 }
 
 #EventPageDetails {
@@ -37,6 +38,7 @@
   align-items: center;
   flex-direction: column;
   background-color: rgb(0, 15, 90);
+  min-height: 500px;
 }
 
 #timeContainer {
@@ -50,10 +52,6 @@
   color: aliceblue;
   font-size: 2rem;
   font-family: fantasy;
-}
-
-button {
-  background-color: grey;
 }
 
 #icons {
@@ -119,7 +117,11 @@ button {
 }
 
 #noButton {
-  background-color: rgb(128, 128, 128);
+  background-color: rgba(208, 208, 208, 0.673);
+}
+
+#update-button {
+  background-color: rgba(208, 208, 208, 0.673);
 }
 
 .paragraphDetails {

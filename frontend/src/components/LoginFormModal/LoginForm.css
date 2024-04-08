@@ -23,6 +23,7 @@ form {
   justify-content: center;
   margin-bottom: 5px;
   gap: 20px;
+  margin-top: 10px;
 }
 
 .loginValidations {

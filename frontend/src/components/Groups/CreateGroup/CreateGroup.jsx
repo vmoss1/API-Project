@@ -97,7 +97,7 @@ const CreateGroup = () => {
             you with Wizards/Witches in your area, and more can join you online.
           </p>
           <div id="cityStateContainer">
-            <label htmlFor="location">
+            <label>
               <input
                 type="text"
                 name="location"
@@ -127,7 +127,7 @@ const CreateGroup = () => {
             is about. You can edit this later if you change your mind.
           </p>
           <div id="groupNameContainer">
-            <label htmlFor="name">
+            <label>
               <input
                 type="text"
                 name="name"
@@ -206,7 +206,7 @@ const CreateGroup = () => {
           <p className="group_Form">
             Please add an image url for your group below:
           </p>
-          <label htmlFor="image">
+          <label>
             <input
               type="text"
               name="Image"
@@ -225,7 +225,7 @@ const CreateGroup = () => {
         <div id="createVenueContainer">
           <h2>Create a Venue for your Group Events</h2>
           <p className="group_Form">What is the Street Address?</p>
-          <label htmlFor="address">
+          <label>
             <input
               type="text"
               name="address"
@@ -241,7 +241,7 @@ const CreateGroup = () => {
             )}
           </div>
           <p className="group_Form">What City will this be located in?</p>
-          <label htmlFor="cityVenue">
+          <label>
             <input
               type="text"
               name="cityVenue"
@@ -259,7 +259,7 @@ const CreateGroup = () => {
           <p className="group_Form">
             What is the State or Country this will be held?
           </p>
-          <label htmlFor="stateVenue">
+          <label>
             <input
               type="text"
               id="stateVenue"

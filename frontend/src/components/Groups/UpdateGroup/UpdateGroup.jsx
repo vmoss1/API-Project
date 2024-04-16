@@ -84,7 +84,7 @@ const UpdateGroup = () => {
             TheWand groups meet locally, in person and online. We will connect
             you with Wizards/Witches in your area, and more can join you online.
           </p>
-          <label htmlFor="city">
+          <label>
             <input
               type="text"
               name="city"
@@ -100,7 +100,7 @@ const UpdateGroup = () => {
             )}
           </div>
 
-          <label htmlFor="state">
+          <label>
             <input
               type="text"
               id="state"
@@ -122,7 +122,7 @@ const UpdateGroup = () => {
             Choose a name that will give people a clear idea of what the group
             is about. You can edit this later if you change your mind.
           </p>
-          <label htmlFor="name">
+          <label>
             <input
               type="text"
               name="name"

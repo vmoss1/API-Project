@@ -69,7 +69,7 @@ const CreateEvent = () => {
         <div id="nameBox">
           <h2>Name your event</h2>
 
-          <label htmlFor="name">
+          <label  >
             <input
               type="text"
               name="name"
@@ -104,7 +104,7 @@ const CreateEvent = () => {
 
           <div id="eventPriceBox">
             <p>What is the price for your event?</p>
-            <label htmlFor="price">
+            <label >
               <input
                 type="number"
                 name="price"
@@ -154,7 +154,7 @@ const CreateEvent = () => {
 
         <div id="finalStepsBox">
           <p>Please add an image url for your event below:</p>
-          <label htmlFor="image">
+          <label  >
             <input
               type="text"
               name="Image"
